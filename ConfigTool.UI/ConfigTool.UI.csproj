@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConfigTool.DataAccess\ConfigTool.DataAccess.csproj" />
     <ProjectReference Include="..\ConfigTool.Model\ConfigTool.Models.csproj" />
   </ItemGroup>
