@@ -87,7 +87,7 @@ namespace ConfigTool.DataAccess
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseFirebird("Server=localhost;Database=C:\\Dev\\Repositories\\MC5\\290\\HMI.04.03.30.000\\MC5\\bin\\Debug\\Config\\MC5_CONFIG.FDB;user id=SYSDBA;password=SYSDBA;character set=UTF8;DIALECT=3");
+                optionsBuilder.UseFirebird("Server=localhost;Database=C:\\Users\\gea.halle.cni\\Source\\Repos\\ConfigTool\\Config\\MC5_CONFIG.FDB;user id=SYSDBA;password=SYSDBA;character set=UTF8;DIALECT=3");
             }
         }
 

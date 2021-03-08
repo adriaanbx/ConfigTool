@@ -8,6 +8,6 @@ namespace ConfigTool.UI.Repositories
 {
     public interface IPlcTagRepository
     {
-        Task<IEnumerable<Plctag>> GetAll();
+        Task<IEnumerable<Plctag>> GetAllAsync();
     }
 }

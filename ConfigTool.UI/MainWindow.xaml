@@ -14,7 +14,9 @@
 
         <ListView ItemsSource="{Binding PlcTags}"
                   SelectedItem="{Binding SelectedPlctag, Mode=TwoWay}"
-                  DisplayMemberPath="Name"/>
+                  DisplayMemberPath="Name"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.CanContentScroll="True"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

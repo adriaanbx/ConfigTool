@@ -15,14 +15,12 @@ namespace ConfigTool.UI.Repositories
         public PlctagRepository(ModelContext modelContext)
         {
             _modelContext = modelContext;
+
         }
 
-        public async Task<IEnumerable<Plctag>> GetAll()
+        public async Task<IEnumerable<Plctag>> GetAllAsync()
         {
-            using (_modelContext)
-            {
-                return await _modelContext.Plctag.ToListAsync();
-            }
+            return await _modelContext.Plctag.ToListAsync();
         }
     }
 }

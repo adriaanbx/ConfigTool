@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModel
 {
@@ -19,8 +20,11 @@ namespace ConfigTool.UI.ViewModel
             get { return _selectedPlctag; }
             set
             {
-                _selectedPlctag = value;
-                OnPropertyChanged();
+                if (_selectedPlctag != value)
+                {
+                    _selectedPlctag = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -31,9 +35,9 @@ namespace ConfigTool.UI.ViewModel
             _plcTagRepository = plcTagRepository;
         }
 
-        public async void Load()
+        public async Task LoadAsync()
         {
-            var plcTags = await _plcTagRepository.GetAll();
+            var plcTags = await _plcTagRepository.GetAllAsync();
             PlcTags.Clear();
             foreach (var plctag in plcTags)
             {

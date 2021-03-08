@@ -20,7 +20,7 @@ namespace ConfigTool.UI.Repositories
 
         }
 
-        public Task<IEnumerable<Plctag>> GetAll()
+        public Task<IEnumerable<Plctag>> GetAllAsync()
         {
             return Task.FromResult(_plctags as IEnumerable<Plctag>);           
         }
