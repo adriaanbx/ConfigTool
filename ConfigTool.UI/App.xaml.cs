@@ -1,22 +1,52 @@
-﻿using Autofac;
-using ConfigTool.UI.Startup;
+﻿using ConfigTool.DataAccess;
+using ConfigTool.UI.Repositories;
+using ConfigTool.UI.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 using System.Windows;
 
 namespace ConfigTool.UI
 {
     public partial class App : Application
     {
+        public IServiceProvider ServiceProvider { get; private set; }
+
+        public IConfiguration Configuration { get; private set; }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Define Dependency Container
-            var bootstrapper = new Bootstrapper();
-            var container = bootstrapper.Bootstrap();
+            // Define configuration files
+            var builder = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            // Create new mainwindow object with dependency injection
-            var mainWindow = container.Resolve<MainWindow>();
+            // Build application with defined configuration files
+            Configuration = builder.Build();
 
-            // Show mainwindow
+            //Build IoC containter
+            var serviceCollection = new ServiceCollection();
+
+            //Add services to IoC container
+            ConfigureServices(serviceCollection);
+
+            //Build Serviceprovider
+            ServiceProvider = serviceCollection.BuildServiceProvider();
+
+            //Build mainWindow
+            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+        }
+
+        private void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<IPlcTagRepository, PlctagRepository>();
+            services.AddDbContext<ModelContext>(options =>
+                options.UseFirebird(Configuration.GetConnectionString("ConfigToolDatabase")));
         }
     }
 }
