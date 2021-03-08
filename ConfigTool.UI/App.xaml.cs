@@ -4,6 +4,7 @@ using ConfigTool.UI.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Windows;
@@ -12,41 +13,45 @@ namespace ConfigTool.UI
 {
     public partial class App : Application
     {
-        public IServiceProvider ServiceProvider { get; private set; }
+        private readonly IHost host;
 
-        public IConfiguration Configuration { get; private set; }
-
-        private void Application_Startup(object sender, StartupEventArgs e)
+        public App()
         {
-            // Define configuration files
-            var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            // Build application with defined configuration files
-            Configuration = builder.Build();
-
-            //Build IoC containter
-            var serviceCollection = new ServiceCollection();
-
-            //Add services to IoC container
-            ConfigureServices(serviceCollection);
-
-            //Build Serviceprovider
-            ServiceProvider = serviceCollection.BuildServiceProvider();
-
-            //Build mainWindow
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            host = Host.CreateDefaultBuilder()
+                   .ConfigureServices((context, services) =>
+                   {
+                       ConfigureServices(context.Configuration, services);
+                   })
+                   .Build();
         }
 
-        private void ConfigureServices(IServiceCollection services)
+        private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IPlcTagRepository, PlctagRepository>();
             services.AddDbContext<ModelContext>(options =>
-                options.UseFirebird(Configuration.GetConnectionString("ConfigToolDatabase")));
+                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")));
+        }
+
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            await host.StartAsync();
+
+            var mainWindow = host.Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
+
+            base.OnStartup(e);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            using (host)
+            {
+                await host.StopAsync(TimeSpan.FromSeconds(5));
+            }
+
+            base.OnExit(e);
         }
     }
 }
