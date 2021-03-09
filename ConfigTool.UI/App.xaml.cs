@@ -27,9 +27,9 @@ namespace ConfigTool.UI
 
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
-            services.AddSingleton<MainWindow>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<IPlcTagRepository, PlctagRepository>();
+            services.AddScoped<MainWindow>();
+            services.AddScoped<MainViewModel>();
+            services.AddScoped<IPlcTagRepository, PlctagRepository>();
             services.AddDbContext<ModelContext>(options =>
                 options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")));
         }
@@ -38,8 +38,8 @@ namespace ConfigTool.UI
         {
             await host.StartAsync();
 
-            var mainWindow = host.Services.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            var mainWindow = host.Services.CreateScope().ServiceProvider.GetRequiredService<MainWindow>();
+             mainWindow.Show();
 
             base.OnStartup(e);
         }

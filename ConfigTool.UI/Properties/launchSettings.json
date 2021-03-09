@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConfigTool.UI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
