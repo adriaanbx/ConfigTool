@@ -18,10 +18,14 @@ namespace ConfigTool.UI
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            var environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+
             // Define configuration files
             var builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+             .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+             .AddEnvironmentVariables();
 
             // Build application with defined configuration files
             Configuration = builder.Build();
