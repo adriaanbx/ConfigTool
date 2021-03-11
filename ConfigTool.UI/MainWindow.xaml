@@ -8,15 +8,22 @@
         Title="ConfigTool" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <ListView ItemsSource="{Binding PlcTags}"
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" CanContentScroll="True" >
+            <ListView ItemsSource="{Binding PlcTags}"
                   SelectedItem="{Binding SelectedPlctag, Mode=TwoWay}"
-                  DisplayMemberPath="Name"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ScrollViewer.CanContentScroll="True"/>
+                  DisplayMemberPath="Name">
+                <ListView.Template>
+                    <ControlTemplate>
+                        <!-- Empty template to allow ScrollViewer to capture mouse scroll -->
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListView.Template>
+            </ListView>
+        </ScrollViewer>
+        
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
