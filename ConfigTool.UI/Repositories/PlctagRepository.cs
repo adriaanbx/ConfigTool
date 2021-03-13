@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class PlctagRepository : IPlcTagRepository
+    public class PlctagRepository : IPlctagRepository
     {
         private readonly ModelContext _modelContext;
 
@@ -21,6 +21,11 @@ namespace ConfigTool.UI.Repositories
         public async Task<IEnumerable<Plctag>> GetAllAsync()
         {
             return await _modelContext.Plctag.ToListAsync();
+        }
+
+        public async Task<Plctag> GetByIdAsync(int id)
+        {
+            return await _modelContext.Plctag.FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface IPlcTagRepository
+    public interface IPlctagRepository
     {
         Task<IEnumerable<Plctag>> GetAllAsync();
+        Task<Plctag> GetByIdAsync(int id);
+
+
     }
 }

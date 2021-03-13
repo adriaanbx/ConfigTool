@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    class PlctagRepositoryFake : IPlcTagRepository
+    class PlctagRepositoryFake : IPlctagRepository
     {
         private List<Plctag> _plctags;
 
@@ -23,6 +23,11 @@ namespace ConfigTool.UI.Repositories
         public Task<IEnumerable<Plctag>> GetAllAsync()
         {
             return Task.FromResult(_plctags as IEnumerable<Plctag>);           
+        }
+
+        public Task<Plctag> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

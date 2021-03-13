@@ -10,39 +10,18 @@ namespace ConfigTool.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IPlcTagRepository _plcTagRepository;
-        private Plctag _selectedPlctag;
+        public INavigationViewModel NavigationViewModel { get; }
+        public IPlctagDetailViewModel PlctagDetailViewModel { get; }
 
-        public ObservableCollection<Plctag> PlcTags { get; set; }
-
-        public Plctag SelectedPlctag
+        public MainViewModel(INavigationViewModel navigationViewModel, IPlctagDetailViewModel plctagDetailViewModel)
         {
-            get { return _selectedPlctag; }
-            set
-            {
-                if (_selectedPlctag != value)
-                {
-                    _selectedPlctag = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-        public MainViewModel(IPlcTagRepository plcTagRepository)
-        {
-            PlcTags = new ObservableCollection<Plctag>();
-            _plcTagRepository = plcTagRepository;
+            NavigationViewModel = navigationViewModel;
+            PlctagDetailViewModel = plctagDetailViewModel;
         }
 
         public async Task LoadAsync()
         {
-            var plcTags = await _plcTagRepository.GetAllAsync();
-            PlcTags.Clear();
-            foreach (var plctag in plcTags)
-            {
-                PlcTags.Add(plctag);
-            }
+            await NavigationViewModel.LoadAsync();
         }
     }
 }

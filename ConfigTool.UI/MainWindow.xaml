@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigTool.UI"
+        xmlns:view="clr-namespace:ConfigTool.UI.View"
         mc:Ignorable="d"
         Title="ConfigTool" Height="450" Width="800">
     <Grid>
@@ -11,34 +12,8 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" CanContentScroll="True" >
-            <ListView ItemsSource="{Binding PlcTags}"
-                  SelectedItem="{Binding SelectedPlctag, Mode=TwoWay}"
-                  DisplayMemberPath="Name">
-                <ListView.Template>
-                    <ControlTemplate>
-                        <!-- Empty template to allow ScrollViewer to capture mouse scroll -->
-                        <ItemsPresenter />
-                    </ControlTemplate>
-                </ListView.Template>
-            </ListView>
-        </ScrollViewer>
-        
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            
-            <Label Content="Id" Margin="10 10 10 0"/>
-            <TextBox Grid.Row="1" Text="{Binding SelectedPlctag.Id}" Margin = "10 0 10 10"/>
-
-            <Label Grid.Row="2" Content="Name" Margin="10 10 10 0"/>
-            <TextBox Grid.Row="3" Text="{Binding SelectedPlctag.Name}" Margin = "10 0 10 10"/>
-        </Grid>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
+        <view:PlctagDetailView Grid.Row="1" DataContext="{Binding PlctagDetailViewModel}"/>
     </Grid>
-    
 </Window>

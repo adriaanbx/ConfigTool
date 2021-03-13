@@ -29,7 +29,10 @@ namespace ConfigTool.UI
         {
             services.AddScoped<MainWindow>();
             services.AddScoped<MainViewModel>();
-            services.AddScoped<IPlcTagRepository, PlctagRepository>();
+            services.AddScoped<IPlctagRepository, PlctagRepository>();
+            services.AddScoped<IPlctagLookupDataRepository, LookupDataRepository>();
+            services.AddScoped<INavigationViewModel, NavigationViewModel>();
+            services.AddScoped<IPlctagDetailViewModel, PlctagDetailViewModel>();
             services.AddDbContext<ModelContext>(options =>
                 options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")));
         }
