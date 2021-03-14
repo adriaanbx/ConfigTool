@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prism.Events;
 using System;
 using System.IO;
 using System.Windows;
@@ -29,6 +30,7 @@ namespace ConfigTool.UI
         {
             services.AddScoped<MainWindow>();
             services.AddScoped<MainViewModel>();
+            services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddScoped<IPlctagRepository, PlctagRepository>();
             services.AddScoped<IPlctagLookupDataRepository, LookupDataRepository>();
             services.AddScoped<INavigationViewModel, NavigationViewModel>();

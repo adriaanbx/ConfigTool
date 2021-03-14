@@ -9,6 +9,7 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True" >
             <ListView ItemsSource="{Binding Plctags}"
+                      SelectedItem="{Binding SelectedPlctag, Mode=TwoWay}"
                       DisplayMemberPath="DisplayMember">
                 <ListView.Template>
                     <ControlTemplate>
