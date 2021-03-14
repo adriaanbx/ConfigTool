@@ -1,20 +1,24 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
+using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ConfigTool.UI.ViewModel
 {
     public class PlctagDetailViewModel : ViewModelBase, IPlctagDetailViewModel
     {
+        #region Fields
+
         private readonly IPlctagRepository _plctagRepository;
         private readonly IEventAggregator _eventAggregator;
         private Plctag _plctag;
+        #endregion
+
+        #region Properties
 
         public Plctag Plctag
         {
@@ -27,6 +31,10 @@ namespace ConfigTool.UI.ViewModel
             }
         }
 
+        public ICommand SaveCommand { get; }
+        #endregion
+
+        #region Constructors
 
         public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator)
         {
@@ -34,16 +42,39 @@ namespace ConfigTool.UI.ViewModel
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
                 .Subscribe(OnOpenPlctagDetailView);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+        }
+        #endregion
+
+        #region Methods
+
+        private async void OnSaveExecute()
+        {
+            await _plctagRepository.SaveAsync(Plctag);
+            _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
+            {
+                Id = Plctag.Id,
+                DisplayMember = Plctag.Name
+            });
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            //Todo: Check if Plctag is valid
+            return true;
         }
 
         private async void OnOpenPlctagDetailView(int plctagId)
         {
-             await LoadAsync(plctagId);
+            await LoadAsync(plctagId);
         }
 
         public async Task LoadAsync(int plctagId)
         {
             Plctag = await _plctagRepository.GetByIdAsync(plctagId);
         }
+        #endregion
+
     }
 }

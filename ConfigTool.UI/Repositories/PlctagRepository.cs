@@ -27,5 +27,11 @@ namespace ConfigTool.UI.Repositories
         {
             return await _modelContext.Plctag.FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        public async Task SaveAsync(Plctag plctag)
+        {
+            _modelContext.Plctag.Update(plctag);
+            await _modelContext.SaveChangesAsync();
+        }
     }
 }

@@ -29,5 +29,10 @@ namespace ConfigTool.UI.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Task SaveAsync(Plctag plctag)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

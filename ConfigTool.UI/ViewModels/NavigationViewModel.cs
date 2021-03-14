@@ -1,8 +1,11 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
+using ConfigTool.UI.ViewModels;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModel
@@ -12,10 +15,10 @@ namespace ConfigTool.UI.ViewModel
         private readonly IPlctagLookupDataRepository _plctagLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
 
-        public ObservableCollection<LookupItem> Plctags { get; }
-        private LookupItem _selectedPlctag;
+        public ObservableCollection<NavigationItemViewModel> Plctags { get; }
+        private NavigationItemViewModel _selectedPlctag;
 
-        public LookupItem SelectedPlctag
+        public NavigationItemViewModel SelectedPlctag
         {
             get { return _selectedPlctag; }
             set
@@ -37,7 +40,15 @@ namespace ConfigTool.UI.ViewModel
         {
             _plctagLookupDataRepository = plctagLookupDataRepository;
             _eventAggregator = eventAggregator;
-            Plctags = new ObservableCollection<LookupItem>();
+            Plctags = new ObservableCollection<NavigationItemViewModel>();
+            _eventAggregator.GetEvent<AfterPlctagSavedEvent>()
+                .Subscribe(AfterPlctagSaved);
+        }
+
+        private void AfterPlctagSaved(AfterPlctagSavedEventArgs eventArgs)
+        {
+            var lookupItem = Plctags.First(p => p.Id == eventArgs.Id);
+            lookupItem.DisplayMember = eventArgs.DisplayMember;
         }
 
         public async Task LoadAsync()
@@ -46,7 +57,7 @@ namespace ConfigTool.UI.ViewModel
             Plctags.Clear();
             foreach (var item in lookup)
             {
-                Plctags.Add(item);
+                Plctags.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
             }
         }
 
