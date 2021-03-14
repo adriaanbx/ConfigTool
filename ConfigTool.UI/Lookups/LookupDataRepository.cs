@@ -1,13 +1,12 @@
 ﻿using ConfigTool.DataAccess;
 using ConfigTool.Models;
+using ConfigTool.UI.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ConfigTool.UI.Repositories
+namespace ConfigTool.UI.Lookups
 {
     public class LookupDataRepository : IPlctagLookupDataRepository
     {

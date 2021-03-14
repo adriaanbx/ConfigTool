@@ -40,9 +40,7 @@ namespace ConfigTool.UI.ViewModel
         {
             _plctagRepository = plctagRepository;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                .Subscribe(OnOpenPlctagDetailView);
-
+            
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
         #endregion
@@ -51,7 +49,7 @@ namespace ConfigTool.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-            await _plctagRepository.SaveAsync(Plctag);
+            await _plctagRepository.SaveAsync();
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
             {
                 Id = Plctag.Id,
@@ -63,11 +61,6 @@ namespace ConfigTool.UI.ViewModel
         {
             //Todo: Check if Plctag is valid
             return true;
-        }
-
-        private async void OnOpenPlctagDetailView(int plctagId)
-        {
-            await LoadAsync(plctagId);
         }
 
         public async Task LoadAsync(int plctagId)

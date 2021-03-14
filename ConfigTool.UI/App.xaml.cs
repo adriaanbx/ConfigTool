@@ -1,4 +1,5 @@
 ﻿using ConfigTool.DataAccess;
+using ConfigTool.UI.Lookups;
 using ConfigTool.UI.Repositories;
 using ConfigTool.UI.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prism.Events;
 using System;
-using System.IO;
 using System.Windows;
 
 namespace ConfigTool.UI
@@ -28,23 +28,24 @@ namespace ConfigTool.UI
 
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
-            services.AddScoped<MainWindow>();
-            services.AddScoped<MainViewModel>();
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainViewModel>();
             services.AddSingleton<IEventAggregator, EventAggregator>();
-            services.AddScoped<IPlctagRepository, PlctagRepository>();
-            services.AddScoped<IPlctagLookupDataRepository, LookupDataRepository>();
-            services.AddScoped<INavigationViewModel, NavigationViewModel>();
-            services.AddScoped<IPlctagDetailViewModel, PlctagDetailViewModel>();
+            services.AddTransient<IPlctagRepository, PlctagRepository>();
+            services.AddTransient<IPlctagLookupDataRepository, LookupDataRepository>();
+            services.AddTransient<INavigationViewModel, NavigationViewModel>();
+            services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
+            services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
             services.AddDbContext<ModelContext>(options =>
-                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")));
+                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")),ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
         {
             await host.StartAsync();
 
-            var mainWindow = host.Services.CreateScope().ServiceProvider.GetRequiredService<MainWindow>();
-             mainWindow.Show();
+            var mainWindow = host.Services.GetService<MainWindow>();
+            mainWindow.Show();
 
             base.OnStartup(e);
         }

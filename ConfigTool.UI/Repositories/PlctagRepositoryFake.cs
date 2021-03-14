@@ -30,7 +30,7 @@ namespace ConfigTool.UI.Repositories
             throw new NotImplementedException();
         }
 
-        public Task SaveAsync(Plctag plctag)
+        public Task SaveAsync()
         {
             throw new NotImplementedException();
         }
