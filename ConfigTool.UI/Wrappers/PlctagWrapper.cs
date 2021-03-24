@@ -1,58 +1,52 @@
 ﻿using ConfigTool.Models;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class PlctagWrapper : NotifyErrorInfobase
+    public class PlctagWrapper : ModelWrapper<Plctag>
     {
-        public Plctag Model { get; }
-
         public int Id
         {
-            get { return Model.Id; }
-            set { Model.Id = value; }
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
         }
 
         public string Name
         {
-            get { return Model.Name; }
+            get { return GetValue<string>(); }
             set
             {
-                Model.Name = value;
-                OnPropertyChanged();
-                ValidateProperty(nameof(Name));
-            }
-        }
-
-        private void ValidateProperty(string propertyName)
-        {
-            ClearErrors(propertyName);
-            switch (propertyName)
-            {
-                case nameof(Name):
-                    if (string.Equals(Name, "Robot", StringComparison.OrdinalIgnoreCase))
-                    {
-                        AddError(propertyName, "Robot is not a valid Plctag");
-                    }
-                    break;
+                SetValue(value);
             }
         }
 
         public string Number
         {
-            get { return Model.Number; }
+            get { return GetValue<string>(); }
             set
             {
-                Model.Number = value;
-                OnPropertyChanged();
+                SetValue(value);
             }
         }
 
-        public PlctagWrapper(Plctag model)
+        public PlctagWrapper(Plctag model) : base(model)
         {
-            Model = model;
+        }
+
+        protected override IEnumerable<string> ValidateProperty(string propertyName)
+        {
+            switch (propertyName)
+            {
+                case nameof(Name):
+                    if (string.Equals(Name, "Test", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return "Test is not a valid Plctag";
+                    }
+                    break;
+            }
         }
     }
 }

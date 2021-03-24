@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class NotifyErrorInfobase: ViewModelBase, INotifyDataErrorInfo
+    public class NotifyDataErrorInfoBase: ViewModelBase, INotifyDataErrorInfo
     {
         private Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 
