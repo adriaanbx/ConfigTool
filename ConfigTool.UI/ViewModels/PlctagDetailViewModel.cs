@@ -1,6 +1,7 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
+using ConfigTool.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -15,12 +16,12 @@ namespace ConfigTool.UI.ViewModel
 
         private readonly IPlctagRepository _plctagRepository;
         private readonly IEventAggregator _eventAggregator;
-        private Plctag _plctag;
+        private PlctagWrapper _plctag;
         #endregion
 
         #region Properties
 
-        public Plctag Plctag
+        public PlctagWrapper Plctag
         {
             get { return _plctag; }
             private set
@@ -65,7 +66,8 @@ namespace ConfigTool.UI.ViewModel
 
         public async Task LoadAsync(int plctagId)
         {
-            Plctag = await _plctagRepository.GetByIdAsync(plctagId);
+            var plctag = await _plctagRepository.GetByIdAsync(plctagId);
+            Plctag = new PlctagWrapper(plctag);
         }
         #endregion
 
