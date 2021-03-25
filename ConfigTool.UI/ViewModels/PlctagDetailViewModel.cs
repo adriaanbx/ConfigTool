@@ -60,14 +60,24 @@ namespace ConfigTool.UI.ViewModel
 
         private bool OnSaveCanExecute()
         {
-            //Todo: Check if Plctag is valid
-            return true;
+            //Todo: Check if Plctag has changes
+            return Plctag != null && !Plctag.HasErrors;
         }
 
         public async Task LoadAsync(int plctagId)
         {
             var plctag = await _plctagRepository.GetByIdAsync(plctagId);
             Plctag = new PlctagWrapper(plctag);
+
+            Plctag.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Plctag.HasErrors))
+                {
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+            };
+
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         #endregion
 
