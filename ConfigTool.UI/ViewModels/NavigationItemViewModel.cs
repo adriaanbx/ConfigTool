@@ -1,15 +1,20 @@
-﻿using ConfigTool.UI.ViewModel;
+﻿using ConfigTool.UI.Events;
+using ConfigTool.UI.ViewModel;
+using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class NavigationItemViewModel : ViewModelBase
     {
         private string _displayMember;
+        private readonly IEventAggregator _eventAggregator;
 
         public int Id { get; }
         public string DisplayMember
@@ -25,10 +30,21 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        public NavigationItemViewModel(int id, string displayMember)
+        public NavigationItemViewModel(int id, string displayMember, IEventAggregator eventAggregator)
         {
             Id = id;
             DisplayMember = displayMember;
+            _eventAggregator = eventAggregator;
+            OpenPlctagDetailViewCommand = new DelegateCommand(OnOpenPlctagDetailView);
+        }
+
+        public ICommand OpenPlctagDetailViewCommand { get; }
+
+
+        private void OnOpenPlctagDetailView()
+        {
+            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                .Publish(Id);
         }
 
     }

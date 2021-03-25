@@ -16,25 +16,6 @@ namespace ConfigTool.UI.ViewModel
         private readonly IEventAggregator _eventAggregator;
 
         public ObservableCollection<NavigationItemViewModel> Plctags { get; }
-        private NavigationItemViewModel _selectedPlctag;
-
-        public NavigationItemViewModel SelectedPlctag
-        {
-            get { return _selectedPlctag; }
-            set
-            {
-                if (_selectedPlctag != value)
-                {
-                    _selectedPlctag = value;
-                    OnPropertyChanged();
-                    if (value != null)
-                        //Publish event to subscribers
-                        _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                            .Publish(_selectedPlctag.Id);
-                }
-            }
-        }
-
 
         public NavigationViewModel(IPlctagLookupDataRepository plctagLookupDataRepository, IEventAggregator eventAggregator)
         {
@@ -57,7 +38,7 @@ namespace ConfigTool.UI.ViewModel
             Plctags.Clear();
             foreach (var item in lookup)
             {
-                Plctags.Add(new NavigationItemViewModel(item.Id, item.DisplayMember));
+                Plctags.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
             }
         }
 
