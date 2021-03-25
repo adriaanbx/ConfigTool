@@ -2,6 +2,7 @@
 using ConfigTool.UI.Lookups;
 using ConfigTool.UI.Repositories;
 using ConfigTool.UI.ViewModel;
+using ConfigTool.UI.Views.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace ConfigTool.UI
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IEventAggregator, EventAggregator>();
+            services.AddSingleton<IMessageDialogService, MessageDialogService>();
             services.AddTransient<IPlctagRepository, PlctagRepository>();
             services.AddTransient<IPlctagLookupDataRepository, LookupDataRepository>();
             services.AddTransient<INavigationViewModel, NavigationViewModel>();

@@ -1,13 +1,8 @@
-﻿using ConfigTool.Models;
-using ConfigTool.UI.Events;
-using ConfigTool.UI.Repositories;
+﻿using ConfigTool.UI.Events;
+using ConfigTool.UI.Views.Services;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ConfigTool.UI.ViewModel
 {
@@ -15,6 +10,7 @@ namespace ConfigTool.UI.ViewModel
     {
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
         private IPlctagDetailViewModel _plctagDetailViewModel;
 
         public INavigationViewModel NavigationViewModel { get; }
@@ -33,11 +29,12 @@ namespace ConfigTool.UI.ViewModel
         }
 
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator, IEventAggregator eventAggregator)
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
 
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
                 .Subscribe(OnOpenPlctagDetailView);
 
@@ -51,10 +48,10 @@ namespace ConfigTool.UI.ViewModel
 
         private async void OnOpenPlctagDetailView(int plctagId)
         {
-            if(PlctagDetailViewModel !=null && PlctagDetailViewModel.HasChanges)
+            if (PlctagDetailViewModel != null && PlctagDetailViewModel.HasChanges)
             {
-                var result =MessageBox.Show("You've made changes. Navigate away?", "Question", MessageBoxButton.OKCancel);
-                if(result == MessageBoxResult.Cancel)
+                var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
+                if (result == MessageDialogResult.Cancel)
                 {
                     return;
                 }
