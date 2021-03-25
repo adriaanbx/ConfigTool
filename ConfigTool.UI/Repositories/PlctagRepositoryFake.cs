@@ -30,6 +30,11 @@ namespace ConfigTool.UI.Repositories
             throw new NotImplementedException();
         }
 
+        public bool HasChanges()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task SaveAsync()
         {
             throw new NotImplementedException();

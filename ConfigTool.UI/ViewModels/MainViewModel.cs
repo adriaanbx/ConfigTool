@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ConfigTool.UI.ViewModel
 {
@@ -50,6 +51,14 @@ namespace ConfigTool.UI.ViewModel
 
         private async void OnOpenPlctagDetailView(int plctagId)
         {
+            if(PlctagDetailViewModel !=null && PlctagDetailViewModel.HasChanges)
+            {
+                var result =MessageBox.Show("You've made changes. Navigate away?", "Question", MessageBoxButton.OKCancel);
+                if(result == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
             PlctagDetailViewModel = _plctagDetailViewModelCreator();
             await PlctagDetailViewModel.LoadAsync(plctagId);
         }

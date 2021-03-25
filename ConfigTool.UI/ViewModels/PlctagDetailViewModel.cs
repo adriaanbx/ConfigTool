@@ -17,6 +17,7 @@ namespace ConfigTool.UI.ViewModel
         private readonly IPlctagRepository _plctagRepository;
         private readonly IEventAggregator _eventAggregator;
         private PlctagWrapper _plctag;
+        private bool _hasChanges;
         #endregion
 
         #region Properties
@@ -33,6 +34,21 @@ namespace ConfigTool.UI.ViewModel
         }
 
         public ICommand SaveCommand { get; }
+
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+
+            }
+        }
         #endregion
 
         #region Constructors
@@ -41,7 +57,7 @@ namespace ConfigTool.UI.ViewModel
         {
             _plctagRepository = plctagRepository;
             _eventAggregator = eventAggregator;
-            
+
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
         #endregion
@@ -51,6 +67,7 @@ namespace ConfigTool.UI.ViewModel
         private async void OnSaveExecute()
         {
             await _plctagRepository.SaveAsync();
+            HasChanges = _plctagRepository.HasChanges();
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
             {
                 Id = Plctag.Id,
@@ -60,8 +77,7 @@ namespace ConfigTool.UI.ViewModel
 
         private bool OnSaveCanExecute()
         {
-            //Todo: Check if Plctag has changes
-            return Plctag != null && !Plctag.HasErrors;
+            return Plctag != null && !Plctag.HasErrors && HasChanges;
         }
 
         public async Task LoadAsync(int plctagId)
@@ -71,6 +87,11 @@ namespace ConfigTool.UI.ViewModel
 
             Plctag.PropertyChanged += (s, e) =>
             {
+                if (!HasChanges)
+                {
+                    HasChanges = _plctagRepository.HasChanges();
+                }
+
                 if (e.PropertyName == nameof(Plctag.HasErrors))
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();

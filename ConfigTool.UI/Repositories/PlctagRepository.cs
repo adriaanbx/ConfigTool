@@ -28,6 +28,11 @@ namespace ConfigTool.UI.Repositories
             return await _modelContext.Plctag.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public bool HasChanges()
+        {
+           return _modelContext.ChangeTracker.HasChanges();
+        }
+
         public async Task SaveAsync()
         {
             await _modelContext.SaveChangesAsync();

@@ -11,7 +11,7 @@ namespace ConfigTool.UI.Repositories
         Task<IEnumerable<Plctag>> GetAllAsync();
         Task<Plctag> GetByIdAsync(int id);
         Task SaveAsync();
-
+        bool HasChanges();
 
     }
 }
