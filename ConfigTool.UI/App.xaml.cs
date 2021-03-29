@@ -34,7 +34,8 @@ namespace ConfigTool.UI
             services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
             services.AddTransient<IPlctagRepository, PlctagRepository>();
-            services.AddTransient<IPlctagLookupDataRepository, LookupDataRepository>();
+            services.AddTransient<IPlctagLookupDataService, LookupDataService>();
+            services.AddTransient<IDatablockLookupDataService, LookupDataService>();
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
             services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());

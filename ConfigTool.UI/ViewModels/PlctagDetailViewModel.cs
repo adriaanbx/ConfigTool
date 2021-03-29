@@ -1,11 +1,13 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
+using ConfigTool.UI.Lookups;
 using ConfigTool.UI.Repositories;
 using ConfigTool.UI.Views.Services;
 using ConfigTool.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -18,6 +20,7 @@ namespace ConfigTool.UI.ViewModel
         private readonly IPlctagRepository _plctagRepository;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
+        private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private PlctagWrapper _plctag;
         private bool _hasChanges;
         #endregion
@@ -37,6 +40,7 @@ namespace ConfigTool.UI.ViewModel
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ObservableCollection<LookupItem> Datablocks { get; }
 
         public bool HasChanges
         {
@@ -56,14 +60,17 @@ namespace ConfigTool.UI.ViewModel
 
         #region Constructors
 
-        public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IDatablockLookupDataService datablockLookupDataRepository)
         {
             _plctagRepository = plctagRepository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+            _datablockLookupDataRepository = datablockLookupDataRepository;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
+
+            Datablocks = new ObservableCollection<LookupItem>();
         }
 
         #endregion
@@ -99,6 +106,14 @@ namespace ConfigTool.UI.ViewModel
         public async Task LoadAsync(int? plctagId)
         {
             var plctag = plctagId.HasValue ? await _plctagRepository.GetByIdAsync(plctagId.Value) : CreateNewPlctag();
+            
+            InitializePlctag(plctag);
+
+            await LoadDatablocksLookupAsync();
+        }
+
+        private void InitializePlctag(Plctag plctag)
+        {
             Plctag = new PlctagWrapper(plctag);
 
             Plctag.PropertyChanged += (s, e) =>
@@ -120,6 +135,16 @@ namespace ConfigTool.UI.ViewModel
             {
                 //Little trick to trigger the validation 
                 plctag.Name = "";
+            }
+        }
+
+        private async Task LoadDatablocksLookupAsync()
+        {
+            Datablocks.Clear();
+            var lookup = await _datablockLookupDataRepository.GetDatablockLookupAsync();
+            foreach (var lookupItem in lookup)
+            {
+                Datablocks.Add(lookupItem);
             }
         }
 

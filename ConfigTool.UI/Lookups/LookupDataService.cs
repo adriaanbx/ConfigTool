@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Lookups
 {
-    public class LookupDataRepository : IPlctagLookupDataRepository
+    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService
     {
         private readonly ModelContext _dbcontext;
 
-        public LookupDataRepository(ModelContext dbcontext)
+        public LookupDataService(ModelContext dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -20,6 +20,16 @@ namespace ConfigTool.UI.Lookups
         public async Task<IEnumerable<LookupItem>> GetPlctagLookupAsync()
         {
             return await _dbcontext.Plctag.Select(p =>
+            new LookupItem
+            {
+                Id = p.Id,
+                DisplayMember = p.Name
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<LookupItem>> GetDatablockLookupAsync()
+        {
+            return await _dbcontext.DataBlock.Select(p =>
             new LookupItem
             {
                 Id = p.Id,

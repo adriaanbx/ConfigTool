@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface IPlctagLookupDataRepository
+    public interface IPlctagLookupDataService
     {
         Task<IEnumerable<LookupItem>> GetPlctagLookupAsync();
     }

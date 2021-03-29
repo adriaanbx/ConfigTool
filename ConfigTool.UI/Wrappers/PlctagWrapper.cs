@@ -32,6 +32,15 @@ namespace ConfigTool.UI.Wrappers
             }
         }
 
+        public int? DataBlockId 
+        {
+            get { return GetValue<int?>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+
         public PlctagWrapper(Plctag model) : base(model)
         {
         }

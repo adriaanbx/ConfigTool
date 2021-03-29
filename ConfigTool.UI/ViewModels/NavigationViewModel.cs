@@ -12,12 +12,12 @@ namespace ConfigTool.UI.ViewModel
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
-        private readonly IPlctagLookupDataRepository _plctagLookupDataRepository;
+        private readonly IPlctagLookupDataService _plctagLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
 
         public ObservableCollection<NavigationItemViewModel> Plctags { get; }
 
-        public NavigationViewModel(IPlctagLookupDataRepository plctagLookupDataRepository, IEventAggregator eventAggregator)
+        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataRepository, IEventAggregator eventAggregator)
         {
             _plctagLookupDataRepository = plctagLookupDataRepository;
             _eventAggregator = eventAggregator;
