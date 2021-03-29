@@ -1,6 +1,7 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
+using ConfigTool.UI.Views.Services;
 using ConfigTool.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
@@ -16,6 +17,7 @@ namespace ConfigTool.UI.ViewModel
 
         private readonly IPlctagRepository _plctagRepository;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
         private PlctagWrapper _plctag;
         private bool _hasChanges;
         #endregion
@@ -34,6 +36,7 @@ namespace ConfigTool.UI.ViewModel
         }
 
         public ICommand SaveCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public bool HasChanges
         {
@@ -53,13 +56,16 @@ namespace ConfigTool.UI.ViewModel
 
         #region Constructors
 
-        public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator)
+        public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _plctagRepository = plctagRepository;
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute);
         }
+
         #endregion
 
         #region Methods
@@ -79,10 +85,20 @@ namespace ConfigTool.UI.ViewModel
         {
             return Plctag != null && !Plctag.HasErrors && HasChanges;
         }
-
-        public async Task LoadAsync(int plctagId)
+        private async void OnDeleteExecute()
         {
-            var plctag = await _plctagRepository.GetByIdAsync(plctagId);
+            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Plctag.Id} {Plctag.Name}?","Question");
+            if (result== MessageDialogResult.OK)
+            {
+                _plctagRepository.Remove(Plctag.Model);
+                await _plctagRepository.SaveAsync();
+                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Plctag.Id);
+            }            
+        }
+
+        public async Task LoadAsync(int? plctagId)
+        {
+            var plctag = plctagId.HasValue ? await _plctagRepository.GetByIdAsync(plctagId.Value) : CreateNewPlctag();
             Plctag = new PlctagWrapper(plctag);
 
             Plctag.PropertyChanged += (s, e) =>
@@ -99,6 +115,19 @@ namespace ConfigTool.UI.ViewModel
             };
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+
+            if (plctag.Id == 0)
+            {
+                //Little trick to trigger the validation 
+                plctag.Name = "";
+            }
+        }
+
+        private Plctag CreateNewPlctag()
+        {
+            var plctag = new Plctag();
+            _plctagRepository.Add(plctag);
+            return plctag;
         }
         #endregion
 

@@ -12,6 +12,7 @@ namespace ConfigTool.UI.Repositories
         Task<Plctag> GetByIdAsync(int id);
         Task SaveAsync();
         bool HasChanges();
-
+        void Add(Plctag plctag);
+        void Remove(Plctag model);
     }
 }

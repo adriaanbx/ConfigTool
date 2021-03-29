@@ -20,6 +20,11 @@ namespace ConfigTool.UI.Repositories
 
         }
 
+        public void Add(Plctag plctag)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Plctag>> GetAllAsync()
         {
             return Task.FromResult(_plctags as IEnumerable<Plctag>);           
@@ -31,6 +36,11 @@ namespace ConfigTool.UI.Repositories
         }
 
         public bool HasChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(Plctag model)
         {
             throw new NotImplementedException();
         }

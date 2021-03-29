@@ -1,8 +1,10 @@
 ﻿using ConfigTool.UI.Events;
 using ConfigTool.UI.Views.Services;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ConfigTool.UI.ViewModel
 {
@@ -35,18 +37,23 @@ namespace ConfigTool.UI.ViewModel
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                .Subscribe(OnOpenPlctagDetailView);
+            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
+            _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
+
+            CreateNewPlctagCommand = new DelegateCommand(OnCreatenewPlctagExecute);
 
             NavigationViewModel = navigationViewModel;
         }
+
 
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
         }
 
-        private async void OnOpenPlctagDetailView(int plctagId)
+        public ICommand CreateNewPlctagCommand { get; }
+
+        private async void OnOpenPlctagDetailView(int? plctagId)
         {
             if (PlctagDetailViewModel != null && PlctagDetailViewModel.HasChanges)
             {
@@ -59,5 +66,15 @@ namespace ConfigTool.UI.ViewModel
             PlctagDetailViewModel = _plctagDetailViewModelCreator();
             await PlctagDetailViewModel.LoadAsync(plctagId);
         }
+        private void OnCreatenewPlctagExecute()
+        {
+            OnOpenPlctagDetailView(null);
+        }
+
+        private void AfterPlctagDeleted(int plctagId)
+        {
+            PlctagDetailViewModel = null;
+        }
+
     }
 }

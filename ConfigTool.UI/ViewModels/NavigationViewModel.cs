@@ -22,14 +22,8 @@ namespace ConfigTool.UI.ViewModel
             _plctagLookupDataRepository = plctagLookupDataRepository;
             _eventAggregator = eventAggregator;
             Plctags = new ObservableCollection<NavigationItemViewModel>();
-            _eventAggregator.GetEvent<AfterPlctagSavedEvent>()
-                .Subscribe(AfterPlctagSaved);
-        }
-
-        private void AfterPlctagSaved(AfterPlctagSavedEventArgs eventArgs)
-        {
-            var lookupItem = Plctags.First(p => p.Id == eventArgs.Id);
-            lookupItem.DisplayMember = eventArgs.DisplayMember;
+            _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterPlctagSaved);
+            _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
         }
 
         public async Task LoadAsync()
@@ -39,6 +33,28 @@ namespace ConfigTool.UI.ViewModel
             foreach (var item in lookup)
             {
                 Plctags.Add(new NavigationItemViewModel(item.Id, item.DisplayMember, _eventAggregator));
+            }
+        }
+
+        private void AfterPlctagDeleted(int plctagId)
+        {
+            var plctag = Plctags.FirstOrDefault(p => p.Id == plctagId);
+            if(plctag != null)
+            {
+                Plctags.Remove(plctag);
+            }            
+        }
+
+        private void AfterPlctagSaved(AfterPlctagSavedEventArgs eventArgs)
+        {
+            var lookupItem = Plctags.FirstOrDefault(p => p.Id == eventArgs.Id);
+            if (lookupItem == null)
+            {
+                Plctags.Add(new NavigationItemViewModel(eventArgs.Id, eventArgs.DisplayMember, _eventAggregator));
+            }
+            else
+            {
+                lookupItem.DisplayMember = eventArgs.DisplayMember;
             }
         }
 

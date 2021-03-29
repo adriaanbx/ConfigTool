@@ -8,7 +8,7 @@ namespace ConfigTool.UI.ViewModel
 {
     public interface IPlctagDetailViewModel
     {
-        Task LoadAsync(int plctagId);
+        Task LoadAsync(int? plctagId);
         bool HasChanges { get; }
     }
 }

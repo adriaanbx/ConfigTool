@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Events
 {
-    public class OpenPlctagDetailViewEvent : PubSubEvent<int>
+    public class OpenPlctagDetailViewEvent : PubSubEvent<int?>
     {
     }
 }

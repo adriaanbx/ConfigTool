@@ -18,6 +18,11 @@ namespace ConfigTool.UI.Repositories
 
         }
 
+        public void Add(Plctag plctag)
+        {
+           _modelContext.Plctag.Add(plctag);
+        }
+
         public async Task<IEnumerable<Plctag>> GetAllAsync()
         {
             return await _modelContext.Plctag.ToListAsync();
@@ -31,6 +36,11 @@ namespace ConfigTool.UI.Repositories
         public bool HasChanges()
         {
            return _modelContext.ChangeTracker.HasChanges();
+        }
+
+        public void Remove(Plctag model)
+        {
+            _modelContext.Plctag.Remove(model);
         }
 
         public async Task SaveAsync()

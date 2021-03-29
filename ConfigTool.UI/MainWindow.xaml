@@ -5,15 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigTool.UI"
         xmlns:view="clr-namespace:ConfigTool.UI.View"
+        xmlns:viewModel="clr-namespace:ConfigTool.UI.ViewModel"
         mc:Ignorable="d"
         Title="ConfigTool" Height="Auto" Width="800">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:PlctagDetailViewModel}">
+            <view:PlctagDetailView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        <view:PlctagDetailView Grid.Row="1" DataContext="{Binding PlctagDetailViewModel}"/>
+        <Menu FontSize="15">
+            <MenuItem Header="Create">
+                <MenuItem Header="New Plctag" Command="{Binding CreateNewPlctagCommand}"/>
+            </MenuItem>
+        </Menu>
+        <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationViewModel}"/>
+        <ContentControl Grid.Row="2" Content="{Binding PlctagDetailViewModel}"/>
     </Grid>
 </Window>
