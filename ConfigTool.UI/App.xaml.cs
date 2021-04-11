@@ -34,11 +34,12 @@ namespace ConfigTool.UI
             services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
             services.AddTransient<IPlctagRepository, PlctagRepository>();
+            services.AddTransient<IDatablockRepository, DatablockRepository>();
             services.AddTransient<IPlctagLookupDataService, LookupDataService>();
             services.AddTransient<IDatablockLookupDataService, LookupDataService>();
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
-            services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
-            services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
+            services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
+            services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddDbContext<ModelContext>(options =>
                 options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")),ServiceLifetime.Transient, ServiceLifetime.Transient);
         }

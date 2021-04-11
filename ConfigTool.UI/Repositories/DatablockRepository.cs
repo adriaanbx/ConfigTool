@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class PlctagRepository : IPlctagRepository
+    public class DatablockRepository : IDatablockRepository
     {
         private readonly ModelContext _modelContext;
 
-        public PlctagRepository(ModelContext modelContext)
+        public DatablockRepository(ModelContext modelContext)
         {
             _modelContext = modelContext;
 
         }
 
-        public void Add(Plctag plctag)
+        public void Add(DataBlock datablock)
         {
-           _modelContext.Plctag.Add(plctag);
+           _modelContext.DataBlock.Add(datablock);
         }
 
-        public async Task<IEnumerable<Plctag>> GetAllAsync()
+        public async Task<IEnumerable<DataBlock>> GetAllAsync()
         {
-            return await _modelContext.Plctag.ToListAsync();
+            return await _modelContext.DataBlock.ToListAsync();
         }
 
-        public async Task<Plctag> GetByIdAsync(int id)
+        public async Task<DataBlock> GetByIdAsync(int id)
         {
-            return await _modelContext.Plctag.FirstOrDefaultAsync(p => p.Id == id);
+            return await _modelContext.DataBlock.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public bool HasChanges()
@@ -38,9 +38,9 @@ namespace ConfigTool.UI.Repositories
            return _modelContext.ChangeTracker.HasChanges();
         }
 
-        public void Remove(Plctag model)
+        public void Remove(DataBlock model)
         {
-            _modelContext.Plctag.Remove(model);
+            _modelContext.DataBlock.Remove(model);
         }
 
         public async Task SaveAsync()
@@ -50,7 +50,7 @@ namespace ConfigTool.UI.Repositories
 
         public void GetForeignKeys()
         {
-            var key = _modelContext.Model.FindEntityType(typeof(Plctag)).GetForeignKeys();
+            var key = _modelContext.Model.FindEntityType(typeof(DataBlock)).GetForeignKeys();
         }
     }
 }

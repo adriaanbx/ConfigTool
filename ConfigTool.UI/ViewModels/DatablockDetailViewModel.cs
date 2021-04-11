@@ -13,27 +13,27 @@ using System.Windows.Input;
 
 namespace ConfigTool.UI.ViewModel
 {
-    public class PlctagDetailViewModel : ViewModelBase, IPlctagDetailViewModel
+    public class DatablockDetailViewModel : ViewModelBase, IDatablockDetailViewModel
     {
         #region Fields
 
-        private readonly IPlctagRepository _plctagRepository;
+        private readonly IDatablockRepository _datablockRepository;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
-        private PlctagWrapper _plctag;
+        private DatablockWrapper _datablock;
         private bool _hasChanges;
         #endregion
 
         #region Properties
 
-        public PlctagWrapper Plctag
+        public DatablockWrapper Datablock
         {
-            get { return _plctag; }
+            get { return _datablock; }
             private set
             {
-                if (_plctag != value)
-                { _plctag = value; }
+                if (_datablock != value)
+                { _datablock = value; }
                 OnPropertyChanged();
             }
         }
@@ -60,9 +60,9 @@ namespace ConfigTool.UI.ViewModel
 
         #region Constructors
 
-        public PlctagDetailViewModel(IPlctagRepository plctagRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IDatablockLookupDataService datablockLookupDataRepository)
+        public DatablockDetailViewModel(IDatablockRepository datablockRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IDatablockLookupDataService datablockLookupDataRepository)
         {
-            _plctagRepository = plctagRepository;
+            _datablockRepository = datablockRepository;
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _datablockLookupDataRepository = datablockLookupDataRepository;
@@ -70,7 +70,7 @@ namespace ConfigTool.UI.ViewModel
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
 
-            Datablocks = new ObservableCollection<LookupItem>();
+            //Datablocks = new ObservableCollection<LookupItem>();
         }
 
         #endregion
@@ -79,51 +79,51 @@ namespace ConfigTool.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-            await _plctagRepository.SaveAsync();
-            HasChanges = _plctagRepository.HasChanges();
+            await _datablockRepository.SaveAsync();
+            HasChanges = _datablockRepository.HasChanges();
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
             {
-                Id = Plctag.Id,
-                DisplayMember = Plctag.Name
+                Id = Datablock.Id,
+                DisplayMember = Datablock.Name
             });
         }
 
         private bool OnSaveCanExecute()
         {
-            return Plctag != null && !Plctag.HasErrors && HasChanges;
+            return Datablock != null && !Datablock.HasErrors && HasChanges;
         }
         private async void OnDeleteExecute()
         {
-            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Plctag.Id} {Plctag.Name}?","Question");
+            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Datablock.Id} {Datablock.Name}?","Question");
             if (result== MessageDialogResult.OK)
             {
-                _plctagRepository.Remove(Plctag.Model);
-                await _plctagRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Plctag.Id);
+                _datablockRepository.Remove(Datablock.Model);
+                await _datablockRepository.SaveAsync();
+                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Datablock.Id);
             }            
         }
 
-        public async Task LoadAsync(int? plctagId)
+        public async Task LoadAsync(EventParameters? eventParameters)
         {
-            var plctag = plctagId.HasValue ? await _plctagRepository.GetByIdAsync(plctagId.Value) : CreateNewPlctag();
+            var datablock = eventParameters!=null ? await _datablockRepository.GetByIdAsync(eventParameters.Id) : CreateNewDatablock();
             
-            InitializePlctag(plctag);
+            InitializeDatablock(datablock);
 
-            await LoadDatablocksLookupAsync();
+            //await LoadDatablocksLookupAsync();
         }
 
-        private void InitializePlctag(Plctag plctag)
+        private void InitializeDatablock(DataBlock datablock)
         {
-            Plctag = new PlctagWrapper(plctag);
+            Datablock = new DatablockWrapper(datablock);
 
-            Plctag.PropertyChanged += (s, e) =>
+            Datablock.PropertyChanged += (s, e) =>
             {
                 if (!HasChanges)
                 {
-                    HasChanges = _plctagRepository.HasChanges();
+                    HasChanges = _datablockRepository.HasChanges();
                 }
 
-                if (e.PropertyName == nameof(Plctag.HasErrors))
+                if (e.PropertyName == nameof(Datablock.HasErrors))
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
@@ -131,10 +131,10 @@ namespace ConfigTool.UI.ViewModel
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
-            if (plctag.Id == 0)
+            if (datablock.Id == 0)
             {
                 //Little trick to trigger the validation 
-                plctag.Name = "";
+                datablock.Name = "";
             }
         }
 
@@ -148,11 +148,11 @@ namespace ConfigTool.UI.ViewModel
             }
         }
 
-        private Plctag CreateNewPlctag()
+        private DataBlock CreateNewDatablock()
         {
-            var plctag = new Plctag();
-            _plctagRepository.Add(plctag);
-            return plctag;
+            var datablock = new DataBlock();
+            _datablockRepository.Add(datablock);
+            return datablock;
         }
         #endregion
 

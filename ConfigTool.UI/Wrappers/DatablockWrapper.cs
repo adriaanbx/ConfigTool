@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class PlctagWrapper : ModelWrapper<Plctag>
+    public class DatablockWrapper : ModelWrapper<DataBlock>
     {
         public int Id
         {
@@ -32,16 +32,7 @@ namespace ConfigTool.UI.Wrappers
             }
         }
 
-        public int? DataBlockId 
-        {
-            get { return GetValue<int?>(); }
-            set
-            {
-                SetValue(value);
-            }
-        }
-
-        public PlctagWrapper(Plctag model) : base(model)
+        public DatablockWrapper(DataBlock model) : base(model)
         {
         }
 

@@ -10,30 +10,30 @@ namespace ConfigTool.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
+        private readonly Func<IDatablockDetailViewModel> _datablockDetailViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
-        private IPlctagDetailViewModel _plctagDetailViewModel;
+        private IDatablockDetailViewModel _datablockDetailViewModel;
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public IPlctagDetailViewModel PlctagDetailViewModel
+        public IDatablockDetailViewModel DatablockDetailViewModel
         {
-            get { return _plctagDetailViewModel; }
+            get { return _datablockDetailViewModel; }
             private set
             {
-                if (_plctagDetailViewModel != value)
+                if (_datablockDetailViewModel != value)
                 {
-                    _plctagDetailViewModel = value;
+                    _datablockDetailViewModel = value;
                     OnPropertyChanged();
                 }
             }
         }
 
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> plctagDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
-            _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
+            _datablockDetailViewModelCreator = plctagDetailViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -53,9 +53,9 @@ namespace ConfigTool.UI.ViewModel
 
         public ICommand CreateNewPlctagCommand { get; }
 
-        private async void OnOpenPlctagDetailView(int? plctagId)
+        private async void OnOpenPlctagDetailView(EventParameters? eventParameters)
         {
-            if (PlctagDetailViewModel != null && PlctagDetailViewModel.HasChanges)
+            if (DatablockDetailViewModel != null && DatablockDetailViewModel.HasChanges)
             {
                 var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
                 if (result == MessageDialogResult.Cancel)
@@ -63,8 +63,8 @@ namespace ConfigTool.UI.ViewModel
                     return;
                 }
             }
-            PlctagDetailViewModel = _plctagDetailViewModelCreator();
-            await PlctagDetailViewModel.LoadAsync(plctagId);
+            DatablockDetailViewModel = _datablockDetailViewModelCreator();
+            await DatablockDetailViewModel.LoadAsync(eventParameters);
         }
         private void OnCreatenewPlctagExecute()
         {
@@ -73,7 +73,7 @@ namespace ConfigTool.UI.ViewModel
 
         private void AfterPlctagDeleted(int plctagId)
         {
-            PlctagDetailViewModel = null;
+            DatablockDetailViewModel = null;
         }
 
     }

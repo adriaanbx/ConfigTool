@@ -43,8 +43,8 @@ namespace ConfigTool.UI.ViewModels
 
         private void OnOpenPlctagDetailView()
         {
-            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                .Publish(Id);
+            //_eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+            //    .Publish(Id);
         }
 
     }

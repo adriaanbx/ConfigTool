@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="ConfigTool" Height="Auto" Width="800">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:PlctagDetailViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:DatablockDetailViewModel}">
             <view:PlctagDetailView/>
         </DataTemplate>
     </Window.Resources>
@@ -25,6 +25,6 @@
             </MenuItem>
         </Menu>
         <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="2" Content="{Binding PlctagDetailViewModel}"/>
+        <ContentControl Grid.Row="2" Content="{Binding DatablockDetailViewModel}"/>
     </Grid>
 </Window>

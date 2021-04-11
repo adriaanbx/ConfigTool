@@ -15,7 +15,7 @@ namespace ConfigTool.Models
         public string Number { get; set; }
         public int Id { get; set; }
         public int? TextId { get; set; }
-        public int? DataBlockId { get; set; }
+        public int DataBlockId { get; set; }
         public short ValueTypeId { get; set; }
         public int? UnitCategoryId { get; set; }
     }
