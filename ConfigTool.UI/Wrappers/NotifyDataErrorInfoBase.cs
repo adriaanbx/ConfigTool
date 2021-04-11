@@ -1,4 +1,4 @@
-﻿using ConfigTool.UI.ViewModel;
+﻿using ConfigTool.UI.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;

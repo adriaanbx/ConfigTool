@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public interface IDatablockDetailViewModel : IDetailViewModel
+    public interface IDetailViewModel
     {
-
+        public bool HasChanges { get;}
+        public Task LoadAsync(EventParameters? eventParameters);
     }
 }

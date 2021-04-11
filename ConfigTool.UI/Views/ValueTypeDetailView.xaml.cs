@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ConfigTool.UI.View
+namespace ConfigTool.UI.Views
 {
     /// <summary>
-    /// Interaction logic for PlctagDetailView.xaml
+    /// Interaction logic for ValueTypeDetailView.xaml
     /// </summary>
-    public partial class PlctagDetailView : UserControl
+    public partial class ValueTypeDetailView : UserControl
     {
-        public PlctagDetailView()
+        public ValueTypeDetailView()
         {
             InitializeComponent();
         }

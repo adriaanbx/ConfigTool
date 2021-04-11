@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ConfigTool.UI.ViewModel
+namespace ConfigTool.UI.ViewModels
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
@@ -56,9 +56,16 @@ namespace ConfigTool.UI.ViewModel
                         var columnName = value.Column.Header.ToString();
                         if (key.PrincipalEntityType.ToString().Contains(columnName))
                         {
+                            //get primarykey of foreignkey table
+                            var primaryKey = columnName + "Id";
+
+                            //use reflection to get the value of the property, aka selected column, at runtime
+                            var navigationItem = SelectedCell.Item as NavigationItemPlctag;
+                            var propertyValue = (navigationItem).GetType().GetProperty(primaryKey)?.GetValue(navigationItem);
+
                             //Publish event to subscribers
                             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                                .Publish(new EventParameters() { Id = (SelectedCell.Item as NavigationItemPlctag).DataBlockId, TableName = columnName });
+                                .Publish(new EventParameters() { Id = Convert.ToInt32(propertyValue), TableName = columnName });
                         }
                     }
                     OnPropertyChanged();

@@ -20,6 +20,7 @@ namespace ConfigTool.UI.ViewModels
         public string Number { get; set; }
 
         public int DataBlockId { get; set; }
+        public short ValueTypeId { get; set; }
 
         //Todo kunnen we bovenstaande properties niet vervangen door PLCtag zelf? Maar dan toont datagrid enkel de Plctag klasse ipv de properties
         //public Plctag Plctag { get; set; }

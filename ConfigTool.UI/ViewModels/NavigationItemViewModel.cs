@@ -1,5 +1,5 @@
 ﻿using ConfigTool.UI.Events;
-using ConfigTool.UI.ViewModel;
+using ConfigTool.UI.ViewModels;
 using Prism.Commands;
 using Prism.Events;
 using System;

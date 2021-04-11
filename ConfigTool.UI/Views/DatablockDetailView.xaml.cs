@@ -1,5 +1,4 @@
-﻿using ConfigTool.UI.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,13 +16,14 @@ using System.Windows.Shapes;
 namespace ConfigTool.UI.Views
 {
     /// <summary>
-    /// Interaction logic for NavigationView.xaml
+    /// Interaction logic for DatablockDetailView.xaml
     /// </summary>
-    public partial class NavigationView : UserControl
+    public partial class DatablockDetailView : UserControl
     {
-        public NavigationView()
+        public DatablockDetailView()
         {
             InitializeComponent();
         }
     }
 }
+

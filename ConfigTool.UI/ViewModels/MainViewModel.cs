@@ -1,4 +1,5 @@
-﻿using ConfigTool.UI.Events;
+﻿using ConfigTool.Models;
+using ConfigTool.UI.Events;
 using ConfigTool.UI.Views.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -6,34 +7,38 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ConfigTool.UI.ViewModel
+namespace ConfigTool.UI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly Func<IDatablockDetailViewModel> _datablockDetailViewModelCreator;
+        private readonly Func<IValueTypeDetailViewModel> _valueTypeDetailViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
-        private IDatablockDetailViewModel _datablockDetailViewModel;
+        private IDetailViewModel _DetailViewModel;
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public IDatablockDetailViewModel DatablockDetailViewModel
+        public IDetailViewModel DetailViewModel
         {
-            get { return _datablockDetailViewModel; }
+            get { return _DetailViewModel; }
             private set
             {
-                if (_datablockDetailViewModel != value)
+                if (_DetailViewModel != value)
                 {
-                    _datablockDetailViewModel = value;
+                    _DetailViewModel = value;
                     OnPropertyChanged();
                 }
             }
         }
 
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> plctagDetailViewModelCreator, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
+                                Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator,
+                                IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
-            _datablockDetailViewModelCreator = plctagDetailViewModelCreator;
+            _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
+            _valueTypeDetailViewModelCreator = valueTypeDetailViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -55,7 +60,8 @@ namespace ConfigTool.UI.ViewModel
 
         private async void OnOpenPlctagDetailView(EventParameters? eventParameters)
         {
-            if (DatablockDetailViewModel != null && DatablockDetailViewModel.HasChanges)
+            //shows a message when you leave the detail view, if any unsaved changes have been made
+            if (DetailViewModel != null && DetailViewModel.HasChanges)
             {
                 var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
                 if (result == MessageDialogResult.Cancel)
@@ -63,8 +69,20 @@ namespace ConfigTool.UI.ViewModel
                     return;
                 }
             }
-            DatablockDetailViewModel = _datablockDetailViewModelCreator();
-            await DatablockDetailViewModel.LoadAsync(eventParameters);
+
+            switch (eventParameters?.TableName)
+            {
+                case nameof(DataBlock):
+                    DetailViewModel = _datablockDetailViewModelCreator();
+                    break;
+                case nameof(Models.ValueType):
+                    DetailViewModel = _valueTypeDetailViewModelCreator();
+                    break;
+                default:
+                    break;
+            }
+
+            await DetailViewModel.LoadAsync(eventParameters);
         }
         private void OnCreatenewPlctagExecute()
         {
@@ -73,7 +91,7 @@ namespace ConfigTool.UI.ViewModel
 
         private void AfterPlctagDeleted(int plctagId)
         {
-            DatablockDetailViewModel = null;
+            DetailViewModel = null;
         }
 
     }

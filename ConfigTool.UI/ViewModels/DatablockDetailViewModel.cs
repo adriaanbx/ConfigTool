@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ConfigTool.UI.ViewModel
+namespace ConfigTool.UI.ViewModels
 {
     public class DatablockDetailViewModel : ViewModelBase, IDatablockDetailViewModel
     {
@@ -23,6 +23,7 @@ namespace ConfigTool.UI.ViewModel
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private DatablockWrapper _datablock;
         private bool _hasChanges;
+
         #endregion
 
         #region Properties
@@ -45,7 +46,7 @@ namespace ConfigTool.UI.ViewModel
         public bool HasChanges
         {
             get { return _hasChanges; }
-            set
+            protected set
             {
                 if (_hasChanges != value)
                 {
@@ -94,19 +95,19 @@ namespace ConfigTool.UI.ViewModel
         }
         private async void OnDeleteExecute()
         {
-            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Datablock.Id} {Datablock.Name}?","Question");
-            if (result== MessageDialogResult.OK)
+            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Datablock.Id} {Datablock.Name}?", "Question");
+            if (result == MessageDialogResult.OK)
             {
                 _datablockRepository.Remove(Datablock.Model);
                 await _datablockRepository.SaveAsync();
                 _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Datablock.Id);
-            }            
+            }
         }
 
         public async Task LoadAsync(EventParameters? eventParameters)
         {
-            var datablock = eventParameters!=null ? await _datablockRepository.GetByIdAsync(eventParameters.Id) : CreateNewDatablock();
-            
+            var datablock = eventParameters != null ? await _datablockRepository.GetByIdAsync(eventParameters.Id) : CreateNewDatablock();
+
             InitializeDatablock(datablock);
 
             //await LoadDatablocksLookupAsync();

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ConfigTool.UI.ViewModel
+namespace ConfigTool.UI.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

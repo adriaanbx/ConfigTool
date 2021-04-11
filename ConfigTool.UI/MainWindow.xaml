@@ -4,13 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConfigTool.UI"
-        xmlns:view="clr-namespace:ConfigTool.UI.View"
-        xmlns:viewModel="clr-namespace:ConfigTool.UI.ViewModel"
+        xmlns:view="clr-namespace:ConfigTool.UI.Views"
+        xmlns:viewModel="clr-namespace:ConfigTool.UI.ViewModels"
         mc:Ignorable="d"
-        Title="ConfigTool" Height="Auto" Width="800">
+        Title="ConfigTool" Height="Auto" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DatablockDetailViewModel}">
-            <view:PlctagDetailView/>
+            <view:DatablockDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ValueTypeDetailViewModel}">
+            <view:ValueTypeDetailView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -25,6 +29,6 @@
             </MenuItem>
         </Menu>
         <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="2" Content="{Binding DatablockDetailViewModel}"/>
+        <ContentControl Grid.Row="2" Content="{Binding DetailViewModel}"/>
     </Grid>
 </Window>

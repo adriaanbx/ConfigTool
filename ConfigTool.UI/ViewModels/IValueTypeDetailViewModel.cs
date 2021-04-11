@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public interface IDatablockDetailViewModel : IDetailViewModel
+    public interface IValueTypeDetailViewModel :IDetailViewModel
     {
-
     }
 }

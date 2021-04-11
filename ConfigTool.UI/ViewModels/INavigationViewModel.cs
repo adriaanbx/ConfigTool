@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ConfigTool.UI.ViewModel
+namespace ConfigTool.UI.ViewModels
 {
     public interface INavigationViewModel
     {

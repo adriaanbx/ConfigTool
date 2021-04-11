@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Lookups
 {
-    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService
+    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService, IValueTypeLookupDataService
     {
         private readonly ModelContext _dbcontext;
 
@@ -32,6 +32,7 @@ namespace ConfigTool.UI.Lookups
                 Number = p.Number,
                 DataBlock = p.DataBlock.Name,
                 DataBlockId = p.DataBlockId,
+                ValueTypeId = p.ValueTypeId,
                 //UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name
             }).ToListAsync();
@@ -54,5 +55,9 @@ namespace ConfigTool.UI.Lookups
             return _dbcontext.Model.FindEntityType(typeof(Plctag)).GetForeignKeys();
         }
 
+        public Task<IEnumerable<LookupItem>> GetValueTypeLookupAsync()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
