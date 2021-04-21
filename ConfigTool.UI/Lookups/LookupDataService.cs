@@ -25,14 +25,8 @@ namespace ConfigTool.UI.Lookups
             new NavigationItemPlctag
             {
                 //TODO verder aanvullen met rest van kolommen
-                //Plctag = p,
-                Id = p.Id,
-                Name = p.Name,
-                ArraySize = p.ArraySize,
-                Number = p.Number,
+                Plctag = p,
                 DataBlock = p.DataBlock.Name,
-                DataBlockId = p.DataBlockId,
-                ValueTypeId = p.ValueTypeId,
                 //UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name
             }).ToListAsync();

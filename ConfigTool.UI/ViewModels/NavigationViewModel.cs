@@ -47,21 +47,24 @@ namespace ConfigTool.UI.ViewModels
                 {
                     _selectedCell = value;
 
+                    //get selected column name
+                    var columnName = value.Column.Header.ToString();
+
                     //get foreign keys
                     var foreignKeys = _plctagLookupDataRepository.GetForeignKeys();
 
                     //Open details view when selected column is a foreign key
                     foreach (var key in foreignKeys)
                     {
-                        var columnName = value.Column.Header.ToString();
                         if (key.PrincipalEntityType.ToString().Contains(columnName))
                         {
-                            //get primarykey of foreignkey table
-                            var primaryKey = columnName + "Id";
+                            //get primarykey column name of foreignkey table
+                            var primaryKeyColumnName = columnName + "Id";
+
+                            var navigationItem = SelectedCell.Item as NavigationItemPlctag;
 
                             //use reflection to get the value of the property, aka selected column, at runtime
-                            var navigationItem = SelectedCell.Item as NavigationItemPlctag;
-                            var propertyValue = (navigationItem).GetType().GetProperty(primaryKey)?.GetValue(navigationItem);
+                            var propertyValue = navigationItem.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(navigationItem.Plctag);
 
                             //Publish event to subscribers
                             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
@@ -96,7 +99,7 @@ namespace ConfigTool.UI.ViewModels
 
         private void AfterDatablockDeleted(int plctagId)
         {
-            var plctag = Plctags.FirstOrDefault(p => p.Id == plctagId);
+            var plctag = Plctags.FirstOrDefault(p => p.Plctag.Id == plctagId);
             if (plctag != null)
             {
                 Plctags.Remove(plctag);
