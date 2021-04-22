@@ -79,6 +79,7 @@ namespace ConfigTool.UI.ViewModels
                     DetailViewModel = _valueTypeDetailViewModelCreator();
                     break;
                 default:
+                    //TODO Hier zou je op een of andere manier een tekst moeten laten zien "no linked information available"
                     break;
             }
 

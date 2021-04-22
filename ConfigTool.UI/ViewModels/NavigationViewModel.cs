@@ -17,38 +17,20 @@ namespace ConfigTool.UI.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
-        private NavigationItemPlctag _selectedPlctag;
 
-        public NavigationItemPlctag SelectedPlctag
-        {
-            get { return _selectedPlctag; }
-            set
-            {
-                if (_selectedPlctag != value)
-                {
-                    _selectedPlctag = value;
-                    OnPropertyChanged();
-                    //if (value != null)
-                    //    //Publish event to subscribers
-                    //    _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                    //        .Publish(_selectedPlctag.Id);
-                }
-            }
-        }
+        private NavigationItemPlctag _selectedCell;
 
-        private DataGridCellInfo _selectedCell;
-
-        public DataGridCellInfo SelectedCell
+        public NavigationItemPlctag SelectedCell
         {
             get { return _selectedCell; }
             set
             {
-                if (value.Column != null && _selectedCell != value)
+                if (value.ColumnName != null && _selectedCell != value)
                 {
                     _selectedCell = value;
 
                     //get selected column name
-                    var columnName = value.Column.Header.ToString();
+                    var columnName = SelectedCell.ColumnName;
 
                     //get foreign keys
                     var foreignKeys = _plctagLookupDataRepository.GetForeignKeys();
@@ -60,15 +42,13 @@ namespace ConfigTool.UI.ViewModels
                         {
                             //get primarykey column name of foreignkey table
                             var primaryKeyColumnName = columnName + "Id";
-
-                            var navigationItem = SelectedCell.Item as NavigationItemPlctag;
-
+                                                     
                             //use reflection to get the value of the property, aka selected column, at runtime
-                            var propertyValue = navigationItem.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(navigationItem.Plctag);
+                            var primaryKeyValue = SelectedCell.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(SelectedCell.Plctag);
 
                             //Publish event to subscribers
                             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                                .Publish(new EventParameters() { Id = Convert.ToInt32(propertyValue), TableName = columnName });
+                                .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
                         }
                     }
                     OnPropertyChanged();
