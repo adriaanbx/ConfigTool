@@ -1,22 +1,25 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
-using ConfigTool.UI.ViewModels;
 using Prism.Events;
 using System;
-using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ConfigTool.UI.Lookups;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
         private readonly IPlctagLookupDataService _plctagLookupDataRepository;
+        private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
+        private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
+        public ObservableCollection<LookupItem> ValueTypes { get; }
+        public ObservableCollection<LookupItem> Datablocks { get; }
 
         private NavigationItemPlctag _selectedCell;
 
@@ -58,11 +61,17 @@ namespace ConfigTool.UI.ViewModels
         }
 
 
-        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IEventAggregator eventAggregator)
+        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IEventAggregator eventAggregator)
         {
             _plctagLookupDataRepository = plctagLookupDataService;
+            _valueTypeLookupDataRepository = valueTypeLookupDataService;
+            _datablockLookupDataRepository = datablockLookupDataService;
             _eventAggregator = eventAggregator;
+
             Plctags = new ObservableCollection<NavigationItemPlctag>();
+            ValueTypes = new ObservableCollection<LookupItem>();
+            Datablocks = new ObservableCollection<LookupItem>();
+
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
         }
@@ -74,6 +83,20 @@ namespace ConfigTool.UI.ViewModels
             foreach (var item in lookup)
             {
                 Plctags.Add(item);
+            }
+
+            var lookup2 = await _valueTypeLookupDataRepository.GetValueTypeLookupAsync();
+            ValueTypes.Clear();
+            foreach (var item in lookup2)
+            {
+                ValueTypes.Add(item);
+            }
+
+            var lookup3 = await _datablockLookupDataRepository.GetDatablockLookupAsync();
+            Datablocks.Clear();
+            foreach (var item in lookup3)
+            {
+                Datablocks.Add(item);
             }
         }
 

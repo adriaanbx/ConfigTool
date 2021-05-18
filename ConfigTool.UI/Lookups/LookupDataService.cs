@@ -49,9 +49,14 @@ namespace ConfigTool.UI.Lookups
             return _dbcontext.Model.FindEntityType(typeof(Plctag)).GetForeignKeys();
         }
 
-        public Task<IEnumerable<LookupItem>> GetValueTypeLookupAsync()
+        public async Task<IEnumerable<LookupItem>> GetValueTypeLookupAsync()
         {
-            throw new System.NotImplementedException();
+            return await _dbcontext.ValueType.Select(p =>
+                new LookupItem
+                {
+                    Id = p.Id,
+                    DisplayMember = p.Name
+                }).ToListAsync();
         }
     }
 }

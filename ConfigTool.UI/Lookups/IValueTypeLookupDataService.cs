@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ConfigTool.UI.Repositories
+namespace ConfigTool.UI.Lookups
 {
     public interface IValueTypeLookupDataService
     {
