@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ConfigTool.UI.Lookups;
+using System.Windows.Input;
+using Prism.Commands;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -18,8 +20,8 @@ namespace ConfigTool.UI.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
-        public ObservableCollection<LookupItem> ValueTypes { get; }
-        public ObservableCollection<LookupItem> Datablocks { get; }
+        public ObservableCollection<LookupItem<short>> ValueTypes { get; }
+        public ObservableCollection<LookupItem<int>> Datablocks { get; }
 
         private NavigationItemPlctag _selectedCell;
 
@@ -45,7 +47,7 @@ namespace ConfigTool.UI.ViewModels
                         {
                             //get primarykey column name of foreignkey table
                             var primaryKeyColumnName = columnName + "Id";
-                                                     
+
                             //use reflection to get the value of the property, aka selected column, at runtime
                             var primaryKeyValue = SelectedCell.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(SelectedCell.Plctag);
 
@@ -60,6 +62,8 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
+        public ICommand SaveCommand { get; }
+
 
         public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IEventAggregator eventAggregator)
         {
@@ -69,11 +73,18 @@ namespace ConfigTool.UI.ViewModels
             _eventAggregator = eventAggregator;
 
             Plctags = new ObservableCollection<NavigationItemPlctag>();
-            ValueTypes = new ObservableCollection<LookupItem>();
-            Datablocks = new ObservableCollection<LookupItem>();
+            ValueTypes = new ObservableCollection<LookupItem<short>>();
+            Datablocks = new ObservableCollection<LookupItem<int>>();
 
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
+
+            SaveCommand = new DelegateCommand(OnSaveExecute);
+        }
+
+        private async void OnSaveExecute()
+        {
+            await _plctagLookupDataRepository.SaveAsync();
         }
 
         public async Task LoadAsync()

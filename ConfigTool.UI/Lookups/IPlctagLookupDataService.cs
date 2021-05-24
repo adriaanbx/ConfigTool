@@ -10,5 +10,6 @@ namespace ConfigTool.UI.Repositories
     {
         Task<IEnumerable<NavigationItemPlctag>> GetPlctagLookupAsync();
         public IEnumerable<IForeignKey> GetForeignKeys();
+        public Task SaveAsync();
     }
 }

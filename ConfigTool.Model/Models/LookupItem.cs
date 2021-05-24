@@ -1,8 +1,8 @@
 ﻿namespace ConfigTool.Models
 {
-    public class LookupItem
+    public class LookupItem<T>
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
         public string DisplayMember { get; set; }
     }
 }

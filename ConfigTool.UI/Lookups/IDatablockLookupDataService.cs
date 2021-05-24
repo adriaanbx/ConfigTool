@@ -6,6 +6,6 @@ namespace ConfigTool.UI.Lookups
 {
     public interface IDatablockLookupDataService
     {
-        Task<IEnumerable<LookupItem>> GetDatablockLookupAsync();
+        Task<IEnumerable<LookupItem<int>>> GetDatablockLookupAsync();
     }
 }

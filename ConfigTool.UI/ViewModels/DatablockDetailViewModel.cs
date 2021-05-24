@@ -41,7 +41,7 @@ namespace ConfigTool.UI.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
-        public ObservableCollection<LookupItem> Datablocks { get; }
+        public ObservableCollection<LookupItem<int>> Datablocks { get; }
 
         public bool HasChanges
         {
@@ -71,7 +71,7 @@ namespace ConfigTool.UI.ViewModels
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
 
-            //Datablocks = new ObservableCollection<LookupItem>();
+            _eventAggregator.GetEvent<ComboboxSelectionChangedEvent>().Subscribe(AfterComboboxChanged);
         }
 
         #endregion
@@ -154,6 +154,14 @@ namespace ConfigTool.UI.ViewModels
             var datablock = new DataBlock();
             _datablockRepository.Add(datablock);
             return datablock;
+        }
+
+        private async void AfterComboboxChanged(EventParameters? eventParameters)
+        {
+            var datablock = eventParameters != null ? await _datablockRepository.GetByIdAsync(eventParameters.Id) : CreateNewDatablock();
+            //TODO moet op een of andere manier generiek gemaakt worden
+            Datablock.Id = datablock.Id;
+            Datablock.Name = datablock.Name;
         }
         #endregion
 

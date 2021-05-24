@@ -11,43 +11,14 @@
         <converts:SelectedCellToColumnNameConverter x:Key="converter"/>
     </UserControl.Resources>
     <Grid>
-        <!--<ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Plctags}">
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                        <Setter Property="Margin" Value="2"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding DisplayMember}" Command="{Binding OpenPlctagDetailViewCommand}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid x:Name="grid">
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Cursor" Value="Hand"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="FontWeight" Value="Normal"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="*"/>
+         </Grid.RowDefinitions>
 
-        <!--TODO autogenerate afzetten en kolommen zelf genereren-->
-        <DataGrid ItemsSource="{Binding Plctags}" AutoGenerateColumns="False"
+        
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding Plctags}" AutoGenerateColumns="False"
                   SelectionMode="Single" SelectionUnit="Cell"
                   CurrentCell="{Binding SelectedCell, Mode=OneWayToSource, Converter={StaticResource converter}}">
             <DataGrid.Columns>
@@ -141,8 +112,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Log}"/>
+                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Plctag.Log}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="1" HorizontalAlignment="Left" Content="Save" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
     </Grid>
+
 </UserControl>

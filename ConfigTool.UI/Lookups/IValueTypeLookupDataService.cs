@@ -8,6 +8,6 @@ namespace ConfigTool.UI.Lookups
 {
     public interface IValueTypeLookupDataService
     {
-        Task<IEnumerable<LookupItem>> GetValueTypeLookupAsync();
+        Task<IEnumerable<LookupItem<short>>> GetValueTypeLookupAsync();
     }
 }

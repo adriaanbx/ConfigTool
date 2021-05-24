@@ -41,7 +41,7 @@ namespace ConfigTool.UI.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
-        public ObservableCollection<LookupItem> ValueTypes { get; }
+        public ObservableCollection<LookupItem<short>> ValueTypes { get; }
 
         public bool HasChanges
         {

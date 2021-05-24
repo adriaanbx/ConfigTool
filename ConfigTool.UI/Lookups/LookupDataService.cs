@@ -33,10 +33,10 @@ namespace ConfigTool.UI.Lookups
         }
 
         //TODO gebruiken voor de combobox selectie?
-        public async Task<IEnumerable<LookupItem>> GetDatablockLookupAsync()
+        public async Task<IEnumerable<LookupItem<int>>> GetDatablockLookupAsync()
         {
             return await _dbcontext.DataBlock.Select(p =>
-            new LookupItem
+            new LookupItem<int>
             {
                 Id = p.Id,
                 DisplayMember = p.Name
@@ -49,14 +49,19 @@ namespace ConfigTool.UI.Lookups
             return _dbcontext.Model.FindEntityType(typeof(Plctag)).GetForeignKeys();
         }
 
-        public async Task<IEnumerable<LookupItem>> GetValueTypeLookupAsync()
+        public async Task<IEnumerable<LookupItem<short>>> GetValueTypeLookupAsync()
         {
             return await _dbcontext.ValueType.Select(p =>
-                new LookupItem
+                new LookupItem<short>
                 {
                     Id = p.Id,
                     DisplayMember = p.Name
                 }).ToListAsync();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _dbcontext.SaveChangesAsync();
         }
     }
 }
