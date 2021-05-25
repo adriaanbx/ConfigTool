@@ -18,10 +18,26 @@ namespace ConfigTool.UI.ViewModels
         private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
+         private bool _hasChanges;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
         public ObservableCollection<LookupItem<int>> Datablocks { get; }
+
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            protected set
+            {
+                if (_hasChanges != value)
+                {
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+
+            }
+        }
 
         private NavigationItemPlctag _selectedCell;
 
@@ -79,12 +95,13 @@ namespace ConfigTool.UI.ViewModels
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
 
-            SaveCommand = new DelegateCommand(OnSaveExecute);
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         private async void OnSaveExecute()
         {
             await _plctagLookupDataRepository.SaveAsync();
+            HasChanges = _plctagLookupDataRepository.HasChanges();
         }
 
         public async Task LoadAsync()
@@ -93,6 +110,13 @@ namespace ConfigTool.UI.ViewModels
             Plctags.Clear();
             foreach (var item in lookup)
             {
+                item.Plctag.PropertyChanged += (s, e) =>
+               {
+                   if (!HasChanges)
+                   {
+                       HasChanges = _plctagLookupDataRepository.HasChanges();
+                   }
+               };
                 Plctags.Add(item);
             }
 
@@ -109,6 +133,11 @@ namespace ConfigTool.UI.ViewModels
             {
                 Datablocks.Add(item);
             }
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return Plctags != null && HasChanges;
         }
 
         private void AfterDatablockDeleted(int plctagId)

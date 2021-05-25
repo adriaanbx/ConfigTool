@@ -25,7 +25,7 @@ namespace ConfigTool.UI.Lookups
             new NavigationItemPlctag
             {
                 //TODO verder aanvullen met rest van kolommen
-                Plctag = p,
+                Plctag = new Wrappers.PlctagWrapper(p),
                 DataBlock = p.DataBlock.Name,
                 //UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name
@@ -62,6 +62,11 @@ namespace ConfigTool.UI.Lookups
         public async Task SaveAsync()
         {
             await _dbcontext.SaveChangesAsync();
+        }
+
+        public bool HasChanges()
+        {
+            return _dbcontext.ChangeTracker.HasChanges();
         }
     }
 }
