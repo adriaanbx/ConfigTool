@@ -101,7 +101,10 @@
                 <DataGridTemplateColumn Header="UnitCategory">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding UnitCategory}"/>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.UnitCategories, RelativeSource={RelativeSource AncestorType=local:NavigationView}}"
+                               SelectedValue="{Binding Path=Plctag.UnitCategoryId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

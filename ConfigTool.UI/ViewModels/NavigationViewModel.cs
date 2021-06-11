@@ -17,12 +17,14 @@ namespace ConfigTool.UI.ViewModels
         private readonly IPlctagLookupDataService _plctagLookupDataRepository;
         private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
+        private readonly IUnitCategoryLookupDataService _unitCategoryLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
         public ObservableCollection<LookupItem<int>> Datablocks { get; }
+        public ObservableCollection<LookupItem<int>> UnitCategories { get; }
 
         public bool HasChanges
         {
@@ -83,16 +85,18 @@ namespace ConfigTool.UI.ViewModels
         public ICommand CancelCommand { get; }
 
 
-        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IEventAggregator eventAggregator)
+        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService, IEventAggregator eventAggregator)
         {
             _plctagLookupDataRepository = plctagLookupDataService;
             _valueTypeLookupDataRepository = valueTypeLookupDataService;
             _datablockLookupDataRepository = datablockLookupDataService;
+            _unitCategoryLookupDataRepository = unitCategoryLookupDataService;
             _eventAggregator = eventAggregator;
 
             Plctags = new ObservableCollection<NavigationItemPlctag>();
             ValueTypes = new ObservableCollection<LookupItem<short>>();
             Datablocks = new ObservableCollection<LookupItem<int>>();
+            UnitCategories = new ObservableCollection<LookupItem<int>>();
 
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
@@ -129,6 +133,13 @@ namespace ConfigTool.UI.ViewModels
             foreach (var item in lookup3)
             {
                 Datablocks.Add(item);
+            }
+
+            var lookup4 = await _unitCategoryLookupDataRepository.GetUnitCategoryLookupAsync();
+            UnitCategories.Clear();
+            foreach (var item in lookup4)
+            {
+                UnitCategories.Add(item);
             }
         }
         private async void OnSaveExecute()

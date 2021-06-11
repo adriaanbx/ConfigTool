@@ -16,6 +16,9 @@
         <DataTemplate DataType="{x:Type viewModel:ValueTypeDetailViewModel}">
             <view:ValueTypeDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:UnitCategoryDetailViewModel}">
+            <view:UnitCategoryDetailView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

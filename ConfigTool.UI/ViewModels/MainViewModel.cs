@@ -13,6 +13,7 @@ namespace ConfigTool.UI.ViewModels
     {
         private readonly Func<IDatablockDetailViewModel> _datablockDetailViewModelCreator;
         private readonly Func<IValueTypeDetailViewModel> _valueTypeDetailViewModelCreator;
+        private readonly Func<IUnitCategoryDetailViewModel> _unitCategoryDetailViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
@@ -34,11 +35,12 @@ namespace ConfigTool.UI.ViewModels
 
 
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
-                                Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator,
+                                Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
             _valueTypeDetailViewModelCreator = valueTypeDetailViewModelCreator;
+            _unitCategoryDetailViewModelCreator = unitCategoryDetailViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -77,6 +79,9 @@ namespace ConfigTool.UI.ViewModels
                     break;
                 case nameof(Models.ValueType):
                     DetailViewModel = _valueTypeDetailViewModelCreator();
+                    break;
+                case nameof(Models.UnitCategory):
+                    DetailViewModel = _unitCategoryDetailViewModelCreator();
                     break;
                 default:
                     //TODO Hier zou je op een of andere manier een tekst moeten laten zien "no linked information available"

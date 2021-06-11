@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Lookups
 {
-    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService, IValueTypeLookupDataService
+    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService, IValueTypeLookupDataService, IUnitCategoryLookupDataService
     {
         private readonly ModelContext _dbcontext;
 
@@ -22,14 +22,15 @@ namespace ConfigTool.UI.Lookups
 
         public async Task<IEnumerable<NavigationItemPlctag>> GetPlctagLookupAsync()
         {
-            return await _dbcontext.Plctag.Include(p => p.DataBlock).Select(p =>
+            return await _dbcontext.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>
             new NavigationItemPlctag
             {
-                //TODO verder aanvullen met rest van kolommen
                 Plctag = new Wrappers.PlctagWrapper(p),
                 DataBlock = p.DataBlock.Name,
-                //UnitCategory = p.UnitCategory.Name,
-                ValueType = p.ValueType.Name
+                UnitCategory = p.UnitCategory.Name,
+                ValueType = p.ValueType.Name,
+                //TODO Hoe moet je de Textlanguage hier implementeren
+                //Text = _dbcontext.TextLanguage.Find(p.TextId).Text
             }).ToListAsync();
         }
 
@@ -82,6 +83,16 @@ namespace ConfigTool.UI.Lookups
         {
             return await _dbcontext.ValueType.Select(p =>
                 new LookupItem<short>
+                {
+                    Id = p.Id,
+                    DisplayMember = p.Name
+                }).ToListAsync();
+        }
+        
+        public async Task<IEnumerable<LookupItem<int>>> GetUnitCategoryLookupAsync()
+        {
+            return await _dbcontext.UnitCategory.Select(p =>
+                new LookupItem<int>
                 {
                     Id = p.Id,
                     DisplayMember = p.Name

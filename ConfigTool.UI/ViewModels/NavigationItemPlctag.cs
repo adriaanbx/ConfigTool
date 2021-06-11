@@ -15,6 +15,7 @@ namespace ConfigTool.UI.ViewModels
         public string? DataBlock { get; set; }
         public string ValueType { get; set; }
         public string? UnitCategory { get; set; }
+        public string? Text { get; set; }
 
         public string ColumnName { get; set; }
     }
