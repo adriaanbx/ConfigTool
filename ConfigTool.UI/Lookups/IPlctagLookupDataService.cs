@@ -12,6 +12,7 @@ namespace ConfigTool.UI.Repositories
         public IEnumerable<IForeignKey> GetForeignKeys();
         public Task SaveAsync();
         public bool HasChanges();
+        void RejectChanges();
 
     }
 }

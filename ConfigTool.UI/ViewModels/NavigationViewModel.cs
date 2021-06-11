@@ -18,7 +18,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
-         private bool _hasChanges;
+        private bool _hasChanges;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
@@ -34,6 +34,7 @@ namespace ConfigTool.UI.ViewModels
                     _hasChanges = value;
                     OnPropertyChanged();
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
                 }
 
             }
@@ -79,6 +80,7 @@ namespace ConfigTool.UI.ViewModels
         }
 
         public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
 
 
         public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IEventAggregator eventAggregator)
@@ -96,12 +98,7 @@ namespace ConfigTool.UI.ViewModels
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-        }
-
-        private async void OnSaveExecute()
-        {
-            await _plctagLookupDataRepository.SaveAsync();
-            HasChanges = _plctagLookupDataRepository.HasChanges();
+            CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
         }
 
         public async Task LoadAsync()
@@ -134,6 +131,12 @@ namespace ConfigTool.UI.ViewModels
                 Datablocks.Add(item);
             }
         }
+        private async void OnSaveExecute()
+        {
+            await _plctagLookupDataRepository.SaveAsync();
+            HasChanges = _plctagLookupDataRepository.HasChanges();
+        }
+
 
         private bool OnSaveCanExecute()
         {
@@ -147,6 +150,20 @@ namespace ConfigTool.UI.ViewModels
             {
                 Plctags.Remove(plctag);
             }
+        }
+
+        private void OnCancelExecute()
+        {
+            _plctagLookupDataRepository.RejectChanges();
+            HasChanges = _plctagLookupDataRepository.HasChanges();
+
+            // Refresh ObservableCollection for UI-> alternative for OnpropertyChanged
+            System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags).Refresh(); ;
+        }
+
+        private bool OnCancelCanExecute()
+        {
+            return Plctags != null && HasChanges;
         }
 
         private void AfterDatablockSaved(AfterPlctagSavedEventArgs eventArgs)
