@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Prism.Events;
 using System;
 using System.Windows;
@@ -20,11 +21,20 @@ namespace ConfigTool.UI
         public App()
         {
             host = Host.CreateDefaultBuilder()
-                   .ConfigureServices((context, services) =>
+
+                 .ConfigureServices((context, services) =>
                    {
                        ConfigureServices(context.Configuration, services);
                    })
-                   .Build();
+                 .ConfigureLogging(loggingBuilder =>
+                  {
+                      loggingBuilder.ClearProviders();
+                      loggingBuilder
+                         .AddDebug()
+                         .AddFile("Logs/mylog-{Date}.txt");
+
+                  })
+                 .Build();
         }
 
         private void ConfigureServices(IConfiguration configuration, IServiceCollection services)
@@ -45,7 +55,7 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddDbContext<ModelContext>(options =>
-                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")),ServiceLifetime.Transient, ServiceLifetime.Transient);
+                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")), ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
