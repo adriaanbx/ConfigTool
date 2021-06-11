@@ -55,7 +55,9 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddDbContext<ModelContext>(options =>
-                options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase")), ServiceLifetime.Transient, ServiceLifetime.Transient);
+                     options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
+                            .EnableSensitiveDataLogging()
+                            , ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
