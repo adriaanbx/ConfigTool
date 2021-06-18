@@ -18,6 +18,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
         private readonly IDatablockLookupDataService _datablockLookupDataRepository;
         private readonly IUnitCategoryLookupDataService _unitCategoryLookupDataRepository;
+        private readonly ITextLanguageLookupDataService _textLanguageLookupDataRepository;
         private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
@@ -25,6 +26,7 @@ namespace ConfigTool.UI.ViewModels
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
         public ObservableCollection<LookupItem<int>> Datablocks { get; }
         public ObservableCollection<LookupItem<int>> UnitCategories { get; }
+        public ObservableCollection<LookupItem<int>> TextLanguages { get; }
 
         public bool HasChanges
         {
@@ -56,23 +58,34 @@ namespace ConfigTool.UI.ViewModels
                     //get selected column name
                     var columnName = SelectedCell.ColumnName;
 
-                    //get foreign keys
-                    var foreignKeys = _plctagLookupDataRepository.GetForeignKeys();
-
-                    //Open details view when selected column is a foreign key
-                    foreach (var key in foreignKeys)
+                    if (value.ColumnName.Equals("Text"))
                     {
-                        if (key.PrincipalEntityType.ToString().Contains(columnName))
+                        var TextId = SelectedCell.Plctag.TextId;
+
+                        //Publish event to subscribers
+                        _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                            .Publish(new EventParameters() { Id = Convert.ToInt32(TextId), TableName = columnName });
+                    }
+                    else
+                    {
+                        //get foreign keys
+                        var foreignKeys = _plctagLookupDataRepository.GetForeignKeys();
+
+                        //Open details view when selected column is a foreign key
+                        foreach (var key in foreignKeys)
                         {
-                            //get primarykey column name of foreignkey table
-                            var primaryKeyColumnName = columnName + "Id";
+                            if (key.PrincipalEntityType.ToString().Contains(columnName))
+                            {
+                                //get primarykey column name of foreignkey table
+                                var primaryKeyColumnName = columnName + "Id";
 
-                            //use reflection to get the value of the property, aka selected column, at runtime
-                            var primaryKeyValue = SelectedCell.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(SelectedCell.Plctag);
+                                //use reflection to get the value of the property, aka selected column, at runtime
+                                var primaryKeyValue = SelectedCell.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(SelectedCell.Plctag);
 
-                            //Publish event to subscribers
-                            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
-                                .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
+                                //Publish event to subscribers
+                                _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                                    .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
+                            }
                         }
                     }
                     OnPropertyChanged();
@@ -85,18 +98,22 @@ namespace ConfigTool.UI.ViewModels
         public ICommand CancelCommand { get; }
 
 
-        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService, IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService, IEventAggregator eventAggregator)
+        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService,
+                                   IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService,
+                                   ITextLanguageLookupDataService textLanguageLookupDataService, IEventAggregator eventAggregator)
         {
             _plctagLookupDataRepository = plctagLookupDataService;
             _valueTypeLookupDataRepository = valueTypeLookupDataService;
             _datablockLookupDataRepository = datablockLookupDataService;
             _unitCategoryLookupDataRepository = unitCategoryLookupDataService;
+            _textLanguageLookupDataRepository = textLanguageLookupDataService;
             _eventAggregator = eventAggregator;
 
             Plctags = new ObservableCollection<NavigationItemPlctag>();
             ValueTypes = new ObservableCollection<LookupItem<short>>();
             Datablocks = new ObservableCollection<LookupItem<int>>();
             UnitCategories = new ObservableCollection<LookupItem<int>>();
+            TextLanguages = new ObservableCollection<LookupItem<int>>();
 
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
@@ -140,6 +157,13 @@ namespace ConfigTool.UI.ViewModels
             foreach (var item in lookup4)
             {
                 UnitCategories.Add(item);
+            }
+
+            var lookup5 = await _textLanguageLookupDataRepository.GetTextLanguageLookupAsync();
+            TextLanguages.Clear();
+            foreach (var item in lookup5)
+            {
+                TextLanguages.Add(item);
             }
         }
         private async void OnSaveExecute()

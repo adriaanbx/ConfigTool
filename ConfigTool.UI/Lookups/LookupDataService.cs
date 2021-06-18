@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Lookups
 {
-    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService, IValueTypeLookupDataService, IUnitCategoryLookupDataService
+    public class LookupDataService : IPlctagLookupDataService, IDatablockLookupDataService, IValueTypeLookupDataService, IUnitCategoryLookupDataService, ITextLanguageLookupDataService
     {
         private readonly ModelContext _dbcontext;
 
@@ -29,8 +29,7 @@ namespace ConfigTool.UI.Lookups
                 DataBlock = p.DataBlock.Name,
                 UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name,
-                //TODO Hoe moet je de Textlanguage hier implementeren
-                //Text = _dbcontext.TextLanguage.Find(p.TextId).Text
+                Text = _dbcontext.TextLanguage.First(t => t.TextId == p.TextId).Text
             }).ToListAsync();
         }
 
@@ -65,11 +64,11 @@ namespace ConfigTool.UI.Lookups
         //TODO gebruiken voor de combobox selectie?
         public async Task<IEnumerable<LookupItem<int>>> GetDatablockLookupAsync()
         {
-            return await _dbcontext.DataBlock.Select(p =>
+            return await _dbcontext.DataBlock.Select(d =>
             new LookupItem<int>
             {
-                Id = p.Id,
-                DisplayMember = p.Name
+                Id = d.Id,
+                DisplayMember = d.Name
             }).ToListAsync();
         }
 
@@ -81,11 +80,11 @@ namespace ConfigTool.UI.Lookups
 
         public async Task<IEnumerable<LookupItem<short>>> GetValueTypeLookupAsync()
         {
-            return await _dbcontext.ValueType.Select(p =>
+            return await _dbcontext.ValueType.Select(v =>
                 new LookupItem<short>
                 {
-                    Id = p.Id,
-                    DisplayMember = p.Name
+                    Id = v.Id,
+                    DisplayMember = v.Name
                 }).ToListAsync();
         }
         
@@ -98,6 +97,15 @@ namespace ConfigTool.UI.Lookups
                     DisplayMember = p.Name
                 }).ToListAsync();
         }
+        public async Task<IEnumerable<LookupItem<int>>> GetTextLanguageLookupAsync()
+        {
+            return await _dbcontext.TextLanguage.Where(tl => tl.LanguageId == 1 && (tl.TextId > 60000 && tl.TextId < 60100) || tl.TextId == 0 ).OrderBy(tl => tl.Text).Select(tl =>
+                new LookupItem<int>
+                {
+                    Id = tl.TextId,
+                    DisplayMember = tl.Text
+                }).ToListAsync();
+        }
 
         public async Task SaveAsync()
         {
@@ -108,5 +116,6 @@ namespace ConfigTool.UI.Lookups
         {
             return _dbcontext.ChangeTracker.HasChanges();
         }
+
     }
 }

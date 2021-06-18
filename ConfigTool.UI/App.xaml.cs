@@ -47,17 +47,21 @@ namespace ConfigTool.UI
             services.AddTransient<IDatablockRepository, DatablockRepository>();
             services.AddTransient<IValueTypeRepository, ValueTypeRepository>();
             services.AddTransient<IUnitCategoryRepository, UnitCategoryRepository>();
+            services.AddTransient<ITextLanguageRepository, TextLanguageRepository>();
             services.AddTransient<IPlctagLookupDataService, LookupDataService>();
             services.AddTransient<IDatablockLookupDataService, LookupDataService>();
             services.AddTransient<IValueTypeLookupDataService, LookupDataService>();
             services.AddTransient<IUnitCategoryLookupDataService, LookupDataService>();
+            services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
             services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
             services.AddTransient<IValueTypeDetailViewModel, ValueTypeDetailViewModel>();
             services.AddTransient<IUnitCategoryDetailViewModel, UnitCategoryDetailViewModel>();
+            services.AddTransient<ITextLanguageDetailViewModel, TextLanguageDetailViewModel>();
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddTransient<Func<IUnitCategoryDetailViewModel>>(sp => () => sp.GetService<IUnitCategoryDetailViewModel>());
+            services.AddTransient<Func<ITextLanguageDetailViewModel>>(sp => () => sp.GetService<ITextLanguageDetailViewModel>());
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
                             .EnableSensitiveDataLogging()

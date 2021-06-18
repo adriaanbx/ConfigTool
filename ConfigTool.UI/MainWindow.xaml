@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type viewModel:UnitCategoryDetailViewModel}">
             <view:UnitCategoryDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:TextLanguageDetailViewModel}">
+            <view:TextLanguageDetailView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
