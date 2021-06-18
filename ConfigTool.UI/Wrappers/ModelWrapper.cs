@@ -23,8 +23,9 @@ namespace ConfigTool.UI.Wrappers
 
         protected virtual TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
-            return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
+            return typeof(T).GetProperty(propertyName).GetValue(Model) != null? (TValue)typeof(T).GetProperty(propertyName).GetValue(Model) : default(TValue);
         }
+
 
         private void ValidatePropertyInternal(string propertyName, object currentValue)
         {
@@ -33,7 +34,7 @@ namespace ConfigTool.UI.Wrappers
             ValidateDataAnnotations(propertyName, currentValue);
 
             ValidateCustomErrors(propertyName);
-                       
+
         }
 
         private void ValidateDataAnnotations(string propertyName, object currentValue)
