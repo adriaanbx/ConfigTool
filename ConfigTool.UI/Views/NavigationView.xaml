@@ -12,13 +12,15 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="9*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <TextBox Grid.Row="0" Text="{Binding PlctagFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <DataGrid Grid.Row="0"
-                  ItemsSource="{Binding Plctags}" AutoGenerateColumns="False"
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding PlctagCollectionView}" AutoGenerateColumns="False"
                   SelectionMode="Single" SelectionUnit="Cell"
                   CurrentCell="{Binding SelectedCell, Mode=OneWayToSource, Converter={StaticResource converter}}">
             <DataGrid.Columns>
@@ -128,7 +130,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button HorizontalAlignment="Left" Content="Save" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
             <Button HorizontalAlignment="Left" Content="Cancel" Width="125" Margin="10" Command="{Binding CancelCommand}"/>
         </StackPanel>

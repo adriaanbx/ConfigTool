@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ConfigTool.UI.Lookups;
 using System.Windows.Input;
 using Prism.Commands;
+using System.ComponentModel;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -23,10 +24,28 @@ namespace ConfigTool.UI.ViewModels
         private bool _hasChanges;
 
         public ObservableCollection<NavigationItemPlctag> Plctags { get; }
+        public ICollectionView PlctagCollectionView { get; }
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
         public ObservableCollection<LookupItem<int>> Datablocks { get; }
         public ObservableCollection<LookupItem<int>> UnitCategories { get; }
         public ObservableCollection<LookupItem<int>> TextLanguages { get; }
+
+        private string _plctagFilter = string.Empty;
+
+        public string PlctagFilter
+        {
+            get { return _plctagFilter; }
+            set
+            {
+                if (_plctagFilter != value)
+                {
+                    _plctagFilter = value;
+                    OnPropertyChanged();
+                    PlctagCollectionView.Refresh();
+                }
+            }
+        }
+
 
         public bool HasChanges
         {
@@ -115,11 +134,62 @@ namespace ConfigTool.UI.ViewModels
             UnitCategories = new ObservableCollection<LookupItem<int>>();
             TextLanguages = new ObservableCollection<LookupItem<int>>();
 
+            PlctagCollectionView = System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags);
+            PlctagCollectionView.Filter += FilterPlctags;
+
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(RefreshObservableCollection);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
+        }
+
+        private bool FilterPlctags(object obj)
+        {
+            var boolResult = false;
+
+            if (obj is NavigationItemPlctag navigationItemPlctag)
+            {
+                //Show all tags when filter is empty
+                if (string.IsNullOrEmpty(PlctagFilter))
+                {
+                    return true;
+                }
+
+                //Check all columns with 'number' datatype
+                if (Int32.TryParse(PlctagFilter, out int result))
+                {
+                    return navigationItemPlctag.Plctag.Id.Equals(result) ||
+                           //navigationItemPlctag.Plctag.ArraySize.Equals(result) ||
+                           navigationItemPlctag.Plctag.CycleTime.Equals(result);
+                }
+
+                //Check nullable columns
+                boolResult = string.IsNullOrEmpty(navigationItemPlctag.Plctag.Name) ? false : navigationItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+                if (boolResult == true)
+                {
+                    return true;
+                }
+
+                boolResult = string.IsNullOrEmpty(navigationItemPlctag.Text) ? false : navigationItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+                if (boolResult == true)
+                {
+                    return true;
+                }
+
+                //Todo Ternary if-statement doesn't work together with or-statement?
+                //Check all columns with 'varchar' datatype
+                return navigationItemPlctag.Plctag.DefaultValue.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       navigationItemPlctag.Plctag.Number.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       navigationItemPlctag.DataBlock.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       navigationItemPlctag.ValueType.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       navigationItemPlctag.UnitCategory.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       //string.IsNullOrEmpty(navigationItemPlctag.Plctag.Name) ? false : navigationItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       //string.IsNullOrEmpty(navigationItemPlctag.Text) ? false : navigationItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       navigationItemPlctag.Plctag.Log.ToString().Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+
+            }
+            return false;
         }
 
         public async Task LoadAsync()
@@ -198,7 +268,7 @@ namespace ConfigTool.UI.ViewModels
 
         private void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
         {
-            System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags).Refresh();
+            PlctagCollectionView.Refresh();
         }
 
         private bool OnCancelCanExecute()

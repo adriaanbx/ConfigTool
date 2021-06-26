@@ -64,7 +64,7 @@ namespace ConfigTool.UI.Lookups
         //TODO gebruiken voor de combobox selectie?
         public async Task<IEnumerable<LookupItem<int>>> GetDatablockLookupAsync()
         {
-            return await _dbcontext.DataBlock.Select(d =>
+            return await _dbcontext.DataBlock.OrderBy(d=>d.Name).Select(d =>
             new LookupItem<int>
             {
                 Id = d.Id,
@@ -80,7 +80,7 @@ namespace ConfigTool.UI.Lookups
 
         public async Task<IEnumerable<LookupItem<short>>> GetValueTypeLookupAsync()
         {
-            return await _dbcontext.ValueType.Select(v =>
+            return await _dbcontext.ValueType.OrderBy(v => v.Name).Select(v =>
                 new LookupItem<short>
                 {
                     Id = v.Id,
@@ -90,7 +90,7 @@ namespace ConfigTool.UI.Lookups
         
         public async Task<IEnumerable<LookupItem<int>>> GetUnitCategoryLookupAsync()
         {
-            return await _dbcontext.UnitCategory.Select(p =>
+            return await _dbcontext.UnitCategory.OrderBy(u => u.Name).Select(p =>
                 new LookupItem<int>
                 {
                     Id = p.Id,
