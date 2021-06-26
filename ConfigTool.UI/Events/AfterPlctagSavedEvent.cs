@@ -2,7 +2,7 @@
 
 namespace ConfigTool.UI.Events
 {
-    class AfterPlctagSavedEvent:PubSubEvent<AfterPlctagSavedEventArgs>
+    class AfterPlctagSavedEvent:PubSubEvent<AfterPlctagSavedEventArgs?>
     {
     }
 

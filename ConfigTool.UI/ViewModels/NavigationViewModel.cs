@@ -115,7 +115,7 @@ namespace ConfigTool.UI.ViewModels
             UnitCategories = new ObservableCollection<LookupItem<int>>();
             TextLanguages = new ObservableCollection<LookupItem<int>>();
 
-            _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(AfterDatablockSaved);
+            _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(RefreshObservableCollection);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
@@ -193,7 +193,12 @@ namespace ConfigTool.UI.ViewModels
             HasChanges = _plctagLookupDataRepository.HasChanges();
 
             // Refresh ObservableCollection for UI-> alternative for OnpropertyChanged
-            System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags).Refresh(); ;
+            RefreshObservableCollection(null);
+        }
+
+        private void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
+        {
+            System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags).Refresh();
         }
 
         private bool OnCancelCanExecute()
@@ -201,7 +206,7 @@ namespace ConfigTool.UI.ViewModels
             return Plctags != null && HasChanges;
         }
 
-        private void AfterDatablockSaved(AfterPlctagSavedEventArgs eventArgs)
+        private void AfterDatablockSaved(AfterPlctagSavedEventArgs? eventArgs)
         {
             //var lookupItem = Plctags.FirstOrDefault(p => p.Id == eventArgs.Id);
             //if (lookupItem == null)
