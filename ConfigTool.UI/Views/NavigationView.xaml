@@ -117,6 +117,7 @@
                                SelectedValue="{Binding Path=Plctag.TextId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember">
+                                <!--IsTextSearchEnabled="True">-->
                                <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel />

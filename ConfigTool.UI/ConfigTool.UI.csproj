@@ -40,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Views\PlctagDetailView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Views\UnitCategoryDetailView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

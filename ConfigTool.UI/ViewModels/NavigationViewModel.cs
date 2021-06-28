@@ -10,6 +10,7 @@ using ConfigTool.UI.Lookups;
 using System.Windows.Input;
 using Prism.Commands;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -77,7 +78,11 @@ namespace ConfigTool.UI.ViewModels
                     //get selected column name
                     var columnName = SelectedCell.ColumnName;
 
-                    if (value.ColumnName.Equals("Text"))
+                    //initialisation
+                    var isForeignKeyColumn = false;
+
+                    //selected column is Text column
+                    if (columnName.Equals("Text"))
                     {
                         var TextId = SelectedCell.Plctag.TextId;
 
@@ -85,6 +90,7 @@ namespace ConfigTool.UI.ViewModels
                         _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
                             .Publish(new EventParameters() { Id = Convert.ToInt32(TextId), TableName = columnName });
                     }
+
                     else
                     {
                         //get foreign keys
@@ -95,6 +101,9 @@ namespace ConfigTool.UI.ViewModels
                         {
                             if (key.PrincipalEntityType.ToString().Contains(columnName))
                             {
+                                //selected column is foreign key column
+                                isForeignKeyColumn = true;
+
                                 //get primarykey column name of foreignkey table
                                 var primaryKeyColumnName = columnName + "Id";
 
@@ -104,9 +113,24 @@ namespace ConfigTool.UI.ViewModels
                                 //Publish event to subscribers
                                 _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
                                     .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
+
+                                break;
                             }
                         }
+
+                        //selected column is not a foreign key column
+                        if (!isForeignKeyColumn)
+                        {
+                            //use reflection to get the value of the property, aka selected column, at runtime
+                            var primaryKeyValue = SelectedCell.Plctag.Id;
+
+                            //Publish event to subscribers
+                            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                                .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
+                        }
                     }
+
+
                     OnPropertyChanged();
 
                 }
@@ -194,6 +218,9 @@ namespace ConfigTool.UI.ViewModels
 
         public async Task LoadAsync()
         {
+            var timer = new Stopwatch();
+            timer.Start();
+
             var lookup = await _plctagLookupDataRepository.GetPlctagLookupAsync();
             Plctags.Clear();
             foreach (var item in lookup)
@@ -235,6 +262,9 @@ namespace ConfigTool.UI.ViewModels
             {
                 TextLanguages.Add(item);
             }
+
+            timer.Stop();
+            Debug.WriteLine(timer.Elapsed.ToString(@"m\:ss\.fff"));
         }
         private async void OnSaveExecute()
         {
