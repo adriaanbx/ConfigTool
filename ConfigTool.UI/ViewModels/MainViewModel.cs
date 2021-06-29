@@ -35,6 +35,21 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
+        private string _status;
+
+        public string Status
+        {
+            get { return _status; }
+            set {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
 
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
@@ -60,7 +75,9 @@ namespace ConfigTool.UI.ViewModels
 
         public async Task LoadAsync()
         {
+            Status = "Loading...";
             await NavigationViewModel.LoadAsync();
+            Status = "Ready";
         }
 
         public ICommand CreateNewPlctagCommand { get; }
@@ -96,7 +113,9 @@ namespace ConfigTool.UI.ViewModels
                     break;
             }
 
+            Status = "Loading...";
             await DetailViewModel.LoadAsync(eventParameters);
+            Status = "Ready";
         }
         private void OnCreatenewPlctagExecute()
         {
