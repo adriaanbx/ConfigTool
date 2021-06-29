@@ -28,18 +28,13 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu FontSize="15">
-            <MenuItem Header="Create">
-                <MenuItem Header="New Plctag" Command="{Binding CreateNewPlctagCommand}"/>
-            </MenuItem>
-        </Menu>
-        <view:NavigationView Grid.Row="1" DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="2" Content="{Binding DetailViewModel}"/>
-        <TextBox Grid.Row="3" Text="{Binding Status}" IsEnabled="False"/>
+
+        <view:NavigationView Grid.Row="0" DataContext="{Binding NavigationViewModel}"/>
+        <ContentControl Grid.Row="1" Content="{Binding DetailViewModel}"/>
+        <TextBox Grid.Row="2" Text="{Binding Status}" IsEnabled="False"/>
     </Grid>
 </Window>

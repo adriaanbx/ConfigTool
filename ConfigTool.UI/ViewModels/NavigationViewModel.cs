@@ -59,6 +59,7 @@ namespace ConfigTool.UI.ViewModels
                     OnPropertyChanged();
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                     ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)CreateNewPlctagCommand).RaiseCanExecuteChanged();
                 }
 
             }
@@ -139,7 +140,7 @@ namespace ConfigTool.UI.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
-
+        public ICommand CreateNewPlctagCommand { get; }
 
         public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService,
                                    IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService,
@@ -166,6 +167,19 @@ namespace ConfigTool.UI.ViewModels
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
+            CreateNewPlctagCommand = new DelegateCommand(OnCreateNewPlctagExecute, OnCreateNewPlctagCanExecute);
+        }
+
+        private bool OnCreateNewPlctagCanExecute()
+        {
+            return Plctags != null && !HasChanges;
+        }
+
+        private void OnCreateNewPlctagExecute()
+        {
+            //Publish event to subscribers
+            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                .Publish(null);
         }
 
         private bool FilterPlctags(object obj)
@@ -298,8 +312,11 @@ namespace ConfigTool.UI.ViewModels
 
         private async void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
         {
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Loading...");
             await LoadAsync();
             PlctagCollectionView.Refresh();
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
+
         }
 
         private void RefreshObservableCollection()

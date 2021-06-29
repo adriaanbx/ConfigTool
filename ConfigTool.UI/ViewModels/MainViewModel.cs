@@ -66,18 +66,16 @@ namespace ConfigTool.UI.ViewModels
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
-
-            CreateNewPlctagCommand = new DelegateCommand(OnCreatenewPlctagExecute);
-
+            _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
+           
             NavigationViewModel = navigationViewModel;
         }
 
-
         public async Task LoadAsync()
         {
-            Status = "Loading...";
+            UpdateStatus("Loading...");
             await NavigationViewModel.LoadAsync();
-            Status = "Ready";
+            UpdateStatus("Ready");
         }
 
         public ICommand CreateNewPlctagCommand { get; }
@@ -113,13 +111,14 @@ namespace ConfigTool.UI.ViewModels
                     break;
             }
 
-            Status = "Loading...";
+            UpdateStatus("Loading...");
             await DetailViewModel.LoadAsync(eventParameters);
-            Status = "Ready";
+            UpdateStatus("Ready");
         }
-        private void OnCreatenewPlctagExecute()
+
+        private void UpdateStatus(string message)
         {
-            OnOpenPlctagDetailView(null);
+            Status = message;
         }
 
         private void AfterPlctagDeleted(int plctagId)

@@ -3,6 +3,7 @@ using ConfigTool.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace ConfigTool.UI.Repositories
 
         public void Add(Plctag plctag)
         {
-           _modelContext.Plctag.Add(plctag);
+            _modelContext.Plctag.Add(plctag);
         }
 
         public async Task<IEnumerable<Plctag>> GetAllAsync()
@@ -35,7 +36,7 @@ namespace ConfigTool.UI.Repositories
 
         public bool HasChanges()
         {
-           return _modelContext.ChangeTracker.HasChanges();
+            return _modelContext.ChangeTracker.HasChanges();
         }
 
         public void Remove(Plctag model)
@@ -46,6 +47,11 @@ namespace ConfigTool.UI.Repositories
         public async Task SaveAsync()
         {
             await _modelContext.SaveChangesAsync();
+        }
+
+        public int GetMaxId()
+        {
+            return _modelContext.Plctag.Max(p => p.Id);
         }
 
         public void GetForeignKeys()

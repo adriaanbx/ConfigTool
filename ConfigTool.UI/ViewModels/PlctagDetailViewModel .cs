@@ -152,6 +152,7 @@ namespace ConfigTool.UI.ViewModels
         private Plctag CreateNewPlctag()
         {
             var plctag = new Plctag();
+            plctag.Id = _plctagRepository.GetMaxId() + 1;
             _plctagRepository.Add(plctag);
             return plctag;
         }

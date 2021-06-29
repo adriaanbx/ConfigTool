@@ -14,5 +14,6 @@ namespace ConfigTool.UI.Repositories
         bool HasChanges();
         void Add(Plctag plctag);
         void Remove(Plctag model);
+        int GetMaxId();
     }
 }
