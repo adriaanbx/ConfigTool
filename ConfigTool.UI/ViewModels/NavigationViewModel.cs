@@ -293,10 +293,16 @@ namespace ConfigTool.UI.ViewModels
             HasChanges = _plctagLookupDataRepository.HasChanges();
 
             // Refresh ObservableCollection for UI-> alternative for OnpropertyChanged
-            RefreshObservableCollection(null);
+            RefreshObservableCollection();
         }
 
-        private void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
+        private async void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
+        {
+            await LoadAsync();
+            PlctagCollectionView.Refresh();
+        }
+
+        private void RefreshObservableCollection()
         {
             PlctagCollectionView.Refresh();
         }
