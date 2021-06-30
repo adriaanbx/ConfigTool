@@ -83,7 +83,7 @@
                 <DataGridTemplateColumn Header="DataBlock">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Path=DataContext.Datablocks, RelativeSource={RelativeSource AncestorType=local:TableView}}" Margin="0 0 10 0"
+                            <ComboBox ItemsSource="{Binding Path=DataContext.Datablocks, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
                                SelectedValue="{Binding Path=Plctag.DataBlockId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
@@ -93,7 +93,7 @@
                 <DataGridTemplateColumn Header="ValueType">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Path=DataContext.ValueTypes, RelativeSource={RelativeSource AncestorType=local:TableView}}" Margin="0 0 10 0"
+                            <ComboBox ItemsSource="{Binding Path=DataContext.ValueTypes, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
                                SelectedValue="{Binding Path=Plctag.ValueTypeId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
@@ -103,7 +103,7 @@
                 <DataGridTemplateColumn Header="UnitCategory">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Path=DataContext.UnitCategories, RelativeSource={RelativeSource AncestorType=local:TableView}}" Margin="0 0 10 0"
+                            <ComboBox ItemsSource="{Binding Path=DataContext.UnitCategories, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
                                SelectedValue="{Binding Path=Plctag.UnitCategoryId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
@@ -113,7 +113,7 @@
                 <DataGridTemplateColumn Header="Text">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Path=DataContext.TextLanguages, RelativeSource={RelativeSource AncestorType=local:TableView}}"  Margin="0 0 10 0"
+                            <ComboBox ItemsSource="{Binding Path=DataContext.TextLanguages, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}"  Margin="0 0 10 0"
                                SelectedValue="{Binding Path=Plctag.TextId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember">

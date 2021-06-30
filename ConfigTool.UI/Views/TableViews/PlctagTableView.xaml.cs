@@ -19,9 +19,9 @@ namespace ConfigTool.UI.Views
     /// <summary>
     /// Interaction logic for TableView.xaml
     /// </summary>
-    public partial class TableView : UserControl
+    public partial class PlctagTableView : UserControl
     {
-        public TableView()
+        public PlctagTableView()
         {
             InitializeComponent();
         }

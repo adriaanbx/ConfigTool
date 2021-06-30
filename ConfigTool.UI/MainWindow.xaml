@@ -46,7 +46,7 @@
 
         <view:NavigationView Grid.RowSpan="2" Grid.Column="0" DataContext="{Binding NavigationViewModel}"/>
 
-        <ContentControl Grid.Row="0" Grid.Column="1" DataContext="{Binding TableViewModel}"/>
+        <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding TableViewModel}"/>
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailViewModel}"/>
         
         <TextBox Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" IsEnabled="False"/>

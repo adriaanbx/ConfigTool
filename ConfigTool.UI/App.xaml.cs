@@ -43,6 +43,7 @@ namespace ConfigTool.UI
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
+            services.AddTransient<IModelRepository, ModelRepository>();
             services.AddTransient<IPlctagRepository, PlctagRepository>();
             services.AddTransient<IDatablockRepository, DatablockRepository>();
             services.AddTransient<IValueTypeRepository, ValueTypeRepository>();
@@ -53,17 +54,20 @@ namespace ConfigTool.UI
             services.AddTransient<IValueTypeLookupDataService, LookupDataService>();
             services.AddTransient<IUnitCategoryLookupDataService, LookupDataService>();
             services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
-            services.AddTransient<ITableViewModel, TableViewModel>();
+            services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
+            services.AddTransient<INavigationViewModel, NavigationViewModel>();
             services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
             services.AddTransient<IValueTypeDetailViewModel, ValueTypeDetailViewModel>();
             services.AddTransient<IUnitCategoryDetailViewModel, UnitCategoryDetailViewModel>();
             services.AddTransient<ITextLanguageDetailViewModel, TextLanguageDetailViewModel>();
             services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
+            services.AddTransient<IPlctagTableViewModel, PlctagTableViewModel>();
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddTransient<Func<IUnitCategoryDetailViewModel>>(sp => () => sp.GetService<IUnitCategoryDetailViewModel>());
             services.AddTransient<Func<ITextLanguageDetailViewModel>>(sp => () => sp.GetService<ITextLanguageDetailViewModel>());
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
+            services.AddTransient<Func<IPlctagTableViewModel>>(sp => () => sp.GetService<IPlctagTableViewModel>());
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
                             .EnableSensitiveDataLogging()

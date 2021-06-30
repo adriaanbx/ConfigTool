@@ -16,12 +16,26 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IUnitCategoryDetailViewModel> _unitCategoryDetailViewModelCreator;
         private readonly Func<ITextLanguageDetailViewModel> _textLanguageDetailViewModelCreator;
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
+        private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
+        private ITableViewModel _TableViewModel;
 
         public INavigationViewModel NavigationViewModel { get; }
-        public ITableViewModel TableViewModel { get; }
+
+        public ITableViewModel TableViewModel {
+            get { return _TableViewModel; }
+            private set
+            {
+                if (_TableViewModel != value)
+                {
+                    _TableViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public IDetailViewModel DetailViewModel
         {
             get { return _DetailViewModel; }
@@ -50,32 +64,11 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        private string _selectedTable;
 
-        public string SelectedTable
-        {
-            get { return _selectedTable; }
-            set
-            {
-                if (_selectedTable != value)
-                {
-                    _selectedTable = value;
-
-                    //Publish event to subscribers
-                    _eventAggregator.GetEvent<OpenTableViewEvent>()
-                        .Publish(new EventParameters() { TableName = SelectedTable });
-
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-
-
-        public MainViewModel(ITableViewModel tableViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
+                                Func<IPlctagTableViewModel> plctagTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -83,14 +76,16 @@ namespace ConfigTool.UI.ViewModels
             _unitCategoryDetailViewModelCreator = unitCategoryDetailViewModelCreator;
             _textLanguageDetailViewModelCreator = textLanguageDetailViewModelCreator;
             _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
+            _plctagTableViewModelCreator = plctagTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
+            _eventAggregator.GetEvent<OpenTableViewEvent>().Subscribe(OnOpenTableView);
 
-            TableViewModel = tableViewModel;
+            NavigationViewModel = navigationViewModel;
         }
 
         public async Task LoadAsync()
@@ -138,6 +133,49 @@ namespace ConfigTool.UI.ViewModels
             UpdateStatus("Ready");
         }
 
+        //TODO Wanneer alle tabellen zijn ingevoegd kan je 1 algemene functie maken van "OnOpenDetailView" en "OnOpenTableView"
+        private async void OnOpenTableView(EventParameters? eventParameters)
+        {
+            //shows a message when you leave the detail view, if any unsaved changes have been made
+            if (TableViewModel != null && TableViewModel.HasChanges)
+            {
+                var result = _messageDialogService.ShowOkCancelDialog("You've made changes. Navigate away?", "Question");
+                if (result == MessageDialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
+            switch (eventParameters?.TableName)
+            {
+                case nameof(Plctag):
+                case   "PLCTag":
+                    TableViewModel = _plctagTableViewModelCreator();
+                    break;
+                default:
+                    return;
+                    //case nameof(DataBlock):
+                    //    DetailViewModel = _datablockDetailViewModelCreator();
+                    //    break;
+                    //case nameof(Models.ValueType):
+                    //    DetailViewModel = _valueTypeDetailViewModelCreator();
+                    //    break;
+                    //case nameof(Models.UnitCategory):
+                    //    DetailViewModel = _unitCategoryDetailViewModelCreator();
+                    //    break;
+                    //case nameof(Models.Text):
+                    //    DetailViewModel = _textLanguageDetailViewModelCreator();
+                    //    break;
+                    //default:
+                    //    DetailViewModel = _plctagDetailViewModelCreator();
+                    //    break;
+            }
+
+            UpdateStatus("Loading...");
+            await TableViewModel.LoadAsync(eventParameters);
+            UpdateStatus("Ready");
+        }
+
         private void UpdateStatus(string message)
         {
             Status = message;
@@ -147,6 +185,8 @@ namespace ConfigTool.UI.ViewModels
         {
             DetailViewModel = null;
         }
+
+
 
     }
 }

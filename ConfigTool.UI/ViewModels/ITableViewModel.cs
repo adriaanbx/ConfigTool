@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using ConfigTool.UI.Events;
+using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModels
 {
     public interface ITableViewModel
     {
-        Task LoadAsync();
+        public abstract bool HasChanges { get; }
+
+        public abstract Task LoadAsync(EventParameters? eventParameters);
     }
 }
