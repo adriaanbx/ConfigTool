@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public class NavigationItemPlctag:ViewModelBase
+    public class TableItemPlctag:ViewModelBase
     {
         public PlctagWrapper Plctag { get; set; }
 

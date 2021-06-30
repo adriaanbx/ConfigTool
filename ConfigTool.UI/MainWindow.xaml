@@ -32,9 +32,20 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <view:NavigationView Grid.Row="0" DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="1" Content="{Binding DetailViewModel}"/>
-        <TextBox Grid.Row="2" Text="{Binding Status}" IsEnabled="False"/>
+        <ListView Grid.RowSpan="2" Grid.Column="0">
+            <ListViewItem>Test</ListViewItem>
+            <ListViewItem>Test</ListViewItem>
+            <ListViewItem>Test</ListViewItem>
+            <ListViewItem>Test</ListViewItem>
+        </ListView>
+        
+        <view:TableView Grid.Row="0" Grid.Column="1" DataContext="{Binding TableViewModel}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailViewModel}"/>
+        <TextBox Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" IsEnabled="False"/>
     </Grid>
 </Window>

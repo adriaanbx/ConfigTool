@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public class NavigationViewModel : ViewModelBase, INavigationViewModel
+    public class TableViewModel : ViewModelBase, ITableViewModel
     {
         private readonly IPlctagLookupDataService _plctagLookupDataRepository;
         private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
@@ -24,7 +24,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
-        public ObservableCollection<NavigationItemPlctag> Plctags { get; }
+        public ObservableCollection<TableItemPlctag> Plctags { get; }
         public ICollectionView PlctagCollectionView { get; }
         public ObservableCollection<LookupItem<short>> ValueTypes { get; }
         public ObservableCollection<LookupItem<int>> Datablocks { get; }
@@ -65,9 +65,9 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        private NavigationItemPlctag _selectedCell;
+        private TableItemPlctag _selectedCell;
 
-        public NavigationItemPlctag SelectedCell
+        public TableItemPlctag SelectedCell
         {
             get { return _selectedCell; }
             set
@@ -142,7 +142,7 @@ namespace ConfigTool.UI.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand CreateNewPlctagCommand { get; }
 
-        public NavigationViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService,
+        public TableViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService,
                                    IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService,
                                    ITextLanguageLookupDataService textLanguageLookupDataService, IEventAggregator eventAggregator)
         {
@@ -153,7 +153,7 @@ namespace ConfigTool.UI.ViewModels
             _textLanguageLookupDataRepository = textLanguageLookupDataService;
             _eventAggregator = eventAggregator;
 
-            Plctags = new ObservableCollection<NavigationItemPlctag>();
+            Plctags = new ObservableCollection<TableItemPlctag>();
             ValueTypes = new ObservableCollection<LookupItem<short>>();
             Datablocks = new ObservableCollection<LookupItem<int>>();
             UnitCategories = new ObservableCollection<LookupItem<int>>();
@@ -186,7 +186,7 @@ namespace ConfigTool.UI.ViewModels
         {
             var boolResult = false;
 
-            if (obj is NavigationItemPlctag navigationItemPlctag)
+            if (obj is TableItemPlctag tableItemPlctag)
             {
                 //Show all tags when filter is empty
                 if (string.IsNullOrEmpty(PlctagFilter))
@@ -197,19 +197,19 @@ namespace ConfigTool.UI.ViewModels
                 //Check all columns with 'number' datatype
                 if (Int32.TryParse(PlctagFilter, out int result))
                 {
-                    return navigationItemPlctag.Plctag.Id.Equals(result) ||
-                           //navigationItemPlctag.Plctag.ArraySize.Equals(result) ||
-                           navigationItemPlctag.Plctag.CycleTime.Equals(result);
+                    return tableItemPlctag.Plctag.Id.Equals(result) ||
+                           //tableItemPlctag.Plctag.ArraySize.Equals(result) ||
+                           tableItemPlctag.Plctag.CycleTime.Equals(result);
                 }
 
                 //Check nullable columns
-                boolResult = string.IsNullOrEmpty(navigationItemPlctag.Plctag.Name) ? false : navigationItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+                boolResult = string.IsNullOrEmpty(tableItemPlctag.Plctag.Name) ? false : tableItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
                 if (boolResult == true)
                 {
                     return true;
                 }
 
-                boolResult = string.IsNullOrEmpty(navigationItemPlctag.Text) ? false : navigationItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+                boolResult = string.IsNullOrEmpty(tableItemPlctag.Text) ? false : tableItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
                 if (boolResult == true)
                 {
                     return true;
@@ -217,14 +217,14 @@ namespace ConfigTool.UI.ViewModels
 
                 //Todo Ternary if-statement doesn't work together with or-statement?
                 //Check all columns with 'varchar' datatype
-                return navigationItemPlctag.Plctag.DefaultValue.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       navigationItemPlctag.Plctag.Number.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       navigationItemPlctag.DataBlock.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       navigationItemPlctag.ValueType.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       navigationItemPlctag.UnitCategory.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       //string.IsNullOrEmpty(navigationItemPlctag.Plctag.Name) ? false : navigationItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       //string.IsNullOrEmpty(navigationItemPlctag.Text) ? false : navigationItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       navigationItemPlctag.Plctag.Log.ToString().Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
+                return tableItemPlctag.Plctag.DefaultValue.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       tableItemPlctag.Plctag.Number.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       tableItemPlctag.DataBlock.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       tableItemPlctag.ValueType.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       tableItemPlctag.UnitCategory.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       //string.IsNullOrEmpty(tableItemPlctag.Plctag.Name) ? false : tableItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       //string.IsNullOrEmpty(tableItemPlctag.Text) ? false : tableItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       tableItemPlctag.Plctag.Log.ToString().Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
 
             }
             return false;
@@ -334,7 +334,7 @@ namespace ConfigTool.UI.ViewModels
             //var lookupItem = Plctags.FirstOrDefault(p => p.Id == eventArgs.Id);
             //if (lookupItem == null)
             //{
-            //    Plctags.Add(new NavigationItemViewModel(eventArgs.Id, eventArgs.DisplayMember, _eventAggregator));
+            //    Plctags.Add(new TableItemViewModel(eventArgs.Id, eventArgs.DisplayMember, _eventAggregator));
             //}
             //else
             //{

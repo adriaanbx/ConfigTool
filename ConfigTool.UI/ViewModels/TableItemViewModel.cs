@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public class NavigationItemViewModel : ViewModelBase
+    public class TableItemViewModel : ViewModelBase
     {
         private string _displayMember;
         private readonly IEventAggregator _eventAggregator;
@@ -30,7 +30,7 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        public NavigationItemViewModel(int id, string displayMember, IEventAggregator eventAggregator)
+        public TableItemViewModel(int id, string displayMember, IEventAggregator eventAggregator)
         {
             Id = id;
             DisplayMember = displayMember;

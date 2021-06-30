@@ -53,7 +53,7 @@ namespace ConfigTool.UI
             services.AddTransient<IValueTypeLookupDataService, LookupDataService>();
             services.AddTransient<IUnitCategoryLookupDataService, LookupDataService>();
             services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
-            services.AddTransient<INavigationViewModel, NavigationViewModel>();
+            services.AddTransient<ITableViewModel, TableViewModel>();
             services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
             services.AddTransient<IValueTypeDetailViewModel, ValueTypeDetailViewModel>();
             services.AddTransient<IUnitCategoryDetailViewModel, UnitCategoryDetailViewModel>();

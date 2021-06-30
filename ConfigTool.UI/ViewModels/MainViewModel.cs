@@ -20,7 +20,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
 
-        public INavigationViewModel NavigationViewModel { get; }
+        public ITableViewModel TableViewModel { get; }
 
         public IDetailViewModel DetailViewModel
         {
@@ -51,7 +51,7 @@ namespace ConfigTool.UI.ViewModels
 
 
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
+        public MainViewModel(ITableViewModel tableViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
@@ -68,13 +68,13 @@ namespace ConfigTool.UI.ViewModels
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
            
-            NavigationViewModel = navigationViewModel;
+            TableViewModel = tableViewModel;
         }
 
         public async Task LoadAsync()
         {
             UpdateStatus("Loading...");
-            await NavigationViewModel.LoadAsync();
+            await TableViewModel.LoadAsync();
             UpdateStatus("Ready");
         }
 

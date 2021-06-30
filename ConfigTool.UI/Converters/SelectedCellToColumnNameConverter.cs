@@ -22,17 +22,17 @@ namespace ConfigTool.UI.Converters
             if (value != null)
             {
                 var cellInfo = (DataGridCellInfo)value;
-                NavigationItemPlctag navigationItemPlctag = new NavigationItemPlctag();
+                TableItemPlctag tableItemPlctag = new TableItemPlctag();
 
                 if (cellInfo.Column != null && cellInfo.Item != null)
                 {
                     //get selected cell info
-                    navigationItemPlctag = cellInfo.Item as NavigationItemPlctag;
+                    tableItemPlctag = cellInfo.Item as TableItemPlctag;
 
                     //get selected column name
-                    navigationItemPlctag.ColumnName = cellInfo.Column.Header.ToString();
+                    tableItemPlctag.ColumnName = cellInfo.Column.Header.ToString();
                 }
-                return navigationItemPlctag;
+                return tableItemPlctag;
             }
             return null;
         }

@@ -2,7 +2,7 @@
 
 namespace ConfigTool.UI.ViewModels
 {
-    public interface INavigationViewModel
+    public interface ITableViewModel
     {
         Task LoadAsync();
     }

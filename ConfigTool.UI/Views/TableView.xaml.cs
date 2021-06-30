@@ -17,11 +17,11 @@ using System.Windows.Shapes;
 namespace ConfigTool.UI.Views
 {
     /// <summary>
-    /// Interaction logic for NavigationView.xaml
+    /// Interaction logic for TableView.xaml
     /// </summary>
-    public partial class NavigationView : UserControl
+    public partial class TableView : UserControl
     {
-        public NavigationView()
+        public TableView()
         {
             InitializeComponent();
         }

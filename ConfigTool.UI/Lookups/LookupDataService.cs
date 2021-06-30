@@ -20,10 +20,10 @@ namespace ConfigTool.UI.Lookups
             _dbcontext = dbcontext;
         }
 
-        public async Task<IEnumerable<NavigationItemPlctag>> GetPlctagLookupAsync()
+        public async Task<IEnumerable<TableItemPlctag>> GetPlctagLookupAsync()
         {
             return await _dbcontext.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>
-            new NavigationItemPlctag
+            new TableItemPlctag
             {
                 Plctag = new Wrappers.PlctagWrapper(p),
                 DataBlock = p.DataBlock.Name,

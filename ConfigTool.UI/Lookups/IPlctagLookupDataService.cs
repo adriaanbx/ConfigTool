@@ -8,7 +8,7 @@ namespace ConfigTool.UI.Repositories
 {
     public interface IPlctagLookupDataService
     {
-        Task<IEnumerable<NavigationItemPlctag>> GetPlctagLookupAsync();
+        Task<IEnumerable<TableItemPlctag>> GetPlctagLookupAsync();
         public IEnumerable<IForeignKey> GetForeignKeys();
         public Task SaveAsync();
         public bool HasChanges();
