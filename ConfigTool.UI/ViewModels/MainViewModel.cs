@@ -20,8 +20,8 @@ namespace ConfigTool.UI.ViewModels
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
 
+        public INavigationViewModel NavigationViewModel { get; }
         public ITableViewModel TableViewModel { get; }
-
         public IDetailViewModel DetailViewModel
         {
             get { return _DetailViewModel; }
@@ -40,7 +40,8 @@ namespace ConfigTool.UI.ViewModels
         public string Status
         {
             get { return _status; }
-            set {
+            set
+            {
                 if (_status != value)
                 {
                     _status = value;
@@ -48,6 +49,27 @@ namespace ConfigTool.UI.ViewModels
                 }
             }
         }
+
+        private string _selectedTable;
+
+        public string SelectedTable
+        {
+            get { return _selectedTable; }
+            set
+            {
+                if (_selectedTable != value)
+                {
+                    _selectedTable = value;
+
+                    //Publish event to subscribers
+                    _eventAggregator.GetEvent<OpenTableViewEvent>()
+                        .Publish(new EventParameters() { TableName = SelectedTable });
+
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
 
 
@@ -64,17 +86,17 @@ namespace ConfigTool.UI.ViewModels
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
             _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
-           
+
             TableViewModel = tableViewModel;
         }
 
         public async Task LoadAsync()
         {
             UpdateStatus("Loading...");
-            await TableViewModel.LoadAsync();
+            await NavigationViewModel.LoadAsync();
             UpdateStatus("Ready");
         }
 

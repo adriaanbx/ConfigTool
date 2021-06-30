@@ -88,7 +88,7 @@ namespace ConfigTool.UI.ViewModels
                         var TextId = SelectedCell.Plctag.TextId;
 
                         //Publish event to subscribers
-                        _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                        _eventAggregator.GetEvent<OpenDetailViewEvent>()
                             .Publish(new EventParameters() { Id = Convert.ToInt32(TextId), TableName = columnName });
                     }
 
@@ -112,7 +112,7 @@ namespace ConfigTool.UI.ViewModels
                                 var primaryKeyValue = SelectedCell.Plctag.GetType().GetProperty(primaryKeyColumnName)?.GetValue(SelectedCell.Plctag);
 
                                 //Publish event to subscribers
-                                _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                                _eventAggregator.GetEvent<OpenDetailViewEvent>()
                                     .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
 
                                 break;
@@ -126,7 +126,7 @@ namespace ConfigTool.UI.ViewModels
                             var primaryKeyValue = SelectedCell.Plctag.Id;
 
                             //Publish event to subscribers
-                            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+                            _eventAggregator.GetEvent<OpenDetailViewEvent>()
                                 .Publish(new EventParameters() { Id = Convert.ToInt32(primaryKeyValue), TableName = columnName });
                         }
                     }
@@ -178,7 +178,7 @@ namespace ConfigTool.UI.ViewModels
         private void OnCreateNewPlctagExecute()
         {
             //Publish event to subscribers
-            _eventAggregator.GetEvent<OpenPlctagDetailViewEvent>()
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
                 .Publish(null);
         }
 
