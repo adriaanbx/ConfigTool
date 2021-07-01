@@ -24,12 +24,12 @@ namespace ConfigTool.UI.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
-        public ObservableCollection<TableItemPlctag> Plctags { get; }
+        public RangeObservableCollection<TableItemPlctag> Plctags { get; }
         public ICollectionView PlctagCollectionView { get; }
-        public ObservableCollection<LookupItem<short>> ValueTypes { get; }
-        public ObservableCollection<LookupItem<int>> Datablocks { get; }
-        public ObservableCollection<LookupItem<int>> UnitCategories { get; }
-        public ObservableCollection<LookupItem<int>> TextLanguages { get; }
+        public RangeObservableCollection<LookupItem<short>> ValueTypes { get; }
+        public RangeObservableCollection<LookupItem<int>> Datablocks { get; }
+        public RangeObservableCollection<LookupItem<int>> UnitCategories { get; }
+        public RangeObservableCollection<LookupItem<int>> TextLanguages { get; }
 
         private string _plctagFilter = string.Empty;
 
@@ -153,11 +153,11 @@ namespace ConfigTool.UI.ViewModels
             _textLanguageLookupDataRepository = textLanguageLookupDataService;
             _eventAggregator = eventAggregator;
 
-            Plctags = new ObservableCollection<TableItemPlctag>();
-            ValueTypes = new ObservableCollection<LookupItem<short>>();
-            Datablocks = new ObservableCollection<LookupItem<int>>();
-            UnitCategories = new ObservableCollection<LookupItem<int>>();
-            TextLanguages = new ObservableCollection<LookupItem<int>>();
+            Plctags = new RangeObservableCollection<TableItemPlctag>();
+            ValueTypes = new RangeObservableCollection<LookupItem<short>>();
+            Datablocks = new RangeObservableCollection<LookupItem<int>>();
+            UnitCategories = new RangeObservableCollection<LookupItem<int>>();
+            TextLanguages = new RangeObservableCollection<LookupItem<int>>();
 
             PlctagCollectionView = System.Windows.Data.CollectionViewSource.GetDefaultView(Plctags);
             PlctagCollectionView.Filter += FilterPlctags;
@@ -232,54 +232,43 @@ namespace ConfigTool.UI.ViewModels
 
         public async Task LoadAsync(EventParameters? eventParameters)
         {
-            var timer = new Stopwatch();
-            timer.Start();
-
+            //Load Plctags
             var lookup = await _plctagLookupDataRepository.GetPlctagLookupAsync();
             Plctags.Clear();
-            foreach (var item in lookup)
+            Parallel.ForEach(lookup, item =>
             {
                 item.Plctag.PropertyChanged += (s, e) =>
-               {
-                   if (!HasChanges)
-                   {
-                       HasChanges = _plctagLookupDataRepository.HasChanges();
-                   }
-               };
-                Plctags.Add(item);
-            }
+                {
+                    if (!HasChanges)
+                    {
+                        HasChanges = _plctagLookupDataRepository.HasChanges();
+                    }
+                };
+            });
 
+            Plctags.AddRange(lookup);
+
+            //Load ValueTypes
             var lookup2 = await _valueTypeLookupDataRepository.GetValueTypeLookupAsync();
             ValueTypes.Clear();
-            foreach (var item in lookup2)
-            {
-                ValueTypes.Add(item);
-            }
+            ValueTypes.AddRange(lookup2);
 
+            //Load Datablocks
             var lookup3 = await _datablockLookupDataRepository.GetDatablockLookupAsync();
             Datablocks.Clear();
-            foreach (var item in lookup3)
-            {
-                Datablocks.Add(item);
-            }
+            Datablocks.AddRange(lookup3);
 
+            //Load Unitcategories
             var lookup4 = await _unitCategoryLookupDataRepository.GetUnitCategoryLookupAsync();
             UnitCategories.Clear();
-            foreach (var item in lookup4)
-            {
-                UnitCategories.Add(item);
-            }
+            UnitCategories.AddRange(lookup4);
 
+            //Load TextLanguages
             var lookup5 = await _textLanguageLookupDataRepository.GetTextLanguageLookupAsync();
             TextLanguages.Clear();
-            foreach (var item in lookup5)
-            {
-                TextLanguages.Add(item);
-            }
-
-            timer.Stop();
-            Debug.WriteLine(timer.Elapsed.ToString(@"m\:ss\.fff"));
+            TextLanguages.AddRange(lookup5);
         }
+
         private async void OnSaveExecute()
         {
             await _plctagLookupDataRepository.SaveAsync();
@@ -328,20 +317,5 @@ namespace ConfigTool.UI.ViewModels
         {
             return Plctags != null && HasChanges;
         }
-
-        private void AfterDatablockSaved(AfterPlctagSavedEventArgs? eventArgs)
-        {
-            //var lookupItem = Plctags.FirstOrDefault(p => p.Id == eventArgs.Id);
-            //if (lookupItem == null)
-            //{
-            //    Plctags.Add(new TableItemViewModel(eventArgs.Id, eventArgs.DisplayMember, _eventAggregator));
-            //}
-            //else
-            //{
-            //    lookupItem.DisplayMember = eventArgs.DisplayMember;
-            //}
-        }
-
-
     }
 }

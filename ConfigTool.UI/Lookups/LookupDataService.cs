@@ -99,7 +99,7 @@ namespace ConfigTool.UI.Lookups
         }
         public async Task<IEnumerable<LookupItem<int>>> GetTextLanguageLookupAsync()
         {
-            return await _dbcontext.TextLanguage.Where(tl => tl.LanguageId == 1 && (tl.TextId > 60000 && tl.TextId < 60100) || tl.TextId == 0 ).OrderBy(tl => tl.Text).Select(tl =>
+            return await _dbcontext.TextLanguage.Where(tl => tl.LanguageId == 1).OrderBy(tl => tl.Text).Select(tl =>
                 new LookupItem<int>
                 {
                     Id = tl.TextId,
