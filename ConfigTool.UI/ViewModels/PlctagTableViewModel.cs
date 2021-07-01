@@ -202,30 +202,15 @@ namespace ConfigTool.UI.ViewModels
                            tableItemPlctag.Plctag.CycleTime.Equals(result);
                 }
 
-                //Check nullable columns
-                boolResult = string.IsNullOrEmpty(tableItemPlctag.Plctag.Name) ? false : tableItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
-                if (boolResult == true)
-                {
-                    return true;
-                }
-
-                boolResult = string.IsNullOrEmpty(tableItemPlctag.Text) ? false : tableItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
-                if (boolResult == true)
-                {
-                    return true;
-                }
-
-                //Todo Ternary if-statement doesn't work together with or-statement?
-                //Check all columns with 'varchar' datatype
+                //Check all other columns
                 return tableItemPlctag.Plctag.DefaultValue.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
                        tableItemPlctag.Plctag.Number.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
                        tableItemPlctag.DataBlock.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
                        tableItemPlctag.ValueType.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
                        tableItemPlctag.UnitCategory.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       //string.IsNullOrEmpty(tableItemPlctag.Plctag.Name) ? false : tableItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
-                       //string.IsNullOrEmpty(tableItemPlctag.Text) ? false : tableItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase) ||
+                       (!string.IsNullOrEmpty(tableItemPlctag.Plctag.Name) && tableItemPlctag.Plctag.Name.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase)) ||
+                       (!string.IsNullOrEmpty(tableItemPlctag.Text) && tableItemPlctag.Text.Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase)) ||
                        tableItemPlctag.Plctag.Log.ToString().Contains(PlctagFilter, StringComparison.InvariantCultureIgnoreCase);
-
             }
             return false;
         }
