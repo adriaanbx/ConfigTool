@@ -5,14 +5,8 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface ITextLanguageRepository
+    public interface ITextLanguageRepository: IGenericRepository<TextLanguage, int>
     {
-        Task<IEnumerable<TextLanguage>> GetAllAsync();
-        Task<TextLanguage> GetByIdAsync(int id);
         Task<TextLanguage> GetByTextIdAsync(int textId);
-        Task SaveAsync();
-        bool HasChanges();
-        void Add(TextLanguage textLanguage);
-        void Remove(TextLanguage model);
     }
 }

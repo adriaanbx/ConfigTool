@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ConfigTool.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ConfigTool.UI.Repositories
 {
-    interface IEngineeringRepository
+    interface IEngineeringRepository : IGenericRepository<Engineering, int>
     {
     }
 }

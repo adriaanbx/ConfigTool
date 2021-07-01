@@ -106,7 +106,7 @@ namespace ConfigTool.UI.ViewModels
 
         public async Task LoadAsync(EventParameters? eventParameters)
         {
-            var valueType = eventParameters!=null ? await _valueTypeRepository.GetByIdAsync(eventParameters.Id) : CreateNewValueType();
+            var valueType = eventParameters!=null ? await _valueTypeRepository.GetByIdAsync(Convert.ToInt16(eventParameters.Id)) : CreateNewValueType();
 
             InitializeValueTypes(valueType);
 

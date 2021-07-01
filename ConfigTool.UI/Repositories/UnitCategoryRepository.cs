@@ -9,49 +9,10 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class UnitCategoryRepository : IUnitCategoryRepository
+    public class UnitCategoryRepository : GenericRepository<UnitCategory, ModelContext, int>, IUnitCategoryRepository
     {
-        private readonly ModelContext _modelContext;
-
-        public UnitCategoryRepository(ModelContext modelContext)
+        public UnitCategoryRepository(ModelContext modelContext) : base(modelContext)
         {
-            _modelContext = modelContext;
-
-        }
-
-        public void Add(UnitCategory unitCategory)
-        {
-           _modelContext.UnitCategory.Add(unitCategory);
-        }
-
-        public async Task<IEnumerable<UnitCategory>> GetAllAsync()
-        {
-            return await _modelContext.UnitCategory.ToListAsync();
-        }
-
-        public async Task<UnitCategory> GetByIdAsync(int id)
-        {
-            return await _modelContext.UnitCategory.FirstOrDefaultAsync(p => p.Id == id);
-        }
-
-        public bool HasChanges()
-        {
-           return _modelContext.ChangeTracker.HasChanges();
-        }
-
-        public void Remove(UnitCategory model)
-        {
-            _modelContext.UnitCategory.Remove(model);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _modelContext.SaveChangesAsync();
-        }
-
-        public void GetForeignKeys()
-        {
-            var key = _modelContext.Model.FindEntityType(typeof(UnitCategory)).GetForeignKeys();
         }
     }
 }

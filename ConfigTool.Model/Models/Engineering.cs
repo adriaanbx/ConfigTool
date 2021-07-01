@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
-    public partial class Engineering
+    public partial class Engineering : IEntity<int>
     {
         public string IconPath { get; set; }
 

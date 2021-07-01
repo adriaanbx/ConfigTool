@@ -8,55 +8,16 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class TextLanguageRepository : ITextLanguageRepository
+    public class TextLanguageRepository : GenericRepository<TextLanguage, ModelContext, int>, ITextLanguageRepository
     {
-        private readonly ModelContext _modelContext;
 
-        public TextLanguageRepository(ModelContext modelContext)
+        public TextLanguageRepository(ModelContext modelContext) : base(modelContext)
         {
-            _modelContext = modelContext;
-
-        }
-
-        public void Add(TextLanguage textLanguage)
-        {
-            _modelContext.TextLanguage.Add(textLanguage);
-        }
-
-        public async Task<IEnumerable<TextLanguage>> GetAllAsync()
-        {
-            return await _modelContext.TextLanguage.ToListAsync();
-        }
-
-        public async Task<TextLanguage> GetByIdAsync(int id)
-        {
-            return await _modelContext.TextLanguage.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<TextLanguage> GetByTextIdAsync(int textId)
         {
-            return await _modelContext.TextLanguage.FirstOrDefaultAsync(p => p.TextId == textId);
+            return await _context.TextLanguage.FirstOrDefaultAsync(p => p.TextId == textId);
         }
-
-        public bool HasChanges()
-        {
-            return _modelContext.ChangeTracker.HasChanges();
-        }
-
-        public void Remove(TextLanguage model)
-        {
-            _modelContext.TextLanguage.Remove(model);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _modelContext.SaveChangesAsync();
-        }
-
-        public void GetForeignKeys()
-        {
-            var key = _modelContext.Model.FindEntityType(typeof(TextLanguage)).GetForeignKeys();
-        }
-
     }
 }

@@ -6,13 +6,7 @@ using ValueType = ConfigTool.Models.ValueType;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface IUnitCategoryRepository
+    public interface IUnitCategoryRepository : IGenericRepository<UnitCategory, int>
     {
-        Task<IEnumerable<UnitCategory>> GetAllAsync();
-        Task<UnitCategory> GetByIdAsync(int id);
-        Task SaveAsync();
-        bool HasChanges();
-        void Add(UnitCategory unitCategory);
-        void Remove(UnitCategory model);
     }
 }

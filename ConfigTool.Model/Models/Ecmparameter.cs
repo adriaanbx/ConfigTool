@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
-    public partial class Ecmparameter
+    public partial class Ecmparameter : IEntity<int>
     {
         public string IconPath { get; set; }
         public int Id { get; set; }

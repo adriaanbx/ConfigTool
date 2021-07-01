@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
-    public partial class Plctag
+    public partial class Plctag : IEntity<int>
     {
         public int? ArraySize { get; set; }
         public string DefaultValue { get; set; }

@@ -6,13 +6,7 @@ using ValueType = ConfigTool.Models.ValueType;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface IValueTypeRepository
+    public interface IValueTypeRepository : IGenericRepository<ValueType, short>
     {
-        Task<IEnumerable<ValueType>> GetAllAsync();
-        Task<ValueType> GetByIdAsync(int id);
-        Task SaveAsync();
-        bool HasChanges();
-        void Add(ValueType plctag);
-        void Remove(ValueType model);
     }
 }

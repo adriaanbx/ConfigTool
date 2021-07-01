@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public interface IPlctagRepository
+    public interface IPlctagRepository : IGenericRepository<Plctag, int>
     {
-        Task<IEnumerable<Plctag>> GetAllAsync();
-        Task<Plctag> GetByIdAsync(int id);
-        Task SaveAsync();
-        bool HasChanges();
-        void Add(Plctag plctag);
-        void Remove(Plctag model);
-        int GetMaxId();
     }
 }

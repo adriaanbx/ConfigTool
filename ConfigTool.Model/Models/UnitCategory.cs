@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
-    public partial class UnitCategory
+    public partial class UnitCategory : IEntity<int>
     {
         public string Name { get; set; }
         public string PrimaryFormat { get; set; }
