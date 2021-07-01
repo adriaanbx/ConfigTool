@@ -163,7 +163,7 @@ namespace ConfigTool.UI.ViewModels
             PlctagCollectionView.Filter += FilterPlctags;
 
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Subscribe(RefreshObservableCollection);
-            _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterDatablockDeleted);
+            _eventAggregator.GetEvent<TagDeletedEvent>().Subscribe(AfterDatablockDeleted);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);

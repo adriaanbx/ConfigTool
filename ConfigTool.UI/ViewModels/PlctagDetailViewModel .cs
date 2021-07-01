@@ -100,7 +100,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _plctagRepository.Remove(Plctag.Model);
                 await _plctagRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Plctag.Id);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Plctag.Id);
             }
         }
 

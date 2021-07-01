@@ -100,7 +100,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _textLanguageRepository.Remove(TextLanguage.Model);
                 await _textLanguageRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(TextLanguage.TextId);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(TextLanguage.TextId);
             }
         }
 

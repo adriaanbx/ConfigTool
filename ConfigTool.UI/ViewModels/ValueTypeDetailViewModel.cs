@@ -100,7 +100,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _valueTypeRepository.Remove(ValueType.Model);
                 await _valueTypeRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(ValueType.Id);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(ValueType.Id);
             }            
         }
 

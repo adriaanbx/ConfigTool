@@ -100,7 +100,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _datablockRepository.Remove(Datablock.Model);
                 await _datablockRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(Datablock.Id);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Datablock.Id);
             }
         }
 

@@ -24,7 +24,8 @@ namespace ConfigTool.UI.ViewModels
 
         public INavigationViewModel NavigationViewModel { get; }
 
-        public ITableViewModel TableViewModel {
+        public ITableViewModel TableViewModel
+        {
             get { return _TableViewModel; }
             private set
             {
@@ -81,7 +82,7 @@ namespace ConfigTool.UI.ViewModels
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
-            _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Subscribe(AfterPlctagDeleted);
+            _eventAggregator.GetEvent<TagDeletedEvent>().Subscribe(OnTagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
             _eventAggregator.GetEvent<OpenTableViewEvent>().Subscribe(OnOpenTableView);
 
@@ -149,10 +150,12 @@ namespace ConfigTool.UI.ViewModels
             switch (eventParameters?.TableName)
             {
                 case nameof(Plctag):
-                case   "PLCTag":
+                case "PLCTag":
                     TableViewModel = _plctagTableViewModelCreator();
                     break;
                 default:
+                    //CleanTableView(); -> zorgt voor crash
+                    CleanDetailView();
                     return;
                     //case nameof(DataBlock):
                     //    DetailViewModel = _datablockDetailViewModelCreator();
@@ -173,6 +176,7 @@ namespace ConfigTool.UI.ViewModels
 
             UpdateStatus("Loading...");
             await TableViewModel.LoadAsync(eventParameters);
+            CleanDetailView();
             UpdateStatus("Ready");
         }
 
@@ -181,10 +185,20 @@ namespace ConfigTool.UI.ViewModels
             Status = message;
         }
 
-        private void AfterPlctagDeleted(int plctagId)
+        private void OnTagDeleted(int tag)
+        {
+            CleanDetailView();
+        }
+
+        private void CleanDetailView()
         {
             DetailViewModel = null;
         }
+        private void CleanTableView()
+        {
+            TableViewModel = null;
+        }
+
 
 
 

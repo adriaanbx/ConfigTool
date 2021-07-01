@@ -99,7 +99,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _unitCategoryRepository.Remove(UnitCategory.Model);
                 await _unitCategoryRepository.SaveAsync();
-                _eventAggregator.GetEvent<AfterPlctagDeletedEvent>().Publish(UnitCategory.Id);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(UnitCategory.Id);
             }            
         }
 
