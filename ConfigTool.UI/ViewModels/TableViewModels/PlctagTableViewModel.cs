@@ -179,7 +179,7 @@ namespace ConfigTool.UI.ViewModels
         {
             //Publish event to subscribers
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
-                .Publish(new EventParameters{ TableName = nameof(Plctag) });
+                .Publish(new EventParameters { TableName = nameof(Plctag) });
         }
 
         private bool FilterPlctags(object obj)
@@ -256,8 +256,14 @@ namespace ConfigTool.UI.ViewModels
 
         private async void OnSaveExecute()
         {
+            //update statusbar
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Saving in progress...");
+
             await _plctagLookupDataRepository.SaveAsync();
             HasChanges = _plctagLookupDataRepository.HasChanges();
+
+            //update statusbar
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
         }
 
 
@@ -275,13 +281,21 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        private void OnCancelExecute()
+        private async void OnCancelExecute()
         {
+            //update statusbar
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Cancellation in progress...");
+
             _plctagLookupDataRepository.RejectChanges();
             HasChanges = _plctagLookupDataRepository.HasChanges();
 
             // Refresh ObservableCollection for UI-> alternative for OnpropertyChanged
             RefreshObservableCollection();
+            //TODO Hoe kan je dit op apparte thread krijgen zodat je status bar kan updaten?
+            //await Task.Run(() => RefreshObservableCollection());
+
+            //update statusbar
+            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
         }
 
         private async void RefreshObservableCollection(AfterPlctagSavedEventArgs? eventArgs)
