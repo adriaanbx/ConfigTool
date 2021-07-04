@@ -24,62 +24,33 @@
                   SelectionMode="Single" SelectionUnit="Cell"
                   CurrentCell="{Binding SelectedCell, Mode=OneWayToSource, Converter={StaticResource converter}}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="ID">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.Id}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="ArraySize">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.ArraySize}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="DefaultValue">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.DefaultValue}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Statistics">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.Statistics}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Screensaver">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.Screensaver}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="CycleTime">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.CycleTime}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Name">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.Name}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Number">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Plctag.Number}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Id" IsReadOnly="True" 
+                                    Binding="{Binding Plctag.Id, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="ArraySize" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.ArraySize, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="DefaultValue" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.DefaultValue, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Statistics" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.Statistics, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Screensaver" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.Screensaver, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="CycleTime" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.CycleTime, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Name" IsReadOnly="False" 
+                                    Binding="{Binding Plctag.Name, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Plctag.Number, UpdateSourceTrigger=PropertyChanged}" Header="Number"/>
                 <DataGridTemplateColumn Header="DataBlock">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -118,16 +89,16 @@
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember">
                                 <!--IsTextSearchEnabled="True">-->
-                               <ComboBox.ItemsPanel>
+                                <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel />
                                     </ItemsPanelTemplate>
-                               </ComboBox.ItemsPanel>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Plctag.Log}"/>
+                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Plctag.Log, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -179,7 +179,7 @@ namespace ConfigTool.UI.ViewModels
         {
             //Publish event to subscribers
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
-                .Publish(null);
+                .Publish(new EventParameters{ TableName = nameof(Plctag) });
         }
 
         private bool FilterPlctags(object obj)

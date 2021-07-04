@@ -118,15 +118,18 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(Models.ValueType):
                     DetailViewModel = _valueTypeDetailViewModelCreator();
                     break;
-                case nameof(Models.UnitCategory):
+                case nameof(UnitCategory):
                     DetailViewModel = _unitCategoryDetailViewModelCreator();
                     break;
-                case nameof(Models.Text):
+                case nameof(Text):
                     DetailViewModel = _textLanguageDetailViewModelCreator();
                     break;
-                default:
+                case nameof(Plctag):
                     DetailViewModel = _plctagDetailViewModelCreator();
                     break;
+                default:
+                    DetailViewModel = null;
+                    return;
             }
 
             UpdateStatus("Loading...");
