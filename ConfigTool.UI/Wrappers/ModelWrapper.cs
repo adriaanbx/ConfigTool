@@ -7,6 +7,15 @@ namespace ConfigTool.UI.Wrappers
 {
     public class ModelWrapper<T> : NotifyDataErrorInfoBase
     {
+        public int Id
+        {
+            get { return GetValue<int>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+
         public ModelWrapper(T model)
         {
             Model = model;

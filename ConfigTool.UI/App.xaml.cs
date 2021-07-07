@@ -1,5 +1,4 @@
 ﻿using ConfigTool.DataAccess;
-using ConfigTool.UI.Lookups;
 using ConfigTool.UI.Repositories;
 using ConfigTool.UI.ViewModels;
 using ConfigTool.UI.Views.Services;
@@ -49,12 +48,6 @@ namespace ConfigTool.UI
             services.AddTransient<IValueTypeRepository, ValueTypeRepository>();
             services.AddTransient<IUnitCategoryRepository, UnitCategoryRepository>();
             services.AddTransient<ITextLanguageRepository, TextLanguageRepository>();
-            services.AddTransient<IPlctagLookupDataService, LookupDataService>();
-            services.AddTransient<IDatablockLookupDataService, LookupDataService>();
-            services.AddTransient<IValueTypeLookupDataService, LookupDataService>();
-            services.AddTransient<IUnitCategoryLookupDataService, LookupDataService>();
-            services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
-            services.AddTransient<ITextLanguageLookupDataService, LookupDataService>();
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
             services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
             services.AddTransient<IValueTypeDetailViewModel, ValueTypeDetailViewModel>();

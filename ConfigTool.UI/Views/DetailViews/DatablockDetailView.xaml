@@ -19,13 +19,13 @@
         </Grid.RowDefinitions>
 
         <Label Content="Id" Margin="10 10 10 0"/>
-        <TextBox Grid.Row="1" Text="{Binding Datablock.Id, Mode=OneWay}" Margin = "10 0 10 10"/>
+        <TextBox Grid.Row="1" Text="{Binding Entity.Id, Mode=OneWay}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="2" Content="Name" Margin="10 10 10 0"/>
-        <TextBox Grid.Row="3" Text="{Binding Datablock.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+        <TextBox Grid.Row="3" Text="{Binding Entity.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="4" Content="Number" Margin="10 0"/>
-        <TextBox Grid.Row="5" Text="{Binding Datablock.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+        <TextBox Grid.Row="5" Text="{Binding Entity.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <!--<Label Grid.Row="4" Content="Datablock" Margin="10 0"/>
         <ComboBox Grid.Row="5" ItemsSource="{Binding Datablocks}"

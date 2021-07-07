@@ -3,24 +3,21 @@ using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using ConfigTool.UI.Lookups;
 using System.Windows.Input;
 using Prism.Commands;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class PlctagTableViewModel : ViewModelBase, IPlctagTableViewModel
     {
-        private readonly IPlctagLookupDataService _plctagLookupDataRepository;
-        private readonly IValueTypeLookupDataService _valueTypeLookupDataRepository;
-        private readonly IDatablockLookupDataService _datablockLookupDataRepository;
-        private readonly IUnitCategoryLookupDataService _unitCategoryLookupDataRepository;
-        private readonly ITextLanguageLookupDataService _textLanguageLookupDataRepository;
+        private readonly IPlctagRepository _plctagRepository;
+        private readonly IValueTypeRepository _valueTypeRepository;
+        private readonly IDatablockRepository _datablockRepository;
+        private readonly IUnitCategoryRepository _unitCategoryRepository;
+        private readonly ITextLanguageRepository _textLanguageRepository;
         private readonly IEventAggregator _eventAggregator;
         private bool _hasChanges;
 
@@ -95,7 +92,7 @@ namespace ConfigTool.UI.ViewModels
                     else
                     {
                         //get foreign keys
-                        var foreignKeys = _plctagLookupDataRepository.GetForeignKeys();
+                        var foreignKeys = _plctagRepository.GetForeignKeys();
 
                         //Open details view when selected column is a foreign key
                         foreach (var key in foreignKeys)
@@ -142,15 +139,15 @@ namespace ConfigTool.UI.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand CreateNewPlctagCommand { get; }
 
-        public PlctagTableViewModel(IPlctagLookupDataService plctagLookupDataService, IValueTypeLookupDataService valueTypeLookupDataService,
-                                   IDatablockLookupDataService datablockLookupDataService, IUnitCategoryLookupDataService unitCategoryLookupDataService,
-                                   ITextLanguageLookupDataService textLanguageLookupDataService, IEventAggregator eventAggregator)
+        public PlctagTableViewModel(IPlctagRepository plctagRepository, IValueTypeRepository valueTypeRepository,
+                                   IDatablockRepository datablockRepository, IUnitCategoryRepository unitCategoryRepository,
+                                   ITextLanguageRepository textLanguageRepository, IEventAggregator eventAggregator)
         {
-            _plctagLookupDataRepository = plctagLookupDataService;
-            _valueTypeLookupDataRepository = valueTypeLookupDataService;
-            _datablockLookupDataRepository = datablockLookupDataService;
-            _unitCategoryLookupDataRepository = unitCategoryLookupDataService;
-            _textLanguageLookupDataRepository = textLanguageLookupDataService;
+            _plctagRepository = plctagRepository;
+            _valueTypeRepository = valueTypeRepository;
+            _datablockRepository = datablockRepository;
+            _unitCategoryRepository = unitCategoryRepository;
+            _textLanguageRepository = textLanguageRepository;
             _eventAggregator = eventAggregator;
 
             Plctags = new RangeObservableCollection<TableItemPlctag>();
@@ -218,7 +215,7 @@ namespace ConfigTool.UI.ViewModels
         public async Task LoadAsync(EventParameters? eventParameters)
         {
             //Load Plctags
-            var lookup = await _plctagLookupDataRepository.GetPlctagLookupAsync();
+            var lookup = await _plctagRepository.GetPlctagLookupAsync();
             Plctags.Clear();
             Parallel.ForEach(lookup, item =>
             {
@@ -226,7 +223,7 @@ namespace ConfigTool.UI.ViewModels
                 {
                     if (!HasChanges)
                     {
-                        HasChanges = _plctagLookupDataRepository.HasChanges();
+                        HasChanges = _plctagRepository.HasChanges();
                     }
                 };
             });
@@ -234,22 +231,22 @@ namespace ConfigTool.UI.ViewModels
             Plctags.AddRange(lookup);
 
             //Load ValueTypes
-            var lookup2 = await _valueTypeLookupDataRepository.GetValueTypeLookupAsync();
+            var lookup2 = await _valueTypeRepository.GetAllLookupAsync();
             ValueTypes.Clear();
             ValueTypes.AddRange(lookup2);
 
             //Load Datablocks
-            var lookup3 = await _datablockLookupDataRepository.GetDatablockLookupAsync();
+            var lookup3 = await _datablockRepository.GetAllLookupAsync();
             Datablocks.Clear();
             Datablocks.AddRange(lookup3);
 
             //Load Unitcategories
-            var lookup4 = await _unitCategoryLookupDataRepository.GetUnitCategoryLookupAsync();
+            var lookup4 = await _unitCategoryRepository.GetAllLookupAsync();
             UnitCategories.Clear();
             UnitCategories.AddRange(lookup4);
 
             //Load TextLanguages
-            var lookup5 = await _textLanguageLookupDataRepository.GetTextLanguageLookupAsync();
+            var lookup5 = await _textLanguageRepository.GetAllLookupAsync();
             TextLanguages.Clear();
             TextLanguages.AddRange(lookup5);
         }
@@ -259,8 +256,8 @@ namespace ConfigTool.UI.ViewModels
             //update statusbar
             _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Saving in progress...");
 
-            await _plctagLookupDataRepository.SaveAsync();
-            HasChanges = _plctagLookupDataRepository.HasChanges();
+            await _plctagRepository.SaveAsync();
+            HasChanges = _plctagRepository.HasChanges();
 
             //update statusbar
             _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
@@ -286,8 +283,8 @@ namespace ConfigTool.UI.ViewModels
             //update statusbar
             _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Cancellation in progress...");
 
-            _plctagLookupDataRepository.RejectChanges();
-            HasChanges = _plctagLookupDataRepository.HasChanges();
+            _plctagRepository.RejectChanges();
+            HasChanges = _plctagRepository.HasChanges();
 
             // Refresh ObservableCollection for UI-> alternative for OnpropertyChanged
             RefreshObservableCollection();

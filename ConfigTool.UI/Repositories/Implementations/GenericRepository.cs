@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using ConfigTool.Models.Interfaces;
+using ConfigTool.Models;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class GenericRepository<TEntity, TContext, TId> : IGenericRepository<TEntity, TId>
+    public abstract class GenericRepository<TEntity, TContext, TId> : IGenericRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>
         where TContext : DbContext
     {
@@ -29,6 +30,9 @@ namespace ConfigTool.UI.Repositories
             return await _context.Set<TEntity>().ToListAsync();
         }
 
+        public abstract Task<IEnumerable<LookupItem<TId>>> GetAllLookupAsync();
+
+
         public virtual async Task<TEntity> GetByIdAsync(TId id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
@@ -47,6 +51,31 @@ namespace ConfigTool.UI.Repositories
         public bool HasChanges()
         {
             return _context.ChangeTracker.HasChanges();
+        }
+
+        public void RejectChanges()
+        {
+            var changedEntries = _context.ChangeTracker.Entries()
+                 .Where(e => e.State != EntityState.Unchanged);
+
+            foreach (var entry in changedEntries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.State = EntityState.Unchanged;
+                        break;
+
+                    // Where a Key Entry has been deleted, reloading from the source is required to ensure that the entity's relationships are restored (undeleted).
+                    case EntityState.Deleted:
+                        entry.Reload();
+                        break;
+                }
+            }
         }
 
         public void Remove(TEntity model)

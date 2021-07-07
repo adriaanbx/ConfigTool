@@ -32,31 +32,31 @@
         </Grid.RowDefinitions>
 
         <Label Content="Id" Margin="10 10 10 0"/>
-        <TextBox Grid.Row="1" Text="{Binding Plctag.Id, Mode=OneWay}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="1" Text="{Binding Entity.Id, Mode=OneWay}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="2" Content="Name" Margin="10 10 10 0"/>
-        <TextBox Grid.Row="3" Text="{Binding Plctag.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="3" Text="{Binding Entity.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="4" Content="Number" Margin="10 0"/>
-        <TextBox Grid.Row="5" Text="{Binding Plctag.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="5" Text="{Binding Entity.Number, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="6" Content="Arraysize" Margin="10 0"/>
-            <TextBox Grid.Row="7" Text="{Binding Plctag.ArraySize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="7" Text="{Binding Entity.ArraySize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="8" Content="DefaultValue" Margin="10 0"/>
-        <TextBox Grid.Row="9" Text="{Binding Plctag.DefaultValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="9" Text="{Binding Entity.DefaultValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="10" Content="Statistics" Margin="10 0"/>
-        <TextBox Grid.Row="11" Text="{Binding Plctag.Statistics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="11" Text="{Binding Entity.Statistics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="12" Content="Screensaver" Margin="10 0"/>
-        <TextBox Grid.Row="13" Text="{Binding Plctag.Screensaver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="13" Text="{Binding Entity.Screensaver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="14" Content="CycleTime" Margin="10 0"/>
-        <TextBox Grid.Row="15" Text="{Binding Plctag.CycleTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="15" Text="{Binding Entity.CycleTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <Label Grid.Row="16" Content="Remarks" Margin="10 0"/>
-        <TextBox Grid.Row="17" Text="{Binding Plctag.Remarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
+            <TextBox Grid.Row="17" Text="{Binding Entity.Remarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin = "10 0 10 10"/>
 
         <StackPanel Grid.Row="19" Orientation="Horizontal">
             <Button Content="Save" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
