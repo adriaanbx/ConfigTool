@@ -55,12 +55,14 @@ namespace ConfigTool.UI
             services.AddTransient<ITextLanguageDetailViewModel, TextLanguageDetailViewModel>();
             services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
             services.AddTransient<IPlctagTableViewModel, PlctagTableViewModel>();
+            services.AddTransient<IDatablockTableViewModel, DatablockTableViewModel>();
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddTransient<Func<IUnitCategoryDetailViewModel>>(sp => () => sp.GetService<IUnitCategoryDetailViewModel>());
             services.AddTransient<Func<ITextLanguageDetailViewModel>>(sp => () => sp.GetService<ITextLanguageDetailViewModel>());
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
             services.AddTransient<Func<IPlctagTableViewModel>>(sp => () => sp.GetService<IPlctagTableViewModel>());
+            services.AddTransient<Func<IDatablockTableViewModel>>(sp => () => sp.GetService<IDatablockTableViewModel>());
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
                             .EnableSensitiveDataLogging()

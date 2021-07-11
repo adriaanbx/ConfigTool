@@ -25,7 +25,7 @@ namespace ConfigTool.UI.Repositories
         public override async Task<IEnumerable<TableItem<Plctag, int, PlctagWrapper>>> GetTableLookupAsync()
         {
             return await _context.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>
-            new TableItemPlctag
+            new PlctagTableItem
             {
                 Table = new Wrappers.PlctagWrapper(p),
                 DataBlock = p.DataBlock.Name,

@@ -27,6 +27,15 @@ namespace ConfigTool.UI.Wrappers
             }
         }
 
+        public bool Enable
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+
         public DatablockWrapper(DataBlock model) : base(model)
         {
         }

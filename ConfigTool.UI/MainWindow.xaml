@@ -13,6 +13,9 @@
         <!--TableViewmodels-->
         <DataTemplate DataType="{x:Type viewModel:PlctagTableViewModel}">
             <view:PlctagTableView/>
+        </DataTemplate> 
+        <DataTemplate DataType="{x:Type viewModel:DatablockTableViewModel}">
+            <view:DatablockTableView/>
         </DataTemplate>
 
         <!--DetailViewmodels-->

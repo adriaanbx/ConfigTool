@@ -43,7 +43,7 @@ namespace ConfigTool.UI.ViewModels
         {
             var boolResult = false;
 
-            if (obj is TableItemPlctag tableItemPlctag)
+            if (obj is PlctagTableItem tableItemPlctag)
             {
                 //Show all tags when filter is empty
                 if (string.IsNullOrEmpty(TableFilter))

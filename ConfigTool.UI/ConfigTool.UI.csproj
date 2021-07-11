@@ -49,6 +49,9 @@
     <Page Update="Views\DetailViews\UnitCategoryDetailView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Views\TableViews\DatablockTableView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

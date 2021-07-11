@@ -1,6 +1,7 @@
 ﻿using ConfigTool.DataAccess;
 using ConfigTool.Models;
 using ConfigTool.UI.ViewModels;
+using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -25,9 +26,14 @@ namespace ConfigTool.UI.Repositories
              }).ToListAsync();
         }
 
-        public override Task<IEnumerable<TableItem<DataBlock, int, DatablockWrapper>>> GetTableLookupAsync()
+        public override async Task<IEnumerable<TableItem<DataBlock, int, DatablockWrapper>>> GetTableLookupAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.DataBlock.Select(d =>
+            new DatablockTableItem
+            {
+                Table = new Wrappers.DatablockWrapper(d),
+             
+            }).ToListAsync();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<ITextLanguageDetailViewModel> _textLanguageDetailViewModelCreator;
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
         private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
+        private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
@@ -69,7 +70,7 @@ namespace ConfigTool.UI.ViewModels
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
-                                Func<IPlctagTableViewModel> plctagTableViewModelCreator,
+                                Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -77,7 +78,9 @@ namespace ConfigTool.UI.ViewModels
             _unitCategoryDetailViewModelCreator = unitCategoryDetailViewModelCreator;
             _textLanguageDetailViewModelCreator = textLanguageDetailViewModelCreator;
             _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
+
             _plctagTableViewModelCreator = plctagTableViewModelCreator;
+            _datablockTableViewModelCreator = datablockTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -156,13 +159,13 @@ namespace ConfigTool.UI.ViewModels
                 case "PLCTag":
                     TableViewModel = _plctagTableViewModelCreator();
                     break;
+                case nameof(DataBlock):
+                    TableViewModel = _datablockTableViewModelCreator();
+                    break;
                 default:
                     //CleanTableView(); -> zorgt voor crash
                     CleanDetailView();
                     return;
-                    //case nameof(DataBlock):
-                    //    DetailViewModel = _datablockDetailViewModelCreator();
-                    //    break;
                     //case nameof(Models.ValueType):
                     //    DetailViewModel = _valueTypeDetailViewModelCreator();
                     //    break;
