@@ -1,5 +1,7 @@
 ﻿using ConfigTool.DataAccess;
 using ConfigTool.Models;
+using ConfigTool.UI.ViewModels;
+using ConfigTool.UI.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class UnitCategoryRepository : GenericRepository<UnitCategory, ModelContext, int>, IUnitCategoryRepository
+    public class UnitCategoryRepository : GenericRepository<UnitCategory, ModelContext, int, UnitCategoryWrapper>, IUnitCategoryRepository
     {
         public UnitCategoryRepository(ModelContext modelContext) : base(modelContext)
         {
@@ -22,6 +24,11 @@ namespace ConfigTool.UI.Repositories
                     Id = p.Id,
                     DisplayMember = p.Name
                 }).ToListAsync();
+        }
+
+        public override Task<IEnumerable<TableItem<UnitCategory, int, UnitCategoryWrapper>>> GetTableLookupAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

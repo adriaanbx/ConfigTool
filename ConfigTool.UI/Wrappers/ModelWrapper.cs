@@ -1,38 +1,40 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase
+    public class ModelWrapper<TEntity,TId> : NotifyDataErrorInfoBase 
+        where TEntity : IEntity<TId>
     {
-        public int Id
+        public TId Id
         {
-            get { return GetValue<int>(); }
+            get { return GetValue<TId>(); }
             set
             {
                 SetValue(value);
             }
         }
 
-        public ModelWrapper(T model)
+        public ModelWrapper(TEntity model)
         {
             Model = model;
         }
 
-        public T Model { get; }
+        public TEntity Model { get; }
 
         protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
-            typeof(T).GetProperty(propertyName).SetValue(Model, value);
+            typeof(TEntity).GetProperty(propertyName).SetValue(Model, value);
             OnPropertyChanged(propertyName);
             ValidatePropertyInternal(propertyName, value);
         }
 
         protected virtual TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
-            return typeof(T).GetProperty(propertyName).GetValue(Model) != null? (TValue)typeof(T).GetProperty(propertyName).GetValue(Model) : default(TValue);
+            return typeof(TEntity).GetProperty(propertyName).GetValue(Model) != null? (TValue)typeof(TEntity).GetProperty(propertyName).GetValue(Model) : default(TValue);
         }
 
 

@@ -14,14 +14,14 @@ using System.Windows.Input;
 namespace ConfigTool.UI.ViewModels
 {
     public abstract class GenericDetailViewModel<TEntity, TId, TWrapper> : ViewModelBase
-        where TWrapper : ModelWrapper<TEntity>
+        where TWrapper : ModelWrapper<TEntity,TId>
         where TEntity :  IEntity<TId>
         
 
     {
         #region Fields
 
-        protected readonly IGenericRepository<TEntity, TId> _entityRepository;
+        protected readonly IGenericRepository<TEntity, TId, TWrapper> _entityRepository;
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private TWrapper _entity;
@@ -64,7 +64,7 @@ namespace ConfigTool.UI.ViewModels
 
         #region Constructors
 
-        public GenericDetailViewModel(IGenericRepository<TEntity, TId> entityRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+        public GenericDetailViewModel(IGenericRepository<TEntity, TId, TWrapper> entityRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _entityRepository = entityRepository;
             _eventAggregator = eventAggregator;
@@ -85,7 +85,7 @@ namespace ConfigTool.UI.ViewModels
             HasChanges = _entityRepository.HasChanges();
             _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
             {
-                Id = Entity.Id,
+                Id = Convert.ToInt32(Entity.Id),
                 //DisplayMember = Datablock.Name
             });
         }
@@ -101,7 +101,7 @@ namespace ConfigTool.UI.ViewModels
             {
                 _entityRepository.Remove(Entity.Model);
                 await _entityRepository.SaveAsync();
-                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Entity.Id);
+                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Convert.ToInt32(Entity.Id));
             }
         }
 

@@ -1,6 +1,8 @@
 ﻿using ConfigTool.DataAccess;
 using ConfigTool.Models;
 using ConfigTool.UI.ViewModels;
+using ConfigTool.UI.ViewModels.TableViewModels;
+using ConfigTool.UI.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class PlctagRepository : GenericRepository<Plctag, ModelContext, int>, IPlctagRepository
+    public class PlctagRepository : GenericRepository<Plctag, ModelContext, int, PlctagWrapper>, IPlctagRepository
     {
         public PlctagRepository(ModelContext modelContext) : base(modelContext)
         {
@@ -20,12 +22,12 @@ namespace ConfigTool.UI.Repositories
         {
             throw new NotImplementedException();
         }
-        public async Task<IEnumerable<TableItemPlctag>> GetPlctagLookupAsync()
+        public override async Task<IEnumerable<TableItem<Plctag, int, PlctagWrapper>>> GetTableLookupAsync()
         {
             return await _context.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>
             new TableItemPlctag
             {
-                Plctag = new Wrappers.PlctagWrapper(p),
+                Table = new Wrappers.PlctagWrapper(p),
                 DataBlock = p.DataBlock.Name,
                 UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name,

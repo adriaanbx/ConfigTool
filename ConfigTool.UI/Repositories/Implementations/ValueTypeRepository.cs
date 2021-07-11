@@ -1,5 +1,7 @@
 ﻿using ConfigTool.DataAccess;
 using ConfigTool.Models;
+using ConfigTool.UI.ViewModels;
+using ConfigTool.UI.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using ValueType = ConfigTool.Models.ValueType;
 
 namespace ConfigTool.UI.Repositories
 {
-    public class ValueTypeRepository : GenericRepository<ValueType, ModelContext, short>, IValueTypeRepository
+    public class ValueTypeRepository : GenericRepository<ValueType, ModelContext, short, ValueTypeWrapper>, IValueTypeRepository
     {
         public ValueTypeRepository(ModelContext modelContext) : base(modelContext)
         {
@@ -22,6 +24,11 @@ namespace ConfigTool.UI.Repositories
                      Id = v.Id,
                      DisplayMember = v.Name
                  }).ToListAsync();
+        }
+
+        public override Task<IEnumerable<TableItem<ValueType, short, ValueTypeWrapper>>> GetTableLookupAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

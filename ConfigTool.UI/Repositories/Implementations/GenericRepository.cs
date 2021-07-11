@@ -6,12 +6,15 @@ using System.Linq;
 using System;
 using ConfigTool.Models.Interfaces;
 using ConfigTool.Models;
+using ConfigTool.UI.ViewModels;
+using ConfigTool.UI.Wrappers;
 
 namespace ConfigTool.UI.Repositories
 {
-    public abstract class GenericRepository<TEntity, TContext, TId> : IGenericRepository<TEntity, TId>
+    public abstract class GenericRepository<TEntity, TContext, TId, TWrapper> : IGenericRepository<TEntity, TId, TWrapper>
         where TEntity : class, IEntity<TId>
         where TContext : DbContext
+        where TWrapper : ModelWrapper<TEntity, TId>
     {
         protected readonly TContext _context;
 
@@ -47,6 +50,8 @@ namespace ConfigTool.UI.Repositories
         {
             return _context.Set<TEntity>().Max(m => m.Id);
         }
+
+        public abstract Task<IEnumerable<TableItem<TEntity, TId, TWrapper>>> GetTableLookupAsync();
 
         public bool HasChanges()
         {

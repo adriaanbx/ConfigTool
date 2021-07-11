@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converts:SelectedCellToColumnNameConverter x:Key="converter"/>
+        <converts:PlctagSelectedCellToColumnNameConverter x:Key="converter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -17,45 +17,45 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Text="{Binding PlctagFilter, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="0" Text="{Binding TableFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding PlctagCollectionView}" AutoGenerateColumns="False"
+                  ItemsSource="{Binding TableCollectionView}" AutoGenerateColumns="False"
                   SelectionMode="Single" SelectionUnit="Cell"
                   CurrentCell="{Binding SelectedCell, Mode=OneWayToSource, Converter={StaticResource converter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" IsReadOnly="True" 
-                                    Binding="{Binding Plctag.Id, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Binding="{Binding Table.Id, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="ArraySize" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.ArraySize, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.ArraySize, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 <DataGridTextColumn Header="DefaultValue" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.DefaultValue, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.DefaultValue, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 <DataGridTextColumn Header="Statistics" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.Statistics, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.Statistics, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 <DataGridTextColumn Header="Screensaver" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.Screensaver, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.Screensaver, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 <DataGridTextColumn Header="CycleTime" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.CycleTime, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.CycleTime, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
                 <DataGridTextColumn Header="Name" IsReadOnly="False" 
-                                    Binding="{Binding Plctag.Name, UpdateSourceTrigger=PropertyChanged}"
+                                    Binding="{Binding Table.Name, UpdateSourceTrigger=PropertyChanged}"
                                     ElementStyle="{StaticResource DataGridColumnStyle}"
                                     EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
-                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Plctag.Number, UpdateSourceTrigger=PropertyChanged}" Header="Number"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Table.Number, UpdateSourceTrigger=PropertyChanged}" Header="Number"/>
                 <DataGridTemplateColumn Header="DataBlock">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox ItemsSource="{Binding Path=DataContext.Datablocks, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
-                               SelectedValue="{Binding Path=Plctag.DataBlockId}"
+                               SelectedValue="{Binding Path=Table.DataBlockId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
                         </DataTemplate>
@@ -65,7 +65,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox ItemsSource="{Binding Path=DataContext.ValueTypes, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
-                               SelectedValue="{Binding Path=Plctag.ValueTypeId}"
+                               SelectedValue="{Binding Path=Table.ValueTypeId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
                         </DataTemplate>
@@ -75,7 +75,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox ItemsSource="{Binding Path=DataContext.UnitCategories, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}" Margin="0 0 10 0"
-                               SelectedValue="{Binding Path=Plctag.UnitCategoryId}"
+                               SelectedValue="{Binding Path=Table.UnitCategoryId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
                         </DataTemplate>
@@ -85,7 +85,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox ItemsSource="{Binding Path=DataContext.TextLanguages, RelativeSource={RelativeSource AncestorType=local:PlctagTableView}}"  Margin="0 0 10 0"
-                               SelectedValue="{Binding Path=Plctag.TextId}"
+                               SelectedValue="{Binding Path=Table.TextId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember">
                                 <!--IsTextSearchEnabled="True">-->
@@ -98,7 +98,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Plctag.Log, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridCheckBoxColumn Header="Log" Binding="{Binding Table.Log, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 

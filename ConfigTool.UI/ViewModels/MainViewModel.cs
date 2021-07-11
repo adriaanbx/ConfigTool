@@ -81,7 +81,7 @@ namespace ConfigTool.UI.ViewModels
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenPlctagDetailView);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenTableDetailView);
             _eventAggregator.GetEvent<TagDeletedEvent>().Subscribe(OnTagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
             _eventAggregator.GetEvent<OpenTableViewEvent>().Subscribe(OnOpenTableView);
@@ -98,7 +98,7 @@ namespace ConfigTool.UI.ViewModels
 
         public ICommand CreateNewPlctagCommand { get; }
 
-        private async void OnOpenPlctagDetailView(EventParameters? eventParameters)
+        private async void OnOpenTableDetailView(EventParameters? eventParameters)
         {
             //shows a message when you leave the detail view, if any unsaved changes have been made
             if (DetailViewModel != null && DetailViewModel.HasChanges)

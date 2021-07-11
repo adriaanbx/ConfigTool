@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class DatablockWrapper : ModelWrapper<DataBlock>
+    public class DatablockWrapper : ModelWrapper<DataBlock, int>
     {
-        public int Id
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); }
-        }
-
+    
         public string Name
         {
             get { return GetValue<string>(); }

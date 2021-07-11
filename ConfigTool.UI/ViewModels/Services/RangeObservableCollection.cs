@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace ConfigTool.UI.ViewModels
 {
-    public class RangeObservableCollection<T> : ObservableCollection<T>
+    public class RangeObservableCollection<TTableItem> : ObservableCollection<TTableItem>
     {
         private bool _suppressNotification = false;
 
@@ -15,14 +16,14 @@ namespace ConfigTool.UI.ViewModels
                 base.OnCollectionChanged(e);
         }
 
-        public void AddRange(IEnumerable<T> list)
+        public void AddRange(IEnumerable<TTableItem> list)
         {
             if (list == null)
                 throw new ArgumentNullException("list");
 
             _suppressNotification = true;
 
-            foreach (T item in list)
+            foreach (TTableItem item in list)
             {
                 Add(item);
             }

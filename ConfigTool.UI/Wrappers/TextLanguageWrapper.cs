@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class TextLanguageWrapper : ModelWrapper<TextLanguage>
+    public class TextLanguageWrapper : ModelWrapper<TextLanguage, int>
     {
-        public int Id
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); }
-        }
-
         public int TextId
         {
             get { return GetValue<int>(); }
@@ -41,7 +35,7 @@ namespace ConfigTool.UI.Wrappers
             }
         }
 
-        
+
         public TextLanguageWrapper(TextLanguage model) : base(model)
         {
         }

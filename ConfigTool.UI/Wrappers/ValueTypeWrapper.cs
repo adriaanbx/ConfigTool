@@ -7,14 +7,8 @@ using ValueType = ConfigTool.Models.ValueType;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class ValueTypeWrapper : ModelWrapper<ValueType>
+    public class ValueTypeWrapper : ModelWrapper<ValueType, short>
     {
-        public short Id
-        {
-            get { return GetValue<short>(); }
-            set { SetValue(value); }
-        }
-
         public string Name
         {
             get { return GetValue<string>(); }

@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class UnitCategoryWrapper : ModelWrapper<UnitCategory>
-    {
-        public int Id
-        {
-            get { return GetValue<int>(); }
-            set { SetValue(value); }
-        }
-
+    public class UnitCategoryWrapper : ModelWrapper<UnitCategory, int>
+    {       
         public string Name
         {
             get { return GetValue<string>(); }

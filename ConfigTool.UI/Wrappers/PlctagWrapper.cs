@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool.UI.Wrappers
 {
-    public class PlctagWrapper : ModelWrapper<Plctag>
+    public class PlctagWrapper : ModelWrapper<Plctag, int>
     {
 
         public int? ArraySize

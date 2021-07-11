@@ -6,17 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConfigTool.UI.ViewModels
+namespace ConfigTool.UI.ViewModels.TableViewModels
 {
-    public class TableItemPlctag:ViewModelBase
+    public class TableItemPlctag : TableItem<Plctag, int, PlctagWrapper>
     {
-        public PlctagWrapper Plctag { get; set; }
-
         public string? DataBlock { get; set; }
         public string ValueType { get; set; }
         public string? UnitCategory { get; set; }
         public string? Text { get; set; }
-
-        public string ColumnName { get; set; }
     }
 }
