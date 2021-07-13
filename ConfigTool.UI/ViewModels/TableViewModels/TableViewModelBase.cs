@@ -63,7 +63,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
             get { return _selectedCell; }
             set
             {
-                if (value.ColumnName != null && _selectedCell != value)
+                if (value?.ColumnName != null && _selectedCell != value)
                 {
                     _selectedCell = value;
 

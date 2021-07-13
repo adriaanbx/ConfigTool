@@ -19,7 +19,7 @@ namespace ConfigTool.UI.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
+            if (value != null && targetType != null)
             {
                 var cellInfo = (DataGridCellInfo)value;
                 TableItem<TEntity, TId, TWrapper> tableItemPlctag = new TableItem<TEntity, TId, TWrapper>();
