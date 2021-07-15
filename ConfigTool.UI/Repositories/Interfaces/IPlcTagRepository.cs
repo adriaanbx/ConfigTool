@@ -10,6 +10,6 @@ namespace ConfigTool.UI.Repositories
 {
     public interface IPlctagRepository : IGenericRepository<Plctag, int, PlctagWrapper>
     {
-       
+        public Task<IEnumerable<LookupItem<int>>> GetAllPressParametersLookupAsync();
     }
 }

@@ -17,6 +17,15 @@
         <DataTemplate DataType="{x:Type viewModel:DatablockTableViewModel}">
             <view:DatablockTableView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PressParameterTableViewModel}">
+            <view:PressParameterTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PressParameterTypeTableViewModel}">
+            <view:PressParameterTypeTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:LayerSideTableViewModel}">
+            <view:LayerSideTableView/>
+        </DataTemplate>
 
         <!--DetailViewmodels-->
         <DataTemplate DataType="{x:Type viewModel:DatablockDetailViewModel}">

@@ -18,10 +18,26 @@ namespace ConfigTool.UI.Repositories
         {
         }
 
-        public override Task<IEnumerable<LookupItem<int>>> GetAllLookupAsync()
+        public async override Task<IEnumerable<LookupItem<int>>> GetAllLookupAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Plctag.OrderBy(p => p.Name).Select(p =>
+           new LookupItem<int>
+           {
+               Id = p.Id,
+               DisplayMember = p.Name
+           }).ToListAsync();
         }
+
+        public async Task<IEnumerable<LookupItem<int>>> GetAllPressParametersLookupAsync()
+        {
+            return await _context.Plctag.Where(p => p.DataBlockId == 20).OrderBy(p => p.Name).Select(p =>
+           new LookupItem<int>
+           {
+               Id = p.Id,
+               DisplayMember = p.DataBlock.Name + "." + p.Name
+           }).ToListAsync();
+        }
+
         public override async Task<IEnumerable<TableItem<Plctag, int, PlctagWrapper>>> GetTableLookupAsync()
         {
             return await _context.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>

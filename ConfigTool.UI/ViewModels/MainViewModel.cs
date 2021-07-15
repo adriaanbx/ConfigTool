@@ -16,8 +16,13 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IUnitCategoryDetailViewModel> _unitCategoryDetailViewModelCreator;
         private readonly Func<ITextLanguageDetailViewModel> _textLanguageDetailViewModelCreator;
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
+
         private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
         private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
+        private readonly Func<IPressParameterTableViewModel> _pressParameterTableViewModelCreator;
+        private readonly Func<IPressParameterTypeTableViewModel> _pressParameterTypeTableViewModelCreator;
+        private readonly Func<ILayerSideTableViewModel> _LayerSideTableViewModelCreator;
+
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
         private IDetailViewModel _DetailViewModel;
@@ -71,6 +76,8 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
+                                Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
+                                Func<ILayerSideTableViewModel> layerSideTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -81,6 +88,9 @@ namespace ConfigTool.UI.ViewModels
 
             _plctagTableViewModelCreator = plctagTableViewModelCreator;
             _datablockTableViewModelCreator = datablockTableViewModelCreator;
+            _pressParameterTableViewModelCreator = pressParameterTableViewModelCreator;
+            _pressParameterTypeTableViewModelCreator = pressParameterTypeTableViewModelCreator;
+            _LayerSideTableViewModelCreator = layerSideTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -162,22 +172,20 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(DataBlock):
                     TableViewModel = _datablockTableViewModelCreator();
                     break;
+                case nameof(PressParameter):
+                    TableViewModel = _pressParameterTableViewModelCreator();
+                    break;
+                case nameof(PressParameterType):
+                    TableViewModel = _pressParameterTypeTableViewModelCreator();
+                    break;
+                case nameof(LayerSide):
+                case ("LAYER_SIDE"):
+                    TableViewModel = _LayerSideTableViewModelCreator();
+                    break;
                 default:
                     //CleanTableView(); -> zorgt voor crash
                     CleanDetailView();
                     return;
-                    //case nameof(Models.ValueType):
-                    //    DetailViewModel = _valueTypeDetailViewModelCreator();
-                    //    break;
-                    //case nameof(Models.UnitCategory):
-                    //    DetailViewModel = _unitCategoryDetailViewModelCreator();
-                    //    break;
-                    //case nameof(Models.Text):
-                    //    DetailViewModel = _textLanguageDetailViewModelCreator();
-                    //    break;
-                    //default:
-                    //    DetailViewModel = _plctagDetailViewModelCreator();
-                    //    break;
             }
 
             UpdateStatus("Loading...");

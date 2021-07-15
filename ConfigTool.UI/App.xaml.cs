@@ -42,20 +42,31 @@ namespace ConfigTool.UI
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IEventAggregator, EventAggregator>();
             services.AddSingleton<IMessageDialogService, MessageDialogService>();
+
             services.AddTransient<IModelRepository, ModelRepository>();
             services.AddTransient<IPlctagRepository, PlctagRepository>();
             services.AddTransient<IDatablockRepository, DatablockRepository>();
             services.AddTransient<IValueTypeRepository, ValueTypeRepository>();
             services.AddTransient<IUnitCategoryRepository, UnitCategoryRepository>();
             services.AddTransient<ITextLanguageRepository, TextLanguageRepository>();
+            services.AddTransient<IPressParameterRepository, PressParameterRepository>();
+            services.AddTransient<IPressParameterTypeRepository, PressParameterTypeRepository>();
+            services.AddTransient<ILayerSideRepository, LayerSideRepository>();
+
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
+
             services.AddTransient<IDatablockDetailViewModel, DatablockDetailViewModel>();
             services.AddTransient<IValueTypeDetailViewModel, ValueTypeDetailViewModel>();
             services.AddTransient<IUnitCategoryDetailViewModel, UnitCategoryDetailViewModel>();
             services.AddTransient<ITextLanguageDetailViewModel, TextLanguageDetailViewModel>();
             services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
+
             services.AddTransient<IPlctagTableViewModel, PlctagTableViewModel>();
             services.AddTransient<IDatablockTableViewModel, DatablockTableViewModel>();
+            services.AddTransient<IPressParameterTableViewModel, PressParameterTableViewModel>();
+            services.AddTransient<IPressParameterTypeTableViewModel, PressParameterTypeTableViewModel>();
+            services.AddTransient<ILayerSideTableViewModel, LayerSideTableViewModel>();
+
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddTransient<Func<IUnitCategoryDetailViewModel>>(sp => () => sp.GetService<IUnitCategoryDetailViewModel>());
@@ -63,6 +74,10 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
             services.AddTransient<Func<IPlctagTableViewModel>>(sp => () => sp.GetService<IPlctagTableViewModel>());
             services.AddTransient<Func<IDatablockTableViewModel>>(sp => () => sp.GetService<IDatablockTableViewModel>());
+            services.AddTransient<Func<IPressParameterTableViewModel>>(sp => () => sp.GetService<IPressParameterTableViewModel>());
+            services.AddTransient<Func<IPressParameterTypeTableViewModel>>(sp => () => sp.GetService<IPressParameterTypeTableViewModel>());
+            services.AddTransient<Func<ILayerSideTableViewModel>>(sp => () => sp.GetService<ILayerSideTableViewModel>());
+
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
                             .EnableSensitiveDataLogging()
