@@ -43,6 +43,12 @@
         <DataTemplate DataType="{x:Type viewModel:PlctagDetailViewModel}">
             <view:PlctagDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PressParameterTypeDetailViewModel}">
+            <view:PressParameterTypeDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:LayerSideDetailViewModel}">
+            <view:LayerSideDetailView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

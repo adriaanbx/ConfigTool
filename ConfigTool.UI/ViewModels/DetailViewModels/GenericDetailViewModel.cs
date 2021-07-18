@@ -107,9 +107,9 @@ namespace ConfigTool.UI.ViewModels
 
         public async virtual Task LoadAsync(EventParameters? eventParameters)
         {
-            var datablock = eventParameters != null ? await _entityRepository.GetByIdAsync(ConvertValue<TId, int>(eventParameters.Id)) : CreateNewDatablock();
+            var item = eventParameters != null ? await _entityRepository.GetByIdAsync(ConvertValue<TId, int>(eventParameters.Id)) : CreateNewDatablock();
 
-            InitializeDatablock(datablock);
+            InitializeDatablock(item);
 
         }
 

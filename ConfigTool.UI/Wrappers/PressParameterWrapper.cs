@@ -20,7 +20,7 @@ namespace ConfigTool.UI.Wrappers
             set { SetValue(value); }
         }
 
-        public int? TagId
+        public int? PlctagId
         {
             get { return GetValue<int>(); }
             set { SetValue(value); }

@@ -16,6 +16,8 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IUnitCategoryDetailViewModel> _unitCategoryDetailViewModelCreator;
         private readonly Func<ITextLanguageDetailViewModel> _textLanguageDetailViewModelCreator;
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
+        private readonly Func<IPressParameterTypeDetailViewModel> _pressParameterTypeDetailViewModelCreator;
+        private readonly Func<ILayerSideDetailViewModel> _layerSideDetailViewModelCreator;
 
         private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
         private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
@@ -75,6 +77,7 @@ namespace ConfigTool.UI.ViewModels
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
+                                Func<IPressParameterTypeDetailViewModel> pressParameterTypeDetailViewModelCreator, Func<ILayerSideDetailViewModel> layerSideDetailViewModelCreator,
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
                                 Func<ILayerSideTableViewModel> layerSideTableViewModelCreator,
@@ -85,6 +88,8 @@ namespace ConfigTool.UI.ViewModels
             _unitCategoryDetailViewModelCreator = unitCategoryDetailViewModelCreator;
             _textLanguageDetailViewModelCreator = textLanguageDetailViewModelCreator;
             _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
+            _pressParameterTypeDetailViewModelCreator = pressParameterTypeDetailViewModelCreator;
+            _layerSideDetailViewModelCreator = layerSideDetailViewModelCreator;
 
             _plctagTableViewModelCreator = plctagTableViewModelCreator;
             _datablockTableViewModelCreator = datablockTableViewModelCreator;
@@ -136,6 +141,13 @@ namespace ConfigTool.UI.ViewModels
                     break;
                 case nameof(Text):
                     DetailViewModel = _textLanguageDetailViewModelCreator();
+                    break;
+                case nameof(PressParameterType):
+                    DetailViewModel = _pressParameterTypeDetailViewModelCreator();
+                    break;
+                case nameof(LayerSide):
+                case ("LAYER_SIDE"):
+                    DetailViewModel = _layerSideDetailViewModelCreator();
                     break;
                 case nameof(Plctag):
                     DetailViewModel = _plctagDetailViewModelCreator();

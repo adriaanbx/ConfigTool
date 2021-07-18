@@ -2085,8 +2085,8 @@ namespace ConfigTool.DataAccess
                     .HasName("FK_PRESSPARAMETER_PRESSPARAMETE")
                     .IsUnique();
 
-                entity.HasIndex(e => e.TagId)
-                    .HasName("FK_PRESSPARAMETER_TAGID")
+                entity.HasIndex(e => e.PlctagId)
+                    .HasName("FK_PRESSPARAMETER_PLCTAGID")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("ID");
@@ -2099,7 +2099,7 @@ namespace ConfigTool.DataAccess
 
                 
 
-                entity.Property(e => e.TagId).HasColumnName("TagID");
+                entity.Property(e => e.PlctagId).HasColumnName("PlctagID");
             });
 
             modelBuilder.Entity<PressParameterType>(entity =>

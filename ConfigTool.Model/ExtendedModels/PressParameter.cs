@@ -7,7 +7,7 @@ namespace ConfigTool.Models
     {
         public bool Value { get; set; }
 
-        public Plctag Tag { get; set; }
+        public Plctag Plctag { get; set; }
         public LayerSide LayerSide { get; set; }
         public PressParameterType PressParameterType { get; set; }
 

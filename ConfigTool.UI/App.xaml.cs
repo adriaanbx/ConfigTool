@@ -60,6 +60,8 @@ namespace ConfigTool.UI
             services.AddTransient<IUnitCategoryDetailViewModel, UnitCategoryDetailViewModel>();
             services.AddTransient<ITextLanguageDetailViewModel, TextLanguageDetailViewModel>();
             services.AddTransient<IPlctagDetailViewModel, PlctagDetailViewModel>();
+            services.AddTransient<IPressParameterTypeDetailViewModel, PressParameterTypeDetailViewModel>();
+            services.AddTransient<ILayerSideDetailViewModel, LayerSideDetailViewModel>();
 
             services.AddTransient<IPlctagTableViewModel, PlctagTableViewModel>();
             services.AddTransient<IDatablockTableViewModel, DatablockTableViewModel>();
@@ -71,6 +73,8 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
             services.AddTransient<Func<IUnitCategoryDetailViewModel>>(sp => () => sp.GetService<IUnitCategoryDetailViewModel>());
             services.AddTransient<Func<ITextLanguageDetailViewModel>>(sp => () => sp.GetService<ITextLanguageDetailViewModel>());
+            services.AddTransient<Func<IPressParameterTypeDetailViewModel>>(sp => () => sp.GetService<IPressParameterTypeDetailViewModel>());
+            services.AddTransient<Func<ILayerSideDetailViewModel>>(sp => () => sp.GetService<ILayerSideDetailViewModel>());
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
             services.AddTransient<Func<IPlctagTableViewModel>>(sp => () => sp.GetService<IPlctagTableViewModel>());
             services.AddTransient<Func<IDatablockTableViewModel>>(sp => () => sp.GetService<IDatablockTableViewModel>());

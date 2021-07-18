@@ -44,7 +44,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox ItemsSource="{Binding Path=DataContext.Plctags, RelativeSource={RelativeSource AncestorType=local:PressParameterTableView}}" Margin="0 0 10 0"
-                               SelectedValue="{Binding Path=Table.TagId}"
+                               SelectedValue="{Binding Path=Table.PlctagId}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="DisplayMember"/>
                         </DataTemplate>

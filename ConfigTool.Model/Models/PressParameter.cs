@@ -9,7 +9,7 @@ namespace ConfigTool.Models
         public string Name { get; set; }
         public short? LayerSideId { get; set; }
         public int Id { get; set; }
-        public int? TagId { get; set; }
+        public int? PlctagId { get; set; }
         public int? PressParameterTypeId { get; set; }
 
     }

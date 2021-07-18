@@ -29,11 +29,11 @@ namespace ConfigTool.UI.Repositories
         }
         public override async Task<IEnumerable<TableItem<PressParameter, int, PressParameterWrapper>>> GetTableLookupAsync()
         {
-            return await _context.PressParameter.Include(p => p.Tag).Include(p => p.LayerSide).Include(p => p.PressParameterType).Select(p =>
+            return await _context.PressParameter.Include(p => p.Plctag).Include(p => p.LayerSide).Include(p => p.PressParameterType).Select(p =>
             new PressParameterTableItem
             {
                 Table = new Wrappers.PressParameterWrapper(p),
-                Plctag = p.Tag.Name,
+                Plctag = p.Plctag.Name,
                 LayerSide = p.LayerSide.Desc,
                 PressParameterType = p.PressParameterType.Name
             }).ToListAsync();
