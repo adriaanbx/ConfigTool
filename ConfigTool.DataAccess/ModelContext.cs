@@ -972,8 +972,8 @@ namespace ConfigTool.DataAccess
                     .HasName("FK_ENGINEERING_READWRITETYPEID")
                     .IsUnique();
 
-                entity.HasIndex(e => e.TagId)
-                    .HasName("FK_ENGINEERING_TAGID")
+                entity.HasIndex(e => e.PlctagId)
+                    .HasName("FK_ENGINEERING_PLCTAGID")
                     .IsUnique();
 
                 entity.HasIndex(e => e.TextId)
@@ -1000,7 +1000,7 @@ namespace ConfigTool.DataAccess
 
                 
 
-                entity.Property(e => e.TagId).HasColumnName("TagID");
+                entity.Property(e => e.PlctagId).HasColumnName("PlctagID");
 
                 entity.Property(e => e.TextId).HasColumnName("TextID");
 

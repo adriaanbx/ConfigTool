@@ -9,7 +9,7 @@ namespace ConfigTool.Models
         
         public Text Text { get; set; }
 
-        public Plctag Tag { get; set; }
+        public Plctag Plctag { get; set; }
 
         public ValueType ValueType { get; set; }
 

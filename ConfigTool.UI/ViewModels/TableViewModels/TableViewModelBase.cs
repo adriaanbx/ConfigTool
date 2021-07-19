@@ -74,7 +74,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
                     var isForeignKeyColumn = false;
 
                     //selected column is Text column
-                    if (columnName.Equals("Text"))
+                    if (columnName.Contains("Text"))
                     {
                         GetTextId(columnName);
                     }

@@ -9,7 +9,7 @@ namespace ConfigTool.Models
         public string IconPath { get; set; }
 
         public int Id { get; set; }
-        public int? TagId { get; set; }
+        public int? PlctagId { get; set; }
         public int? TextId { get; set; }
         public int? GroupTextId { get; set; }
         public short? ReadWriteTypeId { get; set; }

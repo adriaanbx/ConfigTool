@@ -23,7 +23,9 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
         private readonly Func<IPressParameterTableViewModel> _pressParameterTableViewModelCreator;
         private readonly Func<IPressParameterTypeTableViewModel> _pressParameterTypeTableViewModelCreator;
-        private readonly Func<ILayerSideTableViewModel> _LayerSideTableViewModelCreator;
+        private readonly Func<ILayerSideTableViewModel> _layerSideTableViewModelCreator;
+        private readonly Func<IEngineeringTableViewModel> _engineeringTableViewModelCreator;
+        private readonly Func<IReadWriteTypeTableViewModel> _readWriteTypeTableViewModelCreator;
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
@@ -80,7 +82,7 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IPressParameterTypeDetailViewModel> pressParameterTypeDetailViewModelCreator, Func<ILayerSideDetailViewModel> layerSideDetailViewModelCreator,
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
-                                Func<ILayerSideTableViewModel> layerSideTableViewModelCreator,
+                                Func<ILayerSideTableViewModel> layerSideTableViewModelCreator, Func<IEngineeringTableViewModel> engineeringTableViewModelCreator, Func<IReadWriteTypeTableViewModel> readWriteTypeTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -95,7 +97,9 @@ namespace ConfigTool.UI.ViewModels
             _datablockTableViewModelCreator = datablockTableViewModelCreator;
             _pressParameterTableViewModelCreator = pressParameterTableViewModelCreator;
             _pressParameterTypeTableViewModelCreator = pressParameterTypeTableViewModelCreator;
-            _LayerSideTableViewModelCreator = layerSideTableViewModelCreator;
+            _layerSideTableViewModelCreator = layerSideTableViewModelCreator;
+            _engineeringTableViewModelCreator = engineeringTableViewModelCreator;
+            _readWriteTypeTableViewModelCreator = readWriteTypeTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -140,6 +144,7 @@ namespace ConfigTool.UI.ViewModels
                     DetailViewModel = _unitCategoryDetailViewModelCreator();
                     break;
                 case nameof(Text):
+                case "GroupText":
                     DetailViewModel = _textLanguageDetailViewModelCreator();
                     break;
                 case nameof(PressParameterType):
@@ -181,6 +186,12 @@ namespace ConfigTool.UI.ViewModels
                 case "PLCTag":
                     TableViewModel = _plctagTableViewModelCreator();
                     break;
+                case nameof(Engineering):
+                    TableViewModel = _engineeringTableViewModelCreator();
+                    break;
+                case nameof(ReadWriteType):
+                    TableViewModel = _readWriteTypeTableViewModelCreator();
+                    break;
                 case nameof(DataBlock):
                     TableViewModel = _datablockTableViewModelCreator();
                     break;
@@ -192,7 +203,7 @@ namespace ConfigTool.UI.ViewModels
                     break;
                 case nameof(LayerSide):
                 case ("LAYER_SIDE"):
-                    TableViewModel = _LayerSideTableViewModelCreator();
+                    TableViewModel = _layerSideTableViewModelCreator();
                     break;
                 default:
                     //CleanTableView(); -> zorgt voor crash

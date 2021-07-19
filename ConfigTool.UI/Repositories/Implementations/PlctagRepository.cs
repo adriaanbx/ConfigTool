@@ -38,6 +38,16 @@ namespace ConfigTool.UI.Repositories
            }).ToListAsync();
         }
 
+        public async Task<IEnumerable<LookupItem<int>>> GetAllParametersLookupAsync()
+        {
+            return await _context.Plctag.Where(p => p.Name.Contains("PARXX")).OrderBy(p => p.Name).Select(p =>
+           new LookupItem<int>
+           {
+               Id = p.Id,
+               DisplayMember = p.DataBlock.Name + "." + p.Name
+           }).ToListAsync();
+        }
+
         public override async Task<IEnumerable<TableItem<Plctag, int, PlctagWrapper>>> GetTableLookupAsync()
         {
             return await _context.Plctag.Include(p => p.DataBlock).Include(p => p.UnitCategory).Select(p =>

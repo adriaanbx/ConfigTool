@@ -52,6 +52,8 @@ namespace ConfigTool.UI
             services.AddTransient<IPressParameterRepository, PressParameterRepository>();
             services.AddTransient<IPressParameterTypeRepository, PressParameterTypeRepository>();
             services.AddTransient<ILayerSideRepository, LayerSideRepository>();
+            services.AddTransient<IEngineeringRepository, EngineeringRepository>();
+            services.AddTransient<IReadWriteTypeRepository, ReadWriteTypeRepository>();
 
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
 
@@ -68,6 +70,8 @@ namespace ConfigTool.UI
             services.AddTransient<IPressParameterTableViewModel, PressParameterTableViewModel>();
             services.AddTransient<IPressParameterTypeTableViewModel, PressParameterTypeTableViewModel>();
             services.AddTransient<ILayerSideTableViewModel, LayerSideTableViewModel>();
+            services.AddTransient<IEngineeringTableViewModel, EngineeringTableViewModel>();
+            services.AddTransient<IReadWriteTypeTableViewModel, ReadWriteTypeTableViewModel>();
 
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
@@ -81,6 +85,8 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IPressParameterTableViewModel>>(sp => () => sp.GetService<IPressParameterTableViewModel>());
             services.AddTransient<Func<IPressParameterTypeTableViewModel>>(sp => () => sp.GetService<IPressParameterTypeTableViewModel>());
             services.AddTransient<Func<ILayerSideTableViewModel>>(sp => () => sp.GetService<ILayerSideTableViewModel>());
+            services.AddTransient<Func<IEngineeringTableViewModel>>(sp => () => sp.GetService<IEngineeringTableViewModel>());
+            services.AddTransient<Func<IReadWriteTypeTableViewModel>>(sp => () => sp.GetService<IReadWriteTypeTableViewModel>());
 
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))

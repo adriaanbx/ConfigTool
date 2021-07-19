@@ -25,6 +25,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:LayerSideTableViewModel}">
             <view:LayerSideTableView/>
+        </DataTemplate> 
+        <DataTemplate DataType="{x:Type viewModel:ReadWriteTypeTableViewModel}">
+            <view:ReadWriteTypeTableView/>
+        </DataTemplate>        
+        <DataTemplate DataType="{x:Type viewModel:EngineeringTableViewModel}">
+            <view:EngineeringTableView/>
         </DataTemplate>
 
         <!--DetailViewmodels-->
