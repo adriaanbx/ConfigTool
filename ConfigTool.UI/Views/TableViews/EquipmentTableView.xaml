@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="ConfigTool.UI.Views.EquipmentTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.UI.Views"
+             xmlns:converts="clr-namespace:ConfigTool.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converts:EquipmentSelectedCellToColumnNameConverter x:Key="converter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0" Text="{Binding TableFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding TableCollectionView}" AutoGenerateColumns="False"
+                  SelectionMode="Single" SelectionUnit="Cell"
+                  CurrentCell="{Binding SelectedCell, Mode=OneWayToSource, Converter={StaticResource converter}}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" IsReadOnly="True" 
+                                    Binding="{Binding Table.Id, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Min" IsReadOnly="False" 
+                                    Binding="{Binding Table.Min, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Max" IsReadOnly="False" 
+                                    Binding="{Binding Table.Max, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Value" IsReadOnly="False" 
+                                    Binding="{Binding Table.Value, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Visible" IsReadOnly="False" 
+                                    Binding="{Binding Table.Visible, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTextColumn Header="Enable" IsReadOnly="False" 
+                                    Binding="{Binding Table.Enable, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource DataGridColumnStyle}"
+                                    EditingElementStyle="{StaticResource DataGridEditingColumnStyle}"/>
+                <DataGridTemplateColumn Header="GroupText">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.GroupTextLanguages, RelativeSource={RelativeSource AncestorType=local:EquipmentTableView}}"  Margin="0 0 10 0"
+                               SelectedValue="{Binding Path=Table.GroupTextId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember">
+                                <!--IsTextSearchEnabled="True">-->
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Text">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.TextLanguages, RelativeSource={RelativeSource AncestorType=local:EquipmentTableView}}"  Margin="0 0 10 0"
+                               SelectedValue="{Binding Path=Table.TextId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember">
+                                <!--IsTextSearchEnabled="True">-->
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Plctag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.Plctags, RelativeSource={RelativeSource AncestorType=local:EquipmentTableView}}" Margin="0 0 10 0"
+                               SelectedValue="{Binding Path=Table.PlctagId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ValueType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.ValueTypes, RelativeSource={RelativeSource AncestorType=local:EquipmentTableView}}" Margin="0 0 10 0"
+                               SelectedValue="{Binding Path=Table.ValueTypeId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ReadWriteType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Path=DataContext.ReadWriteTypes, RelativeSource={RelativeSource AncestorType=local:EquipmentTableView}}" Margin="0 0 10 0"
+                               SelectedValue="{Binding Path=Table.ReadWriteTypeId}"
+                               SelectedValuePath="Id"
+                               DisplayMemberPath="DisplayMember"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" Content="Save" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
+            <Button HorizontalAlignment="Left" Content="Cancel" Width="125" Margin="10" Command="{Binding CancelCommand}"/>
+            <Button HorizontalAlignment="Left" Content="Add" Width="125" Margin="10" Command="{Binding CreateNewPlctagCommand}"/>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

@@ -6,7 +6,7 @@ namespace ConfigTool.Models
     public partial class Equipment
     {
 
-        public Plctag Tag { get; set; }
+        public Plctag Plctag { get; set; }
 
         public Text Text { get; set; }
 

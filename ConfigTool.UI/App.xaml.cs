@@ -53,6 +53,7 @@ namespace ConfigTool.UI
             services.AddTransient<IPressParameterTypeRepository, PressParameterTypeRepository>();
             services.AddTransient<ILayerSideRepository, LayerSideRepository>();
             services.AddTransient<IEngineeringRepository, EngineeringRepository>();
+            services.AddTransient<IEquipmentRepository, EquipmentRepository>();
             services.AddTransient<IReadWriteTypeRepository, ReadWriteTypeRepository>();
 
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
@@ -72,6 +73,7 @@ namespace ConfigTool.UI
             services.AddTransient<IPressParameterTypeTableViewModel, PressParameterTypeTableViewModel>();
             services.AddTransient<ILayerSideTableViewModel, LayerSideTableViewModel>();
             services.AddTransient<IEngineeringTableViewModel, EngineeringTableViewModel>();
+            services.AddTransient<IEquipmentTableViewModel, EquipmentTableViewModel>();
             services.AddTransient<IReadWriteTypeTableViewModel, ReadWriteTypeTableViewModel>();
 
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
@@ -88,6 +90,7 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IPressParameterTypeTableViewModel>>(sp => () => sp.GetService<IPressParameterTypeTableViewModel>());
             services.AddTransient<Func<ILayerSideTableViewModel>>(sp => () => sp.GetService<ILayerSideTableViewModel>());
             services.AddTransient<Func<IEngineeringTableViewModel>>(sp => () => sp.GetService<IEngineeringTableViewModel>());
+            services.AddTransient<Func<IEquipmentTableViewModel>>(sp => () => sp.GetService<IEquipmentTableViewModel>());
             services.AddTransient<Func<IReadWriteTypeTableViewModel>>(sp => () => sp.GetService<IReadWriteTypeTableViewModel>());
 
             services.AddDbContext<ModelContext>(options =>

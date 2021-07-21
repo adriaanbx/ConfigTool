@@ -27,6 +27,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<ILayerSideTableViewModel> _layerSideTableViewModelCreator;
         private readonly Func<IEngineeringTableViewModel> _engineeringTableViewModelCreator;
         private readonly Func<IReadWriteTypeTableViewModel> _readWriteTypeTableViewModelCreator;
+        private readonly Func<IEquipmentTableViewModel> _equipmentTableViewModelCreator;
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
@@ -84,6 +85,7 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
                                 Func<ILayerSideTableViewModel> layerSideTableViewModelCreator, Func<IEngineeringTableViewModel> engineeringTableViewModelCreator, Func<IReadWriteTypeTableViewModel> readWriteTypeTableViewModelCreator,
+                                Func<IEquipmentTableViewModel> equipmentTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -101,6 +103,7 @@ namespace ConfigTool.UI.ViewModels
             _pressParameterTypeTableViewModelCreator = pressParameterTypeTableViewModelCreator;
             _layerSideTableViewModelCreator = layerSideTableViewModelCreator;
             _engineeringTableViewModelCreator = engineeringTableViewModelCreator;
+            _equipmentTableViewModelCreator = equipmentTableViewModelCreator;
             _readWriteTypeTableViewModelCreator = readWriteTypeTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
@@ -192,6 +195,9 @@ namespace ConfigTool.UI.ViewModels
                     break;
                 case nameof(Engineering):
                     TableViewModel = _engineeringTableViewModelCreator();
+                    break;
+                case nameof(Equipment):
+                    TableViewModel = _equipmentTableViewModelCreator();
                     break;
                 case nameof(Plctag):
                 case "PLCTag":
