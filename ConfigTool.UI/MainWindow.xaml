@@ -55,6 +55,9 @@
         <DataTemplate DataType="{x:Type viewModel:LayerSideDetailViewModel}">
             <view:LayerSideDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ReadWriteTypeDetailViewModel}">
+            <view:ReadWriteTypeDetailView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

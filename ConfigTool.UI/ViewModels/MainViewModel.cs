@@ -18,6 +18,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IPlctagDetailViewModel> _plctagDetailViewModelCreator;
         private readonly Func<IPressParameterTypeDetailViewModel> _pressParameterTypeDetailViewModelCreator;
         private readonly Func<ILayerSideDetailViewModel> _layerSideDetailViewModelCreator;
+        private readonly Func<IReadWriteTypeDetailViewModel> _readWriteTypeDetailViewModelCreator;
 
         private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
         private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
@@ -79,7 +80,7 @@ namespace ConfigTool.UI.ViewModels
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
-                                Func<IPressParameterTypeDetailViewModel> pressParameterTypeDetailViewModelCreator, Func<ILayerSideDetailViewModel> layerSideDetailViewModelCreator,
+                                Func<IPressParameterTypeDetailViewModel> pressParameterTypeDetailViewModelCreator, Func<ILayerSideDetailViewModel> layerSideDetailViewModelCreator, Func<IReadWriteTypeDetailViewModel> readWriteTypeDetailViewModelCreator,
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
                                 Func<ILayerSideTableViewModel> layerSideTableViewModelCreator, Func<IEngineeringTableViewModel> engineeringTableViewModelCreator, Func<IReadWriteTypeTableViewModel> readWriteTypeTableViewModelCreator,
@@ -92,6 +93,7 @@ namespace ConfigTool.UI.ViewModels
             _plctagDetailViewModelCreator = plctagDetailViewModelCreator;
             _pressParameterTypeDetailViewModelCreator = pressParameterTypeDetailViewModelCreator;
             _layerSideDetailViewModelCreator = layerSideDetailViewModelCreator;
+            _readWriteTypeDetailViewModelCreator = readWriteTypeDetailViewModelCreator;
 
             _plctagTableViewModelCreator = plctagTableViewModelCreator;
             _datablockTableViewModelCreator = datablockTableViewModelCreator;
@@ -137,25 +139,28 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(DataBlock):
                     DetailViewModel = _datablockDetailViewModelCreator();
                     break;
-                case nameof(Models.ValueType):
-                    DetailViewModel = _valueTypeDetailViewModelCreator();
-                    break;
-                case nameof(UnitCategory):
-                    DetailViewModel = _unitCategoryDetailViewModelCreator();
-                    break;
-                case nameof(Text):
-                case "GroupText":
-                    DetailViewModel = _textLanguageDetailViewModelCreator();
-                    break;
-                case nameof(PressParameterType):
-                    DetailViewModel = _pressParameterTypeDetailViewModelCreator();
-                    break;
                 case nameof(LayerSide):
                 case ("LAYER_SIDE"):
                     DetailViewModel = _layerSideDetailViewModelCreator();
                     break;
                 case nameof(Plctag):
                     DetailViewModel = _plctagDetailViewModelCreator();
+                    break;
+                case nameof(PressParameterType):
+                    DetailViewModel = _pressParameterTypeDetailViewModelCreator();
+                    break;
+                case nameof(ReadWriteType):
+                    DetailViewModel = _readWriteTypeDetailViewModelCreator();
+                    break;
+                case nameof(Text):
+                case "GroupText":
+                    DetailViewModel = _textLanguageDetailViewModelCreator();
+                    break;
+                case nameof(UnitCategory):
+                    DetailViewModel = _unitCategoryDetailViewModelCreator();
+                    break;
+                case nameof(Models.ValueType):
+                    DetailViewModel = _valueTypeDetailViewModelCreator();
                     break;
                 default:
                     DetailViewModel = null;
@@ -182,18 +187,15 @@ namespace ConfigTool.UI.ViewModels
 
             switch (eventParameters?.TableName)
             {
-                case nameof(Plctag):
-                case "PLCTag":
-                    TableViewModel = _plctagTableViewModelCreator();
+                case nameof(DataBlock):
+                    TableViewModel = _datablockTableViewModelCreator();
                     break;
                 case nameof(Engineering):
                     TableViewModel = _engineeringTableViewModelCreator();
                     break;
-                case nameof(ReadWriteType):
-                    TableViewModel = _readWriteTypeTableViewModelCreator();
-                    break;
-                case nameof(DataBlock):
-                    TableViewModel = _datablockTableViewModelCreator();
+                case nameof(Plctag):
+                case "PLCTag":
+                    TableViewModel = _plctagTableViewModelCreator();
                     break;
                 case nameof(PressParameter):
                     TableViewModel = _pressParameterTableViewModelCreator();
@@ -204,6 +206,9 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(LayerSide):
                 case ("LAYER_SIDE"):
                     TableViewModel = _layerSideTableViewModelCreator();
+                    break;
+                case nameof(ReadWriteType):
+                    TableViewModel = _readWriteTypeTableViewModelCreator();
                     break;
                 default:
                     //CleanTableView(); -> zorgt voor crash
