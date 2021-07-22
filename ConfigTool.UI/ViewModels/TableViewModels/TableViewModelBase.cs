@@ -87,7 +87,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
                         //Open details view when selected column is a foreign key
                         foreach (var key in foreignKeys)
                         {
-                            if (key.PrincipalEntityType.ToString().Contains(columnName))
+                            if (key.PrincipalEntityType.ToString().ToLower().Contains(columnName.ToLower()))
                             {
                                 //selected column is foreign key column
                                 isForeignKeyColumn = true;
