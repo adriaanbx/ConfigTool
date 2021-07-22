@@ -41,6 +41,9 @@
         <DataTemplate DataType="{x:Type viewModel:ToolingParameterTableViewModel}">
             <view:ToolingParameterTableView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RecipeParameterTableViewModel}">
+            <view:RecipeParameterTableView/>
+        </DataTemplate>
 
         <!--DetailViewmodels-->
         <DataTemplate DataType="{x:Type viewModel:DatablockDetailViewModel}">

@@ -30,6 +30,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IEquipmentTableViewModel> _equipmentTableViewModelCreator;
         private readonly Func<IEcmParameterTableViewModel> _ecmParameterTableViewModelCreator;
         private readonly Func<IToolingParameterTableViewModel> _toolingParameterTableViewModelCreator;
+        private readonly Func<IRecipeParameterTableViewModel> _recipeParameterTableViewModelCreator;
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
@@ -88,6 +89,7 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
                                 Func<ILayerSideTableViewModel> layerSideTableViewModelCreator, Func<IEngineeringTableViewModel> engineeringTableViewModelCreator, Func<IReadWriteTypeTableViewModel> readWriteTypeTableViewModelCreator,
                                 Func<IEquipmentTableViewModel> equipmentTableViewModelCreator, Func<IEcmParameterTableViewModel> ecmParameterTableViewModelCreator, Func<IToolingParameterTableViewModel> toolingParameterTableViewModelCreator,
+                                Func<IRecipeParameterTableViewModel> recipeParameterTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -109,6 +111,7 @@ namespace ConfigTool.UI.ViewModels
             _readWriteTypeTableViewModelCreator = readWriteTypeTableViewModelCreator;
             _ecmParameterTableViewModelCreator = ecmParameterTableViewModelCreator;
             _toolingParameterTableViewModelCreator = toolingParameterTableViewModelCreator;
+            _recipeParameterTableViewModelCreator = recipeParameterTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -224,6 +227,9 @@ namespace ConfigTool.UI.ViewModels
                     break;
                 case nameof(ReadWriteType):
                     TableViewModel = _readWriteTypeTableViewModelCreator();
+                    break;
+                case nameof(RecipeParameter):
+                    TableViewModel = _recipeParameterTableViewModelCreator();
                     break;
                 case nameof(ToolingParameter):
                     TableViewModel = _toolingParameterTableViewModelCreator();

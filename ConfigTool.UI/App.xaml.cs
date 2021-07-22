@@ -57,6 +57,7 @@ namespace ConfigTool.UI
             services.AddTransient<IReadWriteTypeRepository, ReadWriteTypeRepository>();
             services.AddTransient<IEcmParameterRepository, EcmParameterRepository>();
             services.AddTransient<IToolingParameterRepository, ToolingParameterRepository>();
+            services.AddTransient<IRecipeParameterRepository, RecipeParameterRepository>();
 
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
 
@@ -79,6 +80,7 @@ namespace ConfigTool.UI
             services.AddTransient<IReadWriteTypeTableViewModel, ReadWriteTypeTableViewModel>();
             services.AddTransient<IEcmParameterTableViewModel, EcmParameterTableViewModel>();
             services.AddTransient<IToolingParameterTableViewModel, ToolingParameterTableViewModel>();
+            services.AddTransient<IRecipeParameterTableViewModel, RecipeParameterTableViewModel>();
 
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
@@ -98,6 +100,7 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IReadWriteTypeTableViewModel>>(sp => () => sp.GetService<IReadWriteTypeTableViewModel>());
             services.AddTransient<Func<IEcmParameterTableViewModel>>(sp => () => sp.GetService<IEcmParameterTableViewModel>());
             services.AddTransient<Func<IToolingParameterTableViewModel>>(sp => () => sp.GetService<IToolingParameterTableViewModel>());
+            services.AddTransient<Func<IRecipeParameterTableViewModel>>(sp => () => sp.GetService<IRecipeParameterTableViewModel>());
 
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))
