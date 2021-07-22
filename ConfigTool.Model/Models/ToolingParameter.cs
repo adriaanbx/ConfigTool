@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ConfigTool.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
-    public partial class ToolingParameter
+    public partial class ToolingParameter : IEntity<int>
     {
         public string IconPath { get; set; }
         public int Id { get; set; }
