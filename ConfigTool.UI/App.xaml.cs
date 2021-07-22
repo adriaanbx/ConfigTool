@@ -55,6 +55,7 @@ namespace ConfigTool.UI
             services.AddTransient<IEngineeringRepository, EngineeringRepository>();
             services.AddTransient<IEquipmentRepository, EquipmentRepository>();
             services.AddTransient<IReadWriteTypeRepository, ReadWriteTypeRepository>();
+            services.AddTransient<IEcmParameterRepository, EcmParameterRepository>();
 
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
 
@@ -75,6 +76,7 @@ namespace ConfigTool.UI
             services.AddTransient<IEngineeringTableViewModel, EngineeringTableViewModel>();
             services.AddTransient<IEquipmentTableViewModel, EquipmentTableViewModel>();
             services.AddTransient<IReadWriteTypeTableViewModel, ReadWriteTypeTableViewModel>();
+            services.AddTransient<IEcmParameterTableViewModel, EcmParameterTableViewModel>();
 
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
@@ -92,6 +94,7 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IEngineeringTableViewModel>>(sp => () => sp.GetService<IEngineeringTableViewModel>());
             services.AddTransient<Func<IEquipmentTableViewModel>>(sp => () => sp.GetService<IEquipmentTableViewModel>());
             services.AddTransient<Func<IReadWriteTypeTableViewModel>>(sp => () => sp.GetService<IReadWriteTypeTableViewModel>());
+            services.AddTransient<Func<IEcmParameterTableViewModel>>(sp => () => sp.GetService<IEcmParameterTableViewModel>());
 
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))

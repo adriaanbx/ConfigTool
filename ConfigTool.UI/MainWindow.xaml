@@ -13,7 +13,7 @@
         <!--TableViewmodels-->
         <DataTemplate DataType="{x:Type viewModel:PlctagTableViewModel}">
             <view:PlctagTableView/>
-        </DataTemplate> 
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:DatablockTableViewModel}">
             <view:DatablockTableView/>
         </DataTemplate>
@@ -25,15 +25,18 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:LayerSideTableViewModel}">
             <view:LayerSideTableView/>
-        </DataTemplate> 
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:ReadWriteTypeTableViewModel}">
             <view:ReadWriteTypeTableView/>
-        </DataTemplate>        
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:EngineeringTableViewModel}">
             <view:EngineeringTableView/>
-        </DataTemplate>        
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:EquipmentTableViewModel}">
             <view:EquipmentTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:EcmParameterTableViewModel}">
+            <view:EcmParameterTableView/>
         </DataTemplate>
 
         <!--DetailViewmodels-->
@@ -78,7 +81,7 @@
 
         <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding TableViewModel}"/>
         <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding DetailViewModel}"/>
-        
+
         <TextBox Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" IsEnabled="False"/>
     </Grid>
 </Window>
