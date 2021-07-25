@@ -12,5 +12,6 @@ namespace ConfigTool.UI.Repositories
     {
         public Task<IEnumerable<LookupItem<int>>> GetAllPressParametersLookupAsync();
         public Task<IEnumerable<LookupItem<int>>> GetAllParametersLookupAsync();
+        public Task<IEnumerable<LookupItem<int>>> GetAllPlcMappingLookupAsync();
     }
 }

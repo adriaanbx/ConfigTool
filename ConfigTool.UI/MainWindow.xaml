@@ -43,6 +43,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:RecipeParameterTableViewModel}">
             <view:RecipeParameterTableView/>
+        </DataTemplate> 
+        <DataTemplate DataType="{x:Type viewModel:PlcMappingTableViewModel}">
+            <view:PlcMappingTableView/>
         </DataTemplate>
 
         <!--DetailViewmodels-->
