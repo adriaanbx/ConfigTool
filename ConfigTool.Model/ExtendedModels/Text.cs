@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ConfigTool.Models
 {
@@ -16,7 +13,7 @@ namespace ConfigTool.Models
         //        return TextLanguages.Where((listedTextLanguage) => listedTextLanguage.LanguageId == 1).FirstOrDefault().Text;
         //    }
         //    set { 
-            
+
         //    }
         //}
     }

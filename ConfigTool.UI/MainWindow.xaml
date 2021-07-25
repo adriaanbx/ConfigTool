@@ -47,6 +47,9 @@
         <DataTemplate DataType="{x:Type viewModel:PlcMappingTableViewModel}">
             <view:PlcMappingTableView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:TextTableViewModel}">
+            <view:TextTableView/>
+        </DataTemplate>
 
         <!--DetailViewmodels-->
         <DataTemplate DataType="{x:Type viewModel:DatablockDetailViewModel}">
