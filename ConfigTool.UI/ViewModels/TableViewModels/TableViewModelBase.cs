@@ -127,7 +127,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
 
         protected virtual void GetTextId(string columnName)
         {
-           new NotImplementedException();
+           throw new NotImplementedException();
         }
 
         public ICommand SaveCommand { get; }

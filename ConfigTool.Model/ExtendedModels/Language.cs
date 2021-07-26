@@ -7,6 +7,7 @@ namespace ConfigTool.Models
     {
 
         public bool Enabled { get; set; }
+        public Text Text { get; set; }
 
     }
 }

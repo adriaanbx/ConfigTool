@@ -26,7 +26,7 @@ namespace ConfigTool.UI.Wrappers
             }
         }
 
-        public string Text
+        public string Desc
         {
             get { return GetValue<string>(); }
             set
@@ -44,8 +44,8 @@ namespace ConfigTool.UI.Wrappers
         {
             switch (propertyName)
             {
-                case nameof(Text):
-                    if (string.Equals(Text, "Test", StringComparison.OrdinalIgnoreCase))
+                case nameof(Desc):
+                    if (string.Equals(Desc, "Test", StringComparison.OrdinalIgnoreCase))
                     {
                         yield return "Test is not a valid Text";
                     }

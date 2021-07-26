@@ -24,7 +24,7 @@ namespace ConfigTool.UI.Repositories
            new LookupItem<int>
            {
                Id = e.Id,
-               DisplayMember = _context.TextLanguage.First(t => t.TextId == e.TextId).Text
+               DisplayMember = _context.TextLanguage.First(t => t.TextId == e.TextId).Desc
            }).ToListAsync();
         }
               
@@ -37,8 +37,8 @@ namespace ConfigTool.UI.Repositories
                 Plctag = e.Tag.Name,
                 ValueType = e.ValueType.Name,
                 ReadWriteType = e.ReadWriteType.Name,
-                Text = _context.TextLanguage.First(t => t.TextId == e.TextId).Text,
-                GroupText = _context.TextLanguage.First(t => t.TextId == e.GroupTextId).Text
+                Text = _context.TextLanguage.First(t => t.TextId == e.TextId).Desc,
+                GroupText = _context.TextLanguage.First(t => t.TextId == e.GroupTextId).Desc
             }).ToListAsync();
         }
     }

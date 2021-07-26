@@ -19,6 +19,7 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IPressParameterTypeDetailViewModel> _pressParameterTypeDetailViewModelCreator;
         private readonly Func<ILayerSideDetailViewModel> _layerSideDetailViewModelCreator;
         private readonly Func<IReadWriteTypeDetailViewModel> _readWriteTypeDetailViewModelCreator;
+        private readonly Func<ILanguageDetailViewModel> _languageDetailViewModelCreator;
 
         private readonly Func<IPlctagTableViewModel> _plctagTableViewModelCreator;
         private readonly Func<IDatablockTableViewModel> _datablockTableViewModelCreator;
@@ -33,6 +34,8 @@ namespace ConfigTool.UI.ViewModels
         private readonly Func<IRecipeParameterTableViewModel> _recipeParameterTableViewModelCreator;
         private readonly Func<IPlcMappingTableViewModel> _plcMappingTableViewModelCreator;
         private readonly Func<ITextTableViewModel> _textTableViewModelCreator;
+        private readonly Func<ITextLanguageTableViewModel> _textLanguageTableViewModelCreator;
+        private readonly Func<ILanguageTableViewModel> _languageTableViewModelCreator;
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IMessageDialogService _messageDialogService;
@@ -87,11 +90,13 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
                                 Func<ITextLanguageDetailViewModel> textLanguageDetailViewModelCreator, Func<IPlctagDetailViewModel> plctagDetailViewModelCreator,
                                 Func<IPressParameterTypeDetailViewModel> pressParameterTypeDetailViewModelCreator, Func<ILayerSideDetailViewModel> layerSideDetailViewModelCreator, Func<IReadWriteTypeDetailViewModel> readWriteTypeDetailViewModelCreator,
+                                Func<ILanguageDetailViewModel> languageDetailViewModelCreator,
                                 Func<IPlctagTableViewModel> plctagTableViewModelCreator, Func<IDatablockTableViewModel> datablockTableViewModelCreator,
                                 Func<IPressParameterTableViewModel> pressParameterTableViewModelCreator, Func<IPressParameterTypeTableViewModel> pressParameterTypeTableViewModelCreator,
                                 Func<ILayerSideTableViewModel> layerSideTableViewModelCreator, Func<IEngineeringTableViewModel> engineeringTableViewModelCreator, Func<IReadWriteTypeTableViewModel> readWriteTypeTableViewModelCreator,
                                 Func<IEquipmentTableViewModel> equipmentTableViewModelCreator, Func<IEcmParameterTableViewModel> ecmParameterTableViewModelCreator, Func<IToolingParameterTableViewModel> toolingParameterTableViewModelCreator,
-                                Func<IRecipeParameterTableViewModel> recipeParameterTableViewModelCreator, Func<IPlcMappingTableViewModel> plcMappingTableViewModelCreator, Func<ITextTableViewModel> textMappingTableViewModelCreator,
+                                Func<IRecipeParameterTableViewModel> recipeParameterTableViewModelCreator, Func<IPlcMappingTableViewModel> plcMappingTableViewModelCreator, Func<ITextTableViewModel> textTableViewModelCreator,
+                                Func<ITextLanguageTableViewModel> textLanguageTableViewModelCreator, Func<ILanguageTableViewModel> languageTableViewModelCreator,
                                 IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
@@ -102,6 +107,7 @@ namespace ConfigTool.UI.ViewModels
             _pressParameterTypeDetailViewModelCreator = pressParameterTypeDetailViewModelCreator;
             _layerSideDetailViewModelCreator = layerSideDetailViewModelCreator;
             _readWriteTypeDetailViewModelCreator = readWriteTypeDetailViewModelCreator;
+            _languageDetailViewModelCreator = languageDetailViewModelCreator;
 
             _plctagTableViewModelCreator = plctagTableViewModelCreator;
             _datablockTableViewModelCreator = datablockTableViewModelCreator;
@@ -115,7 +121,9 @@ namespace ConfigTool.UI.ViewModels
             _toolingParameterTableViewModelCreator = toolingParameterTableViewModelCreator;
             _recipeParameterTableViewModelCreator = recipeParameterTableViewModelCreator;
             _plcMappingTableViewModelCreator = plcMappingTableViewModelCreator;
-            _textTableViewModelCreator = textMappingTableViewModelCreator;
+            _textTableViewModelCreator = textTableViewModelCreator;
+            _textLanguageTableViewModelCreator = textLanguageTableViewModelCreator;
+            _languageTableViewModelCreator = languageTableViewModelCreator;
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
@@ -156,6 +164,9 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(LayerSide):
                 case ("LAYER_SIDE"):
                     DetailViewModel = _layerSideDetailViewModelCreator();
+                    break;
+                case nameof(Language):
+                    DetailViewModel = _languageDetailViewModelCreator();
                     break;
                 case nameof(Plctag):
                 case "Tag":
@@ -215,6 +226,9 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(Equipment):
                     TableViewModel = _equipmentTableViewModelCreator();
                     break;
+                case nameof(Language):
+                    TableViewModel = _languageTableViewModelCreator();
+                    break;
                 case nameof(LayerSide):
                 case ("LAYER_SIDE"):
                     TableViewModel = _layerSideTableViewModelCreator();
@@ -233,14 +247,17 @@ namespace ConfigTool.UI.ViewModels
                 case nameof(PressParameterType):
                     TableViewModel = _pressParameterTypeTableViewModelCreator();
                     break;
-                case nameof(Text):
-                    TableViewModel = _textTableViewModelCreator();
-                    break;
                 case nameof(ReadWriteType):
                     TableViewModel = _readWriteTypeTableViewModelCreator();
                     break;
                 case nameof(RecipeParameter):
                     TableViewModel = _recipeParameterTableViewModelCreator();
+                    break;
+                case nameof(Text):
+                    TableViewModel = _textTableViewModelCreator();
+                    break;
+                case nameof(TextLanguage):
+                    TableViewModel = _textLanguageTableViewModelCreator();
                     break;
                 case nameof(ToolingParameter):
                     TableViewModel = _toolingParameterTableViewModelCreator();

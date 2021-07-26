@@ -67,7 +67,7 @@ namespace ConfigTool.UI.Repositories
                 DataBlock = p.DataBlock.Name,
                 UnitCategory = p.UnitCategory.Name,
                 ValueType = p.ValueType.Name,
-                Text = _context.TextLanguage.First(t => t.TextId == p.TextId).Text
+                Text = _context.TextLanguage.First(t => t.TextId == p.TextId).Desc
             }).ToListAsync();
         }
     }

@@ -60,6 +60,7 @@ namespace ConfigTool.UI
             services.AddTransient<IRecipeParameterRepository, RecipeParameterRepository>();
             services.AddTransient<IPlcMappingRepository, PlcMappingRepository>();
             services.AddTransient<ITextRepository, TextRepository>();
+            services.AddTransient<ILanguageRepository, LanguageRepository>();
 
             services.AddTransient<INavigationViewModel, NavigationViewModel>();
 
@@ -71,6 +72,8 @@ namespace ConfigTool.UI
             services.AddTransient<IPressParameterTypeDetailViewModel, PressParameterTypeDetailViewModel>();
             services.AddTransient<ILayerSideDetailViewModel, LayerSideDetailViewModel>();
             services.AddTransient<IReadWriteTypeDetailViewModel, ReadWriteTypeDetailViewModel>();
+            services.AddTransient<ITextDetailViewModel, TextDetailViewModel>();
+            services.AddTransient<ILanguageDetailViewModel, LanguageDetailViewModel>();
 
             services.AddTransient<IPlctagTableViewModel, PlctagTableViewModel>();
             services.AddTransient<IDatablockTableViewModel, DatablockTableViewModel>();
@@ -85,6 +88,8 @@ namespace ConfigTool.UI
             services.AddTransient<IRecipeParameterTableViewModel, RecipeParameterTableViewModel>();
             services.AddTransient<IPlcMappingTableViewModel, PlcMappingTableViewModel>();
             services.AddTransient<ITextTableViewModel, TextTableViewModel>();
+            services.AddTransient<ITextLanguageTableViewModel, TextLanguageTableViewModel>();
+            services.AddTransient<ILanguageTableViewModel, LanguageTableViewModel>();
 
             services.AddTransient<Func<IDatablockDetailViewModel>>(sp => () => sp.GetService<IDatablockDetailViewModel>());
             services.AddTransient<Func<IValueTypeDetailViewModel>>(sp => () => sp.GetService<IValueTypeDetailViewModel>());
@@ -94,6 +99,8 @@ namespace ConfigTool.UI
             services.AddTransient<Func<ILayerSideDetailViewModel>>(sp => () => sp.GetService<ILayerSideDetailViewModel>());
             services.AddTransient<Func<IPlctagDetailViewModel>>(sp => () => sp.GetService<IPlctagDetailViewModel>());
             services.AddTransient<Func<IReadWriteTypeDetailViewModel>>(sp => () => sp.GetService<IReadWriteTypeDetailViewModel>());
+            services.AddTransient<Func<ITextDetailViewModel>>(sp => () => sp.GetService<ITextDetailViewModel>());
+            services.AddTransient<Func<ILanguageDetailViewModel>>(sp => () => sp.GetService<ILanguageDetailViewModel>());
             services.AddTransient<Func<IPlctagTableViewModel>>(sp => () => sp.GetService<IPlctagTableViewModel>());
             services.AddTransient<Func<IDatablockTableViewModel>>(sp => () => sp.GetService<IDatablockTableViewModel>());
             services.AddTransient<Func<IPressParameterTableViewModel>>(sp => () => sp.GetService<IPressParameterTableViewModel>());
@@ -107,6 +114,8 @@ namespace ConfigTool.UI
             services.AddTransient<Func<IRecipeParameterTableViewModel>>(sp => () => sp.GetService<IRecipeParameterTableViewModel>());
             services.AddTransient<Func<IPlcMappingTableViewModel>>(sp => () => sp.GetService<IPlcMappingTableViewModel>());
             services.AddTransient<Func<ITextTableViewModel>>(sp => () => sp.GetService<ITextTableViewModel>());
+            services.AddTransient<Func<ITextLanguageTableViewModel>>(sp => () => sp.GetService<ITextLanguageTableViewModel>());
+            services.AddTransient<Func<ILanguageTableViewModel>>(sp => () => sp.GetService<ILanguageTableViewModel>());
 
             services.AddDbContext<ModelContext>(options =>
                      options.UseFirebird(configuration.GetConnectionString("ConfigToolDatabase"))

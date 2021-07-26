@@ -9,6 +9,6 @@ namespace ConfigTool.Models
         public int Id { get; set; }
         public int TextId { get; set; }
         public int LanguageId { get; set; }
-        public string Text { get; set; }
+        public string Desc { get; set; }
     }
 }

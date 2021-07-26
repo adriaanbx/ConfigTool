@@ -2562,7 +2562,7 @@ namespace ConfigTool.DataAccess
                     .HasName("FK_TEXTLANGUAGE_TEXTID")
                     .IsUnique();
 
-                entity.HasIndex(e => new { e.LanguageId, e.Text })
+                entity.HasIndex(e => new { e.LanguageId, e.Desc })
                     .HasName("UQ_TLLANGUAGE_TEXT");
 
                 entity.HasIndex(e => new { e.LanguageId, e.TextId })
@@ -2572,7 +2572,7 @@ namespace ConfigTool.DataAccess
 
                 entity.Property(e => e.LanguageId).HasColumnName("LanguageID");
 
-                entity.Property(e => e.Text).HasMaxLength(250);
+                entity.Property(e => e.Desc).HasMaxLength(250);
 
                 entity.Property(e => e.TextId).HasColumnName("TextID");
             });
