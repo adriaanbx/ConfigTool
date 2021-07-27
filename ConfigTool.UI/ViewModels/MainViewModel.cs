@@ -1,6 +1,7 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Views.Services;
+using Microsoft.Extensions.Configuration;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -85,6 +86,22 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
+        private string _connectionString;
+
+        public string ConnectionString
+        {
+            get { return _connectionString; }
+            set
+            {
+                if (_connectionString != value)
+                {
+                    _connectionString = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
 
         public MainViewModel(INavigationViewModel navigationViewModel, Func<IDatablockDetailViewModel> datablockDetailViewModelCreator,
                                 Func<IValueTypeDetailViewModel> valueTypeDetailViewModelCreator, Func<IUnitCategoryDetailViewModel> unitCategoryDetailViewModelCreator,
@@ -97,7 +114,7 @@ namespace ConfigTool.UI.ViewModels
                                 Func<IEquipmentTableViewModel> equipmentTableViewModelCreator, Func<IEcmParameterTableViewModel> ecmParameterTableViewModelCreator, Func<IToolingParameterTableViewModel> toolingParameterTableViewModelCreator,
                                 Func<IRecipeParameterTableViewModel> recipeParameterTableViewModelCreator, Func<IPlcMappingTableViewModel> plcMappingTableViewModelCreator, Func<ITextTableViewModel> textTableViewModelCreator,
                                 Func<ITextLanguageTableViewModel> textLanguageTableViewModelCreator, Func<ILanguageTableViewModel> languageTableViewModelCreator,
-                                IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
+                                IEventAggregator eventAggregator, IMessageDialogService messageDialogService, IConfiguration configuration)
         {
             _datablockDetailViewModelCreator = datablockDetailViewModelCreator;
             _valueTypeDetailViewModelCreator = valueTypeDetailViewModelCreator;
@@ -127,6 +144,7 @@ namespace ConfigTool.UI.ViewModels
 
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
+            _connectionString = configuration.GetConnectionString("ConfigToolDatabase").Split(';')[1];
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenTableDetailView);
             _eventAggregator.GetEvent<TagDeletedEvent>().Subscribe(OnTagDeleted);
             _eventAggregator.GetEvent<StatusChangedEvent>().Subscribe(UpdateStatus);
