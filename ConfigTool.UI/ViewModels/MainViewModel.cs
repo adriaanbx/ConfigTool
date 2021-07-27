@@ -160,7 +160,6 @@ namespace ConfigTool.UI.ViewModels
             UpdateStatus("Ready");
         }
 
-        public ICommand CreateNewPlctagCommand { get; }
 
         private async void OnOpenTableDetailView(EventParameters? eventParameters)
         {
