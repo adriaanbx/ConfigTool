@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -22,7 +23,7 @@ namespace ConfigTool.UI.ViewModels
 
         public PressParameterTableViewModel(IPressParameterRepository pressParameterRepository, IPlctagRepository plctagRepository,
                                    ILayerSideRepository layerSideRepository, IPressParameterTypeRepository pressParameterTypeRepository,
-                                   IEventAggregator eventAggregator) : base(pressParameterRepository, eventAggregator)
+                                   IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(pressParameterRepository, eventAggregator, messageDialogService)
         {
             _plctagRepository = plctagRepository;
             _layerSideRepository = layerSideRepository;

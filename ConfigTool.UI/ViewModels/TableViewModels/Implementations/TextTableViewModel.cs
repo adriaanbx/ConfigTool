@@ -6,12 +6,13 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class TextTableViewModel : TableViewModelBase<Text, int, TextWrapper>, ITextTableViewModel
     {
-        public TextTableViewModel(ITextRepository textRepository, IEventAggregator eventAggregator) : base(textRepository, eventAggregator)
+        public TextTableViewModel(ITextRepository textRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(textRepository, eventAggregator, messageDialogService)
         {
 
         }

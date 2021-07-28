@@ -1,6 +1,7 @@
 ﻿using ConfigTool.Models.Interfaces;
 using ConfigTool.UI.Events;
 using ConfigTool.UI.Repositories;
+using ConfigTool.UI.Views.Services;
 using ConfigTool.UI.Wrappers;
 using Prism.Commands;
 using Prism.Events;
@@ -16,8 +17,9 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
          where TWrapper : ModelWrapper<TEntity, TId>
          where TEntity : IEntity<TId>
     {
-        protected readonly IGenericRepository<TEntity,TId, TWrapper> _tableRepository;
+        protected readonly IGenericRepository<TEntity, TId, TWrapper> _tableRepository;
         protected readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
         protected bool _hasChanges;
 
         public RangeObservableCollection<TableItem<TEntity, TId, TWrapper>> TableItems { get; }
@@ -127,17 +129,18 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
 
         protected virtual void GetTextId(string columnName)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CreateNewTableItemCommand { get; }
 
-        public TableViewModelBase(IGenericRepository<TEntity, TId, TWrapper> tableRepository, IEventAggregator eventAggregator)
+        public TableViewModelBase(IGenericRepository<TEntity, TId, TWrapper> tableRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
             _tableRepository = tableRepository;
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
 
             TableItems = new RangeObservableCollection<TableItem<TEntity, TId, TWrapper>>();
 
@@ -161,7 +164,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
         {
             //Publish event to subscribers
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
-                .Publish(new EventParameters { TableName = nameof(TEntity) });
+                .Publish(new EventParameters { TableName = typeof(TEntity).Name });
         }
 
         protected abstract bool FilterTags(object obj);
@@ -170,11 +173,23 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
             //update statusbar
             _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Saving in progress...");
 
-            await _tableRepository.SaveAsync();
-            HasChanges = _tableRepository.HasChanges();
+            try
+            {
+                await _tableRepository.SaveAsync();
+                HasChanges = _tableRepository.HasChanges();
 
-            //update statusbar
-            _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
+                //update statusbar
+                _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
+            }
+            catch (Exception e)
+            {
+
+                _messageDialogService.ShowErrorDialog(e.Message + "\n\n" + e.InnerException, "Saving Failed");
+                
+                //update statusbar
+                _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Saving Failed");
+            }
+
         }
 
 

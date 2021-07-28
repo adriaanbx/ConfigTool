@@ -16,6 +16,11 @@ namespace ConfigTool.UI.Views.Services
               ? MessageDialogResult.OK
               : MessageDialogResult.Cancel;
         }
+
+        public void ShowErrorDialog(string text, string title)
+        {
+            MessageBox.Show(text, title, MessageBoxButton.OK);
+        }
     }
     public enum MessageDialogResult
     {

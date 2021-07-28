@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -26,7 +27,7 @@ namespace ConfigTool.UI.ViewModels
 
         public RecipeParameterTableViewModel(IRecipeParameterRepository recipeParameterRepository, IPlctagRepository plctagRepository,
                                    IValueTypeRepository valueTypeRepository, IReadWriteTypeRepository readWriteTypeRepository,
-                                   ITextLanguageRepository textLanguageRepository, ITextLanguageRepository groupTextLanguageRepository, IEventAggregator eventAggregator) : base(recipeParameterRepository, eventAggregator)
+                                   ITextLanguageRepository textLanguageRepository, ITextLanguageRepository groupTextLanguageRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(recipeParameterRepository, eventAggregator, messageDialogService)
         {
             _valueTypeRepository = valueTypeRepository;
             _plctagRepository = plctagRepository;

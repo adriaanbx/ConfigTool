@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -19,7 +20,7 @@ namespace ConfigTool.UI.ViewModels
         public RangeObservableCollection<LookupItem<int>> Languages { get; }
 
         public TextLanguageTableViewModel(ITextLanguageRepository textLanguageRepository, ITextRepository textRepository,
-                                   ILanguageRepository languageRepository, IEventAggregator eventAggregator) : base(textLanguageRepository, eventAggregator)
+                                   ILanguageRepository languageRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(textLanguageRepository, eventAggregator, messageDialogService)
         {
             _textRepository = textRepository;
             _languageRepository = languageRepository;

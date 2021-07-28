@@ -17,7 +17,7 @@ namespace ConfigTool.UI.ViewModels
 
         public override async Task LoadAsync(EventParameters? eventParameters)
         {
-            var textLanguage = eventParameters != null ? await ((TextLanguageRepository)_entityRepository).GetByTextIdAsync(eventParameters.Id) : CreateNewDatablock();
+            var textLanguage = eventParameters != null ? await ((TextLanguageRepository)_entityRepository).GetByTextIdAsync(eventParameters.Id) : CreateNewItem();
 
             InitializeDatablock(textLanguage);
         }

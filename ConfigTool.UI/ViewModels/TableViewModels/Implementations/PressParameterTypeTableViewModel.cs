@@ -6,12 +6,13 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class PressParameterTypeTableViewModel : TableViewModelBase<PressParameterType, int, PressParameterTypeWrapper>, IPressParameterTypeTableViewModel
     {
-        public PressParameterTypeTableViewModel(IPressParameterTypeRepository pressParameterTypeRepository, IEventAggregator eventAggregator) : base(pressParameterTypeRepository, eventAggregator)
+        public PressParameterTypeTableViewModel(IPressParameterTypeRepository pressParameterTypeRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(pressParameterTypeRepository, eventAggregator, messageDialogService)
         {
 
         }

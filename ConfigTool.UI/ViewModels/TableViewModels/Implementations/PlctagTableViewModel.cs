@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -24,7 +25,7 @@ namespace ConfigTool.UI.ViewModels
 
         public PlctagTableViewModel(IPlctagRepository plctagRepository, IValueTypeRepository valueTypeRepository,
                                    IDatablockRepository datablockRepository, IUnitCategoryRepository unitCategoryRepository,
-                                   ITextLanguageRepository textLanguageRepository, IEventAggregator eventAggregator) : base(plctagRepository, eventAggregator)
+                                   ITextLanguageRepository textLanguageRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(plctagRepository, eventAggregator, messageDialogService)
         {
             _valueTypeRepository = valueTypeRepository;
             _datablockRepository = datablockRepository;

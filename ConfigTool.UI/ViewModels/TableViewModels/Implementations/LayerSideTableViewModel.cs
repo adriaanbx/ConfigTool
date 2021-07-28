@@ -6,12 +6,13 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
     public class LayerSideTableViewModel : TableViewModelBase<LayerSide, short, LayerSideWrapper>, ILayerSideTableViewModel
     {
-        public LayerSideTableViewModel(ILayerSideRepository layerSideRepository, IEventAggregator eventAggregator) : base(layerSideRepository, eventAggregator)
+        public LayerSideTableViewModel(ILayerSideRepository layerSideRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(layerSideRepository, eventAggregator, messageDialogService)
         {
 
         }

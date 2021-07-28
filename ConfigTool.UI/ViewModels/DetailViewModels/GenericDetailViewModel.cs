@@ -14,9 +14,9 @@ using System.Windows.Input;
 namespace ConfigTool.UI.ViewModels
 {
     public abstract class GenericDetailViewModel<TEntity, TId, TWrapper> : ViewModelBase
-        where TWrapper : ModelWrapper<TEntity,TId>
-        where TEntity :  IEntity<TId>
-        
+        where TWrapper : ModelWrapper<TEntity, TId>
+        where TEntity : IEntity<TId>
+
 
     {
         #region Fields
@@ -81,13 +81,20 @@ namespace ConfigTool.UI.ViewModels
 
         private async void OnSaveExecute()
         {
-            await _entityRepository.SaveAsync();
-            HasChanges = _entityRepository.HasChanges();
-            _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
+            try
             {
-                Id = Convert.ToInt32(Entity.Id),
-                //DisplayMember = Datablock.Name
-            });
+                await _entityRepository.SaveAsync();
+                HasChanges = _entityRepository.HasChanges();
+                _eventAggregator.GetEvent<AfterPlctagSavedEvent>().Publish(new AfterPlctagSavedEventArgs
+                {
+                    Id = Convert.ToInt32(Entity.Id)
+                });
+            }
+            catch (Exception e)
+            {
+
+                _messageDialogService.ShowErrorDialog(e.Message + "\n\n" + e.InnerException, "Saving Failed");
+            }
         }
 
         private bool OnSaveCanExecute()
@@ -96,18 +103,25 @@ namespace ConfigTool.UI.ViewModels
         }
         private async void OnDeleteExecute()
         {
-            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete the pcltag {Entity.Id} ?", "Question");
+            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete ID = {Entity.Id} ?", "Question");
             if (result == MessageDialogResult.OK)
             {
-                _entityRepository.Remove(Entity.Model);
-                await _entityRepository.SaveAsync();
-                _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Convert.ToInt32(Entity.Id));
+                try
+                {
+                    _entityRepository.Remove(Entity.Model);
+                    await _entityRepository.SaveAsync();
+                    _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Convert.ToInt32(Entity.Id));
+                }
+                catch (Exception e)
+                {
+                    _messageDialogService.ShowErrorDialog(e.Message + "\n\n" + e.InnerException, "Removal Failed");
+                }
             }
         }
 
         public async virtual Task LoadAsync(EventParameters? eventParameters)
         {
-            var item = eventParameters != null ? await _entityRepository.GetByIdAsync(ConvertValue<TId, int>(eventParameters.Id)) : CreateNewDatablock();
+            var item = eventParameters != null && eventParameters.Id != 0 ? await _entityRepository.GetByIdAsync(ConvertValue<TId, int>(eventParameters.Id)) : CreateNewItem();
 
             InitializeDatablock(item);
 
@@ -115,7 +129,7 @@ namespace ConfigTool.UI.ViewModels
 
         protected void InitializeDatablock(TEntity entity)
         {
-            Entity = (TWrapper) Activator.CreateInstance(typeof(TWrapper), new object[] { entity });
+            Entity = (TWrapper)Activator.CreateInstance(typeof(TWrapper), new object[] { entity });
 
             Entity.PropertyChanged += (s, e) =>
             {
@@ -150,14 +164,15 @@ namespace ConfigTool.UI.ViewModels
             }
         }
 
-        protected TEntity CreateNewDatablock()
+        protected TEntity CreateNewItem()
         {
             var entity = Activator.CreateInstance<TEntity>();
+            entity.Id = ConvertValue<TId, int>(Convert.ToInt32(_entityRepository.GetMaxId()) + 1);
             _entityRepository.Add(entity);
             return entity;
         }
 
-        private T ConvertValue<T, U>(U value) 
+        private T ConvertValue<T, U>(U value)
         {
             return (T)Convert.ChangeType(value, typeof(T));
         }

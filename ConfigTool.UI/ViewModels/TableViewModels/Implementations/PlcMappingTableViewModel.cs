@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
+using ConfigTool.UI.Views.Services;
 
 namespace ConfigTool.UI.ViewModels
 {
@@ -19,7 +20,7 @@ namespace ConfigTool.UI.ViewModels
         public RangeObservableCollection<LookupItem<short>> LayerSides { get; }
 
         public PlcMappingTableViewModel(IPlcMappingRepository plcMappingRepository, IPlctagRepository plctagRepository,
-                                        ILayerSideRepository layerSideRepository, IEventAggregator eventAggregator) : base(plcMappingRepository, eventAggregator)
+                                        ILayerSideRepository layerSideRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService) : base(plcMappingRepository, eventAggregator, messageDialogService)
         {
             _plctagRepository = plctagRepository;
             _layerSideRepository = layerSideRepository;
