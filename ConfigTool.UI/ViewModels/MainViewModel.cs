@@ -196,6 +196,7 @@ namespace ConfigTool.UI.ViewModels
                     DetailViewModel = _readWriteTypeDetailViewModelCreator();
                     break;
                 case nameof(Text):
+                case nameof(TextLanguage):
                 case "GroupText":
                     DetailViewModel = _textLanguageDetailViewModelCreator();
                     break;
