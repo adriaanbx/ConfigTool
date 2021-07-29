@@ -31,7 +31,7 @@ namespace ConfigTool.UI.ViewModels
                 }
 
                 //Check all columns with 'number' datatype
-                if (Int16.TryParse(TableFilter, out short result))
+                if (Int32.TryParse(TableFilter, out int result))
                 {
                     return tableItem.Table.Id.Equals(result);
                 }

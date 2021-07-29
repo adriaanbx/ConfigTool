@@ -83,7 +83,7 @@ namespace ConfigTool.UI.Repositories
             }
         }
 
-        public void Remove(TEntity model)
+        public virtual void Remove(TEntity model)
         {
             _context.Set<TEntity>().Remove(model);
         }

@@ -29,7 +29,7 @@ namespace ConfigTool.UI.Repositories
 
         public async override Task<IEnumerable<TableItem<Text, int, TextWrapper>>> GetTableLookupAsync()
         {
-            return await _context.Text.Select(e =>
+            return await _context.Text.OrderBy(t => t.Id).Select(e =>
           new TextTableItem
           {
               Table = new Wrappers.TextWrapper(e),

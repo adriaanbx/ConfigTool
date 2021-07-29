@@ -4,6 +4,7 @@ using ConfigTool.UI.ViewModels;
 using ConfigTool.UI.ViewModels.TableViewModels;
 using ConfigTool.UI.Wrappers;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +42,17 @@ namespace ConfigTool.UI.Repositories
                 Text = p.Desc,
                 Language = p.Language.CultureCode
             }).ToListAsync();
+        }
+
+        public override void Remove(TextLanguage model)
+        {
+            var entity = _context.Text.Find(model.TextId);
+            _context.Text.Remove(entity);
+
+            //TODO solve this "dirty way" of checking whether the TextID is used in other table
+            //=> only execued when there is no excption during the remove command aka TextId has no foreign key
+            base.Remove(model);
+
         }
     }
 }
