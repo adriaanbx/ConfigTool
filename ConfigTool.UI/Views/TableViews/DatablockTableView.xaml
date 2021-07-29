@@ -40,6 +40,7 @@
             <Button HorizontalAlignment="Left" Content="Save" Width="125" Margin="10" Command="{Binding SaveCommand}"/>
             <Button HorizontalAlignment="Left" Content="Cancel" Width="125" Margin="10" Command="{Binding CancelCommand}"/>
             <Button HorizontalAlignment="Left" Content="Add" Width="125" Margin="10" Command="{Binding CreateNewTableItemCommand}"/>
+            <Button HorizontalAlignment="Left" Content="Delete" Width="125" Margin="10" Command="{Binding DeleteCommand}"/>
         </StackPanel>
     </Grid>
 

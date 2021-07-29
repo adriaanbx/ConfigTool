@@ -53,6 +53,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                     ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
                     ((DelegateCommand)CreateNewTableItemCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
                 }
 
             }
@@ -68,6 +69,9 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
                 if (value?.ColumnName != null && _selectedCell != value)
                 {
                     _selectedCell = value;
+
+                    //Trigger Delete button
+                    ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
 
                     //get selected column name
                     var columnName = SelectedCell.ColumnName;
@@ -135,6 +139,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CreateNewTableItemCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public TableViewModelBase(IGenericRepository<TEntity, TId, TWrapper> tableRepository, IEventAggregator eventAggregator, IMessageDialogService messageDialogService)
         {
@@ -153,6 +158,45 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(OnCancelExecute, OnCancelCanExecute);
             CreateNewTableItemCommand = new DelegateCommand(OnCreateNewTableItemExecute, OnCreateNewTableItemCanExecute);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
+        }
+
+        private bool OnDeleteCanExecute()
+        {
+            return TableItems != null && SelectedCell != null && !HasChanges;
+        }
+
+        private async void OnDeleteExecute()
+        {
+            var result = _messageDialogService.ShowOkCancelDialog($"Do you really want to delete ID = {SelectedCell.Table.Id} ?", "Confirmation");
+            if (result == MessageDialogResult.OK)
+            {
+                //update statusbar
+                _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Deleting in progress...");
+
+                try
+                {
+                    //Remove item
+                    _tableRepository.Remove(_selectedCell.Table.Model);
+                    await _tableRepository.SaveAsync();
+
+                    //Clean Detail and Table view
+                    _eventAggregator.GetEvent<TagDeletedEvent>().Publish(Convert.ToInt32(SelectedCell.Table.Id));
+                    RefreshObservableCollection();
+
+
+                    //update statusbar
+                    _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Ready");
+                }
+                catch (Exception e)
+                {
+
+                    _messageDialogService.ShowErrorDialog(e.Message + "\n\n" + e.InnerException, "Removal Failed");
+
+                    //update statusbar
+                    _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Removal Failed");
+                }
+            }
         }
 
         private bool OnCreateNewTableItemCanExecute()
@@ -185,7 +229,7 @@ namespace ConfigTool.UI.ViewModels.TableViewModels
             {
 
                 _messageDialogService.ShowErrorDialog(e.Message + "\n\n" + e.InnerException, "Saving Failed");
-                
+
                 //update statusbar
                 _eventAggregator.GetEvent<StatusChangedEvent>().Publish("Saving Failed");
             }
